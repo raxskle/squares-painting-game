@@ -1,7 +1,7 @@
 <template>
 <div class="gameView">
   <div class="game">
-    <topUserInfo></topUserInfo>
+    <topUserInfo :logo="topLogoImg" :img="require(`@/assets/iamge/greenlogo.png`)"></topUserInfo>
     <mainCanvas :mode="mode"  @changeMode="changeMode"></mainCanvas>    
     <bottomBar :mode="mode" @changeMode="changeMode"></bottomBar>    
   </div>
@@ -16,6 +16,8 @@ import mainCanvas from '../components/gameView/mainCanvas.vue'
 import bottomBar from '../components/gameView/bottomBar.vue'
 import topUserInfo from '../components/gameView/topUserInfo.vue'
 import footerAD from "../components/footerAD.vue"
+import user from "@/modules/userState"
+import router from "@/router";
 // import "../request/axios"
 console.log("已经加载了gameView");
 
@@ -25,6 +27,20 @@ let changeMode = (num) => {
   mode.value = num;
   console.log("change mode to ", mode.value);
 }
+
+// top的logo根据阵营显示
+let topLogoImg = ref(null);
+console.log("在gameView时的group", user.group.value);
+
+// 没有group就跳回loading
+if (user.group.value == 0) {
+  router.replace("/loading");
+} else if (user.group.value == 1) {
+  topLogoImg.value = require(`@/assets/iamge/greenlogo.png`);
+} else if (user.group.value == 2) {
+  topLogoImg.value = require(`@/assets/iamge/yellowlogo.png`);  
+}
+
 
 </script>
 

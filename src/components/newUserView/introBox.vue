@@ -1,5 +1,5 @@
 <template>
-<div class="introBox introBox1" @click="con(clickable)">
+<div class="introBox introBox1" @click="postGroup(clickable)">
   <div class="intrologo"><img :src="img"/></div>
   <div class="introText">{{text}}</div>
 </div>
@@ -7,20 +7,33 @@
 
 <script setup>
 import { defineProps, toRefs } from "vue"
-import { useRouter } from "vue-router";
-let router = useRouter();
-const props = defineProps({
-  img: {}, text: {},clickable:{}
-});
-const { img, text } = toRefs(props);
-let toGame = () => {
-  router.push("/game");  
-}
+// import { useRouter } from "vue-router";
+import axios from "../../request/axios";
+// import user from "../../modules/userState";
+import {toGame} from "../../modules/toGame";
 
-let con = function (a){
-  if (a) {
-    console.log("ok");
-    toGame()
+// let router = useRouter();
+const props = defineProps({
+  img: {}, text: {},clickable:{},group:{}
+});
+const { img, text, group } = toRefs(props);
+
+
+
+// 发送选择的阵营
+let postGroup = function (clickable) {
+  console.log(group.value);
+  if (clickable) {
+    let data = { "group": group.value };
+    axios.post("/user/group",data).then((res) => {
+      console.log(res);
+      toGame();      
+    }).catch((res) => {
+      console.log(res);
+    });
+
+  } else {
+    console.log("fail to click");
   }
 }
 

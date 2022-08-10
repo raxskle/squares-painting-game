@@ -1,11 +1,12 @@
 <template>
 <div class="infoBox">
   <div class="userInfo">
-    <div class="infoImg"><img src="../../assets/iamge/unknoweduser.webp" /></div>
-    <div class="infoText" @click="pop"><p>某用户</p></div>    
+    <div class="infoImg"><img :src="user.userImg" /></div>
+    <div class="infoText" @click="pop"><p>{{user.userName.value}}</p></div>
   </div>
 
-  <div class="groupLogo"><img src="../../assets/iamge/greenlogo.png" /></div>
+
+  <div class="groupLogo"><img :src="logo" /></div>
 </div>
 
 <!-- 点称号显示弹窗 -->
@@ -16,6 +17,17 @@
 </template>
 
 <script setup>
+import { toRefs,defineProps } from "vue";
+import user from "../../modules/userState";
+const props = defineProps({
+  logo: {},img:{}
+});
+const {logo,img} = toRefs(props);
+console.log(logo.value);
+console.log(props.logo);
+console.log(props.img);
+console.log(img.value);
+
 let pop = ()=>{
   let popup = document.querySelector(".popup");
   popup.style.display = "flex";

@@ -10,25 +10,43 @@
 import { onMounted,ref} from 'vue';
 import { getUrlCode } from "../../modules/wxlogin.js"
 import user from "../../modules/userState";
+import {toGame} from "../../modules/toGame.js";
+import axios from "../../request/axios";
 import { useRouter } from "vue-router";
 let router = useRouter();
 
 let code = ref("");
 code.value = getUrlCode();
 onMounted(() => {
-  console.log(code.value)
+  console.log(code.value);
 });
 
+// 获取token和判断是否新玩家
+let toStart = function () {
+  let url = `/user/token?code=${code.value}`;
+  let config = {};
+  axios
+    .get(url, config)
+    .then((res) => {
+      console.log(res.data);
+      user.setWeixinOpenid(res.data.weixin_openid);
+      user.setToken(res.data.jwtoken);
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${res.data.jwtoken}`;
+      if (res.data.first_login == true) {
+        // 进入新手流程
+        router.push("/newUser/intro");
+      } else if (res.data.first_login == false) {
+        // 获取用户信息，进入主页面
+        toGame();
+      }
+    })
+    .catch((res) => {
+      console.log("发生错误", res);
+    });
+};
 
-
-let toStart = () => {
-  user.getUserData(code.value);
-  if (user.group.value == 0) {
-    router.replace("/newUser/intro");
-  } else if (user.group.value == 1 || user.group .value== 2) {
-    router.replace("/game");
-  }
-}  
 
 
 </script>

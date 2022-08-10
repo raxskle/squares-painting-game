@@ -25,10 +25,11 @@ let { mode } = toRefs(props);
 // 设置颜色
 let drawColor;
 if (user.group.value == 1) {
-  drawColor = "rgb(0, 213, 153)";
+  drawColor = "#00d599";
 } else if (user.group.value == 2) {
-  drawColor = "rgb(255, 197, 0)";  
+  drawColor = "#ffc500";  
 } 
+
 
 
 let emit = defineEmits(['changeMode'])
@@ -36,17 +37,27 @@ let changeMode = () => {
   if (mode.value == 1) {
     emit("changeMode", 0);  
   }else if(mode.value == 0) {
-    emit("changeMode", 1);    
+    emit("changeMode", 1);     
   }
 
 }
 
 // 监视mode改变时改涂色框的颜色
-watch(mode, (oldval, newval) => {
+watch(mode, (newval) => {
+  const drawBtn = document.querySelector("#drawBtn");  
+  console.log("mode change ", newval);
   if (newval == 1) {
-    document.querySelector("#drawBtn").style.backgroundColor = "rgb(184, 184, 184)";    
+    drawBtn.style.backgroundColor = drawColor;    
+    // drawBtn.style.height = "90px";    
+    // drawBtn.style.width = "90px";    
+    // drawBtn.style.lineHeight = "90px";    
+    // drawBtn.style.borderRadius = "45px";    
   } else if (newval == 0) {
-    document.querySelector("#drawBtn").style.backgroundColor = drawColor;     
+    drawBtn.style.backgroundColor = "rgb(225, 225, 225)";   
+    // drawBtn.style.height = "76px";    
+    // drawBtn.style.width = "76px";    
+    // drawBtn.style.lineHeight = "76px"; 
+    // drawBtn.style.borderRadius = "38px";      
   }
 });
 
@@ -97,13 +108,14 @@ watch(mode, (oldval, newval) => {
 }
 
 .btncenterChange {
-  background-color: rgb(184, 184, 184);
-  height: 80px;
-  width: 80px;   
+  background-color: rgb(225, 225, 225);
+  height: 76px;
+  width: 76px;   
+  line-height: 76px;  
   font-size: 30px;  
-  border-radius: 40px;  
-  line-height: 80px;
+  border-radius: 38px;  
   text-align: center;
+  transition: .5s;
 }
 
 .btnleft {

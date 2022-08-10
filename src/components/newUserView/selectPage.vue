@@ -1,8 +1,8 @@
 <template>
 <div class="select">
   <div class="title">军训大对抗</div>
-  <introBox :img="require('@/assets/iamge/yellowlogo.png')" :text="intromsg[0]" :clickable="true"></introBox>
-  <introBox :img="require('@/assets/iamge/greenlogo.png')" :text="intromsg[1]"  :clickable="true"></introBox>
+  <introBox :img="require('@/assets/iamge/yellowlogo.png')" :text="intromsg[0]" :clickable="true" :group=2></introBox>
+  <introBox :img="require('@/assets/iamge/greenlogo.png')" :text="intromsg[1]"  :clickable="true" :group=1></introBox>
     <!-- <marquee  align="center" behavior="scroll" 
     bgcolor="green" direction="left" height="50" width="200"  
     loop="-1" scrollamount="4"  >

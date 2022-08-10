@@ -8,24 +8,181 @@ import axios from "../request/axios";
 
 let canvas = {
   // 画布状态数组
-  canvasState: [
-    [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-    [2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ],
+  canvasState: ref([
+    [
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+    ],
+    [
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+    ],
+    [
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+    ],
+    [
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+    ],
+    [
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+    ],
+    [
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+    ],
+    [
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+    ],
+    [
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+    ],
+    [
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+    ],
+    [
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+    ],
+    [
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+    ],
+    [
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+      "#ffffff",
+    ],
+  ]),
   canvasStateDayn: new Array(12).fill(new Array(12).fill(1)),
-  latestPosition: [],
-  orangeNum: 0,
-  greenNum: 0,
+  latestPosition: ref([0, 0]),
+  lastPosition: ref([0, 0]),
+  orangeNum: ref(0),
+  greenNum: ref(0),
 
   // 图形数据
   stageHeight: 0,
@@ -39,7 +196,7 @@ let canvas = {
 
   squareXnum: 12,
   squareYnum: 12,
-  squareBorder: ref(2),
+  squareBorder: ref(0),
 
   setStageWH() {
     this.stageWidth = window.innerWidth * 0.9;
@@ -106,16 +263,33 @@ let canvas = {
   },
 
   configSquares: [],
+  getCanvas() {
+    // 初始化获取canvas，进入主页面之前获取
+    axios
+      .get(`/canvas`)
+      .then((res) => {
+        this.canvasState.value = res.data.canvas;
+        this.latestPosition.value = res.data.last_paint.pixel_position;
+        console.log(this.canvasState.value);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  },
+  // squareColor0(i, j) {
+  //   if (this.canvasState.value[i][j] == 0) {
+  //     return "white";
+  //   } else if (this.canvasState.value[i][j] == 1) {
+  //     return "rgb(0, 213, 153)";
+  //   } else if (this.canvasState.value[i][j] == 2) {
+  //     return "rgb(255, 197, 0)";
+  //   }
+  // },
   squareColor(i, j) {
-    if (this.canvasState[i][j] == 0) {
-      return "white";
-    } else if (this.canvasState[i][j] == 1) {
-      return "rgb(0, 213, 153)";
-    } else if (this.canvasState[i][j] == 2) {
-      return "rgb(255, 197, 0)";
-    }
+    return this.canvasState.value[i][j];
   },
   fillConfigSquares() {
+    // 初始化config对象
     for (let i = 0; i < this.squareYnum; i++) {
       for (let j = 0; j < this.squareXnum; j++) {
         this.configSquares.push(
@@ -127,10 +301,16 @@ let canvas = {
             fill: this.squareColor(i, j),
             stroke: "rgb(200, 200, 200)",
             strokeWidth: this.squareBorder,
+            name: `square${i * this.squareXnum + j}`,
           })
         );
       }
     }
+    // 第一次显示最新涂色块   //整个数组不会变换顺序所以不会乱序
+    this.configSquares[
+      this.latestPosition.value[0] * this.squareXnum +
+        this.latestPosition.value[1]
+    ].stroke = "black";
   },
 
   // 发送涂色位置

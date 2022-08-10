@@ -1,45 +1,43 @@
 import { ref } from "vue";
-import axios from "../request/axios";
-
+// import axios from "../request/axios";
 let user = {
-  id: ref("undefined"),
-  token: ref("undefined"),
+  weixinOpenid: ref("OPENIDundefined"),
+  token: ref("tokenundefined"),
   expire: "undefined",
-  username: ref("Alex"),
-  userimg: "userimg",
-  CDtime: 7200,
+
+  userName: ref("Alex"),
+  userImg: "userimg",
+  CDtime: 3600,
   group: ref(0),
+  groupLevel: ref(0),
   level: ref(0),
-  setId(val) {
-    this.id = val;
+  pixelsNum: ref(0),
+  setWeixinOpenid(val) {
+    this.weixinOpenid = val;
   },
-  updateToken(val) {
+  setToken(val) {
     this.token = val;
   },
   updateExpire(val) {
     this.expire = val;
   },
-  setUsername(val) {
-    this.username = val;
-  },
-  setUserimg(val) {
-    this.userimg = val;
-  },
-  setGroup(val) {
-    this.group = val;
-  },
-  getUserData(code) {
-    let url = `/user/token?code=${code}`;
-    console.log("url:", url);
-    let config = {};
-    axios
-      .get(url, config)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((res) => {
-        console.log(res);
-      });
-  },
+  // getUserData() {
+  //   axios
+  //     .get(`/user/info`)
+  //     .then((res) => {
+  //       console.log(res.data.group);
+  //       console.log(this.CDtime);
+  //       this.userName = res.data.nickname;
+  //       this.userImg = res.data.headimgurl;
+  //       this.group.value = res.data.group;
+  //       console.log(this.group.value);
+  //       this.groupLevel = res.data.group_level;
+  //       this.level = res.data.user_level;
+  //       this.pixelsNum = res.data.user_pixels_num;
+  //     })
+  //     .catch((res) => {
+  //       console.log(res);
+  //     });
+  // },
 };
 export default user;

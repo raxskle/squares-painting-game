@@ -3,8 +3,8 @@ import {
   // createWebHashHistory,
   createWebHistory,
 } from "vue-router";
-
-import gameView from "../views/gameView.vue";
+const gameView = () => import("../views/gameView.vue");
+// import gameView from "../views/gameView.vue";
 import homeView from "../views/homeView.vue";
 import newUserView from "../views/newUserView.vue";
 import loadingView from "../views/loadingView.vue";
