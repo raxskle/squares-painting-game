@@ -3,7 +3,7 @@
   <!-- <div class="btnBox"> -->
     <div class="btn btnleft">战况</div>
     <div class="btncenter" @click="changeMode">
-    <div id="drawBtn" class="btncenterChange" >涂色</div>
+    <div id="drawBtn" class="btncenterChange" >{{drawBtnText}}</div>
     </div>
     <div class="btn btnright">任务</div>    
   <!-- </div> -->
@@ -13,13 +13,17 @@
 </template>
 
 <script setup>
-import { toRefs, defineProps, defineEmits,watch } from 'vue';
+import axios from 'axios';
+import { toRefs, defineProps, defineEmits,watch,ref } from 'vue';
 import user from "../../modules/userState";
+import canvas from "../../modules/canvasState";
 let props = defineProps({
   mode: {
     type: Number,
-
   },
+  drawed: {
+    type: Boolean,
+  },  
 })
 let { mode } = toRefs(props);
 // 设置颜色
@@ -30,14 +34,54 @@ if (user.group.value == 1) {
   drawColor = "#ffc500";  
 } 
 
+let drawBtnText = ref("涂色");
 
-
-let emit = defineEmits(['changeMode'])
+let emit = defineEmits(['changeMode', "changeDrawState"]);
 let changeMode = () => {
   if (mode.value == 1) {
+    
     emit("changeMode", 0);  
-  }else if(mode.value == 0) {
-    emit("changeMode", 1);     
+  } else if (mode.value == 0) {
+    // 请求是否能涂色
+    axios.get(`/user/state`).then((res) => {
+      console.log(res);
+      if (res.data.state == true) {
+        emit("changeMode", 1);          
+      } else {
+        // popupCD
+      }
+    }).catch((res) => {
+      console.log(res);
+    })
+  } else if (mode.value == 2) {
+    // 发送涂色：选中的格子
+    let config = {
+      data: {
+        position: canvas.targetSquare.value,
+      }
+    };
+    axios.post(`/canvaspost`, config).then((res) => {
+      console.log(res);
+      // 成功涂色就  弹窗成功，回到mode0，请求画布并更新
+      if (res.data.conflicting == false && res.data.cooling == false) {
+        console.log("涂色成功！");
+        emit("changeMode", 0); 
+        emit("changeDrawState",true);
+
+      } else {
+        // 涂色失败就  弹窗失败， 回到mode1,请求画布并更新
+        if (res.data.conflicting == true) {
+          console.log("涂色失败，你选择的方格已被同阵营涂色");
+        } else if (res.data.cooling == true) {
+          console.log("涂色失败，同用户一小时内只能涂色一次");
+        }
+        emit("changeMode", 1);       
+        emit("changeDrawState",true);          
+      }
+
+    }).catch((res) => {
+      console.log(res);
+    });
   }
 
 }
@@ -52,12 +96,16 @@ watch(mode, (newval) => {
     // drawBtn.style.width = "90px";    
     // drawBtn.style.lineHeight = "90px";    
     // drawBtn.style.borderRadius = "45px";    
+    drawBtnText.value = "涂色";
   } else if (newval == 0) {
     drawBtn.style.backgroundColor = "rgb(225, 225, 225)";   
     // drawBtn.style.height = "76px";    
     // drawBtn.style.width = "76px";    
     // drawBtn.style.lineHeight = "76px"; 
     // drawBtn.style.borderRadius = "38px";      
+    drawBtnText.value = "涂色";
+  } else if (newval == 2) {
+    drawBtnText.value = "确认";
   }
 });
 

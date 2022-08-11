@@ -14,7 +14,7 @@ let userInfo = Mock.mock({
   nickname: "NAME1234",
   headimgurl:
     "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
-  group: 2,
+  group: 1,
   group_level: 0,
   user_level: 0,
   user_pixels_num: 0,
@@ -219,14 +219,11 @@ let canvas = Mock.mock({
     nickname: "NAME",
     headimgurl: "D:/MyWeb/byproject/bypixel/src/assets/iamge/unknoweduser.webp",
   },
-  group_pixels_num: {
-    group_1: 1,
-    group_2: 2,
-  },
 });
 
 let canvaspost = Mock.mock({
   conflicting: false,
+  cooling: false,
   is_user_graded: false,
   user_level: 0,
   user_pixels_num: 0,
@@ -235,6 +232,7 @@ let canvaspost = Mock.mock({
 
 let canDrawState = Mock.mock({
   state: true,
+  last_paint_time: 1660225344,
 });
 
 module.exports = (middlewares, devServer) => {

@@ -184,6 +184,9 @@ let canvas = {
   orangeNum: ref(0),
   greenNum: ref(0),
 
+  // 选中的格子
+  targetSquare: ref([0, 0]),
+
   // 图形数据
   stageHeight: 0,
   stageWidth: 0,
@@ -288,6 +291,15 @@ let canvas = {
   squareColor(i, j) {
     return this.canvasState.value[i][j];
   },
+  setOccupy(i, j) {
+    if (this.canvasState.value[i][j] == "#00d599") {
+      return 1;
+    } else if (this.canvasState.value[i][j] == "#ffc500") {
+      return 2;
+    } else if (this.canvasState.value[i][j] == "#ffffff") {
+      return 0;
+    }
+  },
   fillConfigSquares() {
     // 初始化config对象
     for (let i = 0; i < this.squareYnum; i++) {
@@ -300,8 +312,9 @@ let canvas = {
             height: this.fieldWidth / this.squareXnum,
             fill: this.squareColor(i, j),
             stroke: "rgb(200, 200, 200)",
-            strokeWidth: this.squareBorder,
+            strokeWidth: 0,
             name: `square${i * this.squareXnum + j}`,
+            occupy: this.setOccupy(i, j),
           })
         );
       }

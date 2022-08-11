@@ -2,8 +2,8 @@
 <div class="gameView">
   <div class="game">
     <topUserInfo :logo="topLogoImg" :img="require(`@/assets/iamge/greenlogo.png`)"></topUserInfo>
-    <mainCanvas :mode="mode"  @changeMode="changeMode"></mainCanvas>    
-    <bottomBar :mode="mode" @changeMode="changeMode"></bottomBar>    
+    <mainCanvas :mode="mode" :drawed="drawed" @changeMode="changeMode" @changeDrawState="changeDrawState" ></mainCanvas>    
+    <bottomBar :mode="mode" :drawed="drawed" @changeMode="changeMode" @changeDrawState="changeDrawState" ></bottomBar>    
   </div>
 
   <footerAD></footerAD>  
@@ -22,11 +22,17 @@ import router from "@/router";
 console.log("已经加载了gameView");
 
 let mode = ref(0);
+let drawed = ref(false);
 // mode控制涂色，mode1能涂色，mode0不能
+// drawed == true 时刷新画布
 let changeMode = (num) => {
   mode.value = num;
   console.log("change mode to ", mode.value);
-}
+};
+let changeDrawState = (val) => {
+  drawed.value = val;
+};
+
 
 // top的logo根据阵营显示
 let topLogoImg = ref(null);

@@ -10,7 +10,7 @@
   height: 30px;
   line-height: 30px;
   text-align: center;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: transparent;
   margin-bottom: 20px;
 }
 

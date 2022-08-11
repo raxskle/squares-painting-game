@@ -66,7 +66,7 @@ img {
 .infoText {
   height: 50px;
   width: 120px;
-  background-color: antiquewhite;
+  background-color: rgb(244, 244, 244);
   display: flex;
   justify-content: center;
   align-items: center;
