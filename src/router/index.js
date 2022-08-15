@@ -12,8 +12,8 @@ import introPage from "../components/newUserView/introPage.vue";
 import selectPage from "../components/newUserView/selectPage.vue";
 
 const routes = [
-  { path: "/", redirect: "/loading" },
-  { path: "/loading", component: loadingView },
+  // { path: "/", redirect: "/loading" },
+  { path: "/", component: loadingView },
   { path: "/home", component: homeView },
   { path: "/game", component: gameView },
   {
@@ -30,7 +30,7 @@ const routes = [
       },
     ],
   },
-  { path: "/:path(.*)", redirect: "/loading" },
+  { path: "/:path(.*)", redirect: "/" },
 ];
 
 const router = createRouter({

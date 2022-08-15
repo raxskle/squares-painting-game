@@ -12,7 +12,7 @@ import homePage from '../components/homeView/homePage.vue'
 import footerAD from "../components/footerAD.vue"
 
 
-console.log("已经加载了homeView");
+
 
 
 </script>
@@ -25,7 +25,7 @@ console.log("已经加载了homeView");
   align-items: center;
   width: 100%;
   height: 100%;
-  background-image: url("D:/MyWeb/byproject/bypixel/src/assets/iamge/background.jpg");
+  background-image: url("@/assets/iamge/background.jpg");
   background-size: 100vw;
 }
 </style>

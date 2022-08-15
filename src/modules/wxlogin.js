@@ -10,7 +10,7 @@ let getUrlCode = function () {
     }
   }
   let code = theRequest.code;
-  console.log("code: ", code);
+  // console.log("code: ", code);
   // 如果没有code就回到loading页
   if (code === "" || code == null) {
     window.location.href = "http://192.168.0.105:8081/";

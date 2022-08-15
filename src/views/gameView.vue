@@ -2,8 +2,8 @@
 <div class="gameView">
   <div class="game">
     <topUserInfo :logo="topLogoImg" :img="require(`@/assets/iamge/greenlogo.png`)"></topUserInfo>
-    <mainCanvas :mode="mode" :drawed="drawed" @changeMode="changeMode" @changeDrawState="changeDrawState" ></mainCanvas>    
-    <bottomBar :mode="mode" :drawed="drawed" @changeMode="changeMode" @changeDrawState="changeDrawState" ></bottomBar>    
+    <mainCanvas :mode="mode" :refresh="refresh" @changeMode="changeMode" @changeRefresh="changeRefresh" ></mainCanvas>    
+    <bottomBar :mode="mode" :refresh="refresh" @changeMode="changeMode" @changeRefresh="changeRefresh" ></bottomBar>    
   </div>
 
   <footerAD></footerAD>  
@@ -19,18 +19,18 @@ import footerAD from "../components/footerAD.vue"
 import user from "@/modules/userState"
 import router from "@/router";
 // import "../request/axios"
-console.log("已经加载了gameView");
+
 
 let mode = ref(0);
-let drawed = ref(false);
+let refresh = ref(false);
 // mode控制涂色，mode1能涂色，mode0不能
-// drawed == true 时刷新画布
+// refresh == true 时刷新画布
 let changeMode = (num) => {
   mode.value = num;
   console.log("change mode to ", mode.value);
 };
-let changeDrawState = (val) => {
-  drawed.value = val;
+let changeRefresh = (val) => {
+  refresh.value = val;
 };
 
 
@@ -58,7 +58,7 @@ if (user.group.value == 0) {
   align-items: center;
   width: 100%;
   height: 100%;
-  background-image: url("D:/MyWeb/byproject/bypixel/src/assets/iamge/background.jpg");
+  background-image: url("@/assets/iamge/background.jpg");
   background-size: 100vw;
 }
 

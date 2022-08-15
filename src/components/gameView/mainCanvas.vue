@@ -29,13 +29,13 @@ const props = defineProps({
     type: Number,
     default: 0
   },
-  drawed: {
+  refresh: {
     type: Boolean,
   },
 });
-const { mode,drawed } = toRefs(props);   //得到的props是响应式的
+const { mode,refresh } = toRefs(props);   //得到的props是响应式的
 console.log("mode.value:",mode.value);
-let emit = defineEmits(['changeMode',"changeDrawState"]);
+let emit = defineEmits(['changeMode',"changeRefresh"]);
 
 // 画布缩放
 let configLayer = reactive({
@@ -80,13 +80,13 @@ let drawCanvas=()=>{
   // 更新画布时的draw操作
   // 将[i][j]转换为i*rownum+j
 
-  // 更新整个画布颜色
+  // 更新整个画布
   for (let i = 0; i < canvas.squareYnum; i++) {
     for (let j = 0; j < canvas.squareXnum; j++) {
-      canvas.configSquares[i * canvas.squareXnum + j].fill = canvas.squareColor(
-        i,
-        j
-      );
+      // 更新所有格子颜色
+      canvas.configSquares[i * canvas.squareXnum + j].fill = canvas.squareColor(i,j);
+      // 更新所有格子所属
+      canvas.configSquares[i * canvas.squareXnum + j].occupy = canvas.setOccupy(i, j);
     }
   }
   // 更新最新格子
@@ -104,13 +104,17 @@ let drawCanvas=()=>{
   .find(`.square${canvas.latestPosition.value[0] * canvas.squareXnum + canvas.latestPosition.value[1]}`)[0]
   .moveToTop();
 };
+
 let updateCanvas=()=>{
-  // 更新画布
+  // 请求canvas
   axios
     .get(`/canvas`)
     .then((res) => {
       canvas.canvasState.value = res.data.canvas;
       canvas.lastPosition.value = canvas.latestPosition.value;
+      canvas.group1Num.value = res.data.pixels_num.group_1;
+      canvas.group2Num.value = res.data.pixels_num.group_2;
+      
       canvas.latestPosition.value = res.data.last_paint.pixel_position;
       console.log(canvas.canvasState.value); 
 
@@ -122,15 +126,14 @@ let updateCanvas=()=>{
     });
 };
 
-// 每隔20s获取并刷新一次canvs数据
-setInterval(updateCanvas, 20000);
-// setInterval里的函数不要用this
+// 每隔20s获取并刷新canvs数据
+setInterval(updateCanvas, 20000);// setInterval里的函数不要用this
 
 // 成功涂色时刷新canvas数据
-watch(drawed, (newval) => {
+watch(refresh, (newval) => {
   if (newval == true) {
     updateCanvas();
-    emit("changeDrawState", false);
+    emit("changeRefresh", false);
   }
 })
 
@@ -142,7 +145,6 @@ let saveSquare = {
 
 
 // 改变模式
-
 // let changeModeTo0 = () => {
 //   if (mode.value == 1) {
 //     emit("changeMode", 0);
@@ -239,7 +241,6 @@ let colorEvent = function (event) {
 
 
 
-
     } else if (mode.value == 0) {
       console.log("modevalue is 0 fail to draw");
     }    
@@ -247,7 +248,7 @@ let colorEvent = function (event) {
 
 }
 
-canvas.postDrawed();  // 成功请求
+
 
 
 

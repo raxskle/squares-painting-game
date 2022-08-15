@@ -36,7 +36,7 @@ let toStart = function () {
       ] = `Bearer ${res.data.jwtoken}`;
       if (res.data.first_login == true) {
         // 进入新手流程
-        router.push("/newUser/intro");
+        router.replace("/newUser/intro");
       } else if (res.data.first_login == false) {
         // 获取用户信息，进入主页面
         toGame();
@@ -69,6 +69,7 @@ let toStart = function () {
   line-height: 50px;
   margin: 40px;
   border: 3px solid black;
+  border-radius: 4px;
 }
 
 
@@ -83,6 +84,7 @@ let toStart = function () {
   height: 50vh;
   border: 4px solid black;
   background-color: white;
+  border-radius: 2px;
 
 }
 

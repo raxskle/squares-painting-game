@@ -8,7 +8,7 @@
     loop="-1" scrollamount="4"  >
 		HUST勇士，请点击选择一个阵营吧！
     </marquee> -->
-    <div class="box">
+    <div class="scrollBar">
       <p class="animate">HUST勇士，请点击选择一个阵营吧！</p>
     </div>
 
@@ -42,11 +42,12 @@ let intromsg = ["他们誓当21世纪后羿，为武汉带来三分凉意。",
 
 
 
-.box {
+.scrollBar {
     width: 100vw;
     margin: 0;
     margin-top: 10px;
-    border: 2px solid black;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
     overflow: hidden;
     background-color: white;
 }

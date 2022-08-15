@@ -25,21 +25,21 @@ let groupStatus = Mock.mock({
     {
       id: 1,
       name: "偷瓜队",
-      level: 0,
+      level: 2,
       total_members_num: 0,
       total_pixels_num: 0,
     },
     {
       id: 2,
       name: "射日队",
-      level: 0,
+      level: 3,
       total_members_num: 0,
       total_pixels_num: 0,
     },
   ],
 });
 let task = Mock.mock({
-  task: "这是任务这是任务",
+  task: "这是获取的任务内容 这是获取的任务内容 这是获取的任务内容 ",
 });
 
 let canvas = Mock.mock({
@@ -219,10 +219,14 @@ let canvas = Mock.mock({
     nickname: "NAME",
     headimgurl: "D:/MyWeb/byproject/bypixel/src/assets/iamge/unknoweduser.webp",
   },
+  pixels_num: {
+    group_1: 14,
+    group_2: 23,
+  },
 });
 
 let canvaspost = Mock.mock({
-  conflicting: false,
+  conflicting: true,
   cooling: false,
   is_user_graded: false,
   user_level: 0,
@@ -232,7 +236,7 @@ let canvaspost = Mock.mock({
 
 let canDrawState = Mock.mock({
   state: true,
-  last_paint_time: 1660225344,
+  last_paint_time: 1660533007125,
 });
 
 module.exports = (middlewares, devServer) => {
@@ -240,12 +244,6 @@ module.exports = (middlewares, devServer) => {
     throw new Error("webpack-dev-server is not defined");
   }
   if (process.env.MOCK == "true") {
-    middlewares.unshift({
-      path: "/userqwer",
-      middleware: (req, res) => {
-        res.json({ ok: true });
-      },
-    });
     middlewares.unshift({
       path: "/user/token",
       middleware: (req, res) => {

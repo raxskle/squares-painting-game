@@ -7,10 +7,10 @@ let user = {
 
   userName: ref("Alex"),
   userImg: "userimg",
-  CDtime: 3600,
+  CDtime: ref(0),
   group: ref(0),
-  groupLevel: ref(0),
-  level: ref(0),
+  groupLevel: ref(1),
+  level: ref(1),
   pixelsNum: ref(0),
   setWeixinOpenid(val) {
     this.weixinOpenid = val;
@@ -20,6 +20,19 @@ let user = {
   },
   updateExpire(val) {
     this.expire = val;
+  },
+  timeGoes() {
+    let cdtimer = setInterval(() => {
+      if (user.CDtime.value > 0) {
+        user.CDtime.value -= 1;
+        console.log("cdtime left:", user.CDtime.value);
+      }
+      if (user.CDtime.value <= 0) {
+        clearInterval(cdtimer);
+        user.CDtime.value = 0;
+        console.log("冷却时间结束");
+      }
+    }, 1000);
   },
   // getUserData() {
   //   axios

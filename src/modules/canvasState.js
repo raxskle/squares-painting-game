@@ -181,8 +181,10 @@ let canvas = {
   canvasStateDayn: new Array(12).fill(new Array(12).fill(1)),
   latestPosition: ref([0, 0]),
   lastPosition: ref([0, 0]),
-  orangeNum: ref(0),
-  greenNum: ref(0),
+  group2Num: ref(0),
+  group1Num: ref(0),
+  group1Level: ref(1),
+  group2Level: ref(1),
 
   // 选中的格子
   targetSquare: ref([0, 0]),
@@ -200,7 +202,7 @@ let canvas = {
   squareXnum: 12,
   squareYnum: 12,
   squareBorder: ref(0),
-
+  setSquareNum() {},
   setStageWH() {
     this.stageWidth = window.innerWidth * 0.9;
     this.stageHeight = window.innerHeight * 0.6;
@@ -273,7 +275,20 @@ let canvas = {
       .then((res) => {
         this.canvasState.value = res.data.canvas;
         this.latestPosition.value = res.data.last_paint.pixel_position;
-        console.log(this.canvasState.value);
+        this.group1Num.value = res.data.pixels_num.group_1;
+        this.group2Num.value = res.data.pixels_num.group_2;
+        // console.log(this.canvasState.value);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  },
+  getGroupState() {
+    axios
+      .get(`/group/status`)
+      .then((res) => {
+        this.group1Level.value = res.data.groups[0].level;
+        this.group2Level.value = res.data.groups[1].level;
       })
       .catch((res) => {
         console.log(res);
@@ -313,6 +328,7 @@ let canvas = {
             fill: this.squareColor(i, j),
             stroke: "rgb(200, 200, 200)",
             strokeWidth: 0,
+            lineJoin: "bevel",
             name: `square${i * this.squareXnum + j}`,
             occupy: this.setOccupy(i, j),
           })
@@ -324,29 +340,6 @@ let canvas = {
       this.latestPosition.value[0] * this.squareXnum +
         this.latestPosition.value[1]
     ].stroke = "black";
-  },
-
-  // 发送涂色位置
-  postDrawed() {
-    // axios({
-    //   url: "/userqwer",
-    //   method: "GET",
-    // }).then((res) => {
-    //   console.log(res);
-    // });
-    let config = {
-      headers: {
-        Authorization: "Bearer 123456",
-      },
-    };
-    axios
-      .get("/userqwer", config)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((res) => {
-        console.log(res);
-      });
   },
 };
 
