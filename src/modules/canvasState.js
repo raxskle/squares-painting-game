@@ -199,12 +199,14 @@ let canvas = {
   fieldX0: 0,
   fieldY0: 0,
 
-  squareXnum: 12,
-  squareYnum: 12,
+  // stage固定大小0.95vw *0.6vh
+  // field限制移动范围，field缩放
+
+  squareXnum: 0,
+  squareYnum: 0,
   squareBorder: ref(0),
-  setSquareNum() {},
   setStageWH() {
-    this.stageWidth = window.innerWidth * 0.9;
+    this.stageWidth = window.innerWidth * 0.95;
     this.stageHeight = window.innerHeight * 0.6;
     // this.stageHeight = window.innerWidth * 0.9;
     // this.stageHeight = document.querySelector(".canvasContainer").;
@@ -277,6 +279,8 @@ let canvas = {
         this.latestPosition.value = res.data.last_paint.pixel_position;
         this.group1Num.value = res.data.pixels_num.group_1;
         this.group2Num.value = res.data.pixels_num.group_2;
+        this.squareYnum = res.data.canvas.length;
+        this.squareXnum = res.data.canvas[0].length;
         // console.log(this.canvasState.value);
       })
       .catch((res) => {

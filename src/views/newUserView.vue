@@ -18,6 +18,7 @@ console.log("已经加载了newUserView");
   justify-content: space-between;
   align-items: center;
   width: 100%;
+    height: 100%;
   background-image: url("@/assets/iamge/background.jpg");
   background-size: 100vw;
 }

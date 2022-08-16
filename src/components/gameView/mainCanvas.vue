@@ -114,7 +114,7 @@ let updateCanvas=()=>{
       canvas.lastPosition.value = canvas.latestPosition.value;
       canvas.group1Num.value = res.data.pixels_num.group_1;
       canvas.group2Num.value = res.data.pixels_num.group_2;
-      
+
       canvas.latestPosition.value = res.data.last_paint.pixel_position;
       console.log(canvas.canvasState.value); 
 
@@ -261,8 +261,8 @@ let colorEvent = function (event) {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid black; 
-  background-color: #ffffff;
+  background-image: url("@/assets/iamge/border102.png");
+  background-size: 100% 100%;
 }
 
 </style>

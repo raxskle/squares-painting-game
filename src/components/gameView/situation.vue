@@ -1,6 +1,7 @@
 <template>
 <div class="situation">
   <div class="scoreBar">
+    <div class="gridBorder"></div>    
     <div class="scoreTitle">已涂色块数目</div>
     <div class="scoreBox">
       <div class="scoreGroup">
@@ -15,7 +16,9 @@
         <div class="groupNum">{{canvas.group1Num}}</div>        
       </div>
     </div>
+    <div class="gridBorder"></div>
   </div>
+  
   <div class="wholeView">
     <div  id="canvasContainer">
       <v-stage ref="stage" :config = "configKonva" >
@@ -26,12 +29,18 @@
         </v-layer>
       </v-stage>
     </div> 
-    <div class="clickToFade"  @click="fade"></div>   
+    <div class="clickToFade"  @click="fade"></div> 
   </div>
-  <div class="scrollBar">
-    <p class="animate">射日队已完成拼图!</p>
-  </div> 
+  <div class="bottomBar">
+    <div class="gridBorder"></div>
+    <div class="scrollBar">
+      <p class="animate">射日队已完成拼图!</p>
+    </div>     
+    <div class="gridBorder"></div>
+  </div>
+
   <footerAD></footerAD> 
+  
 </div>
 
 </template>
@@ -52,16 +61,6 @@ let { showSit } = toRefs(props);
 
 let emit = defineEmits(['changeShowSit']);
 
-watch(showSit, (newval) => {
-  if (newval == true) {
-    // 同步
-    copyConfigSquares();
-    console.log("战况页面更新");
-    let popup = document.querySelector(".popupSituation");
-    popup.style.display = "flex";
-    emit("changeShowSit", false);
-  }
-})
 
 
 // 画布缩放
@@ -70,6 +69,7 @@ let configLayer = reactive({
   scaleY:1,
 })
 let configSquares = [];
+// square原稿大小
 for (let i of canvas.configSquares) {
   configSquares.push({
     x: i.x,
@@ -98,6 +98,18 @@ let configKonva = {
   height: canvas.fieldHeight*canvas.fieldScale0,
 };
 
+watch(showSit, (newval) => {
+  if (newval == true) {
+    // 同步
+    copyConfigSquares();
+    console.log("战况页面更新");
+    let popup = document.querySelector(".popupSituation");
+    popup.style.display = "flex";
+    emit("changeShowSit", false);
+  }
+})
+
+
 
 let fade = () => {
   let popup = document.querySelector(".popupSituation");
@@ -113,12 +125,15 @@ let fade = () => {
 
 .situation {
   width: 100vw;
+  height: 100%;
+  /* position: absolute; */
+  /* background-color: antiquewhite; */
 }
 .scoreBar {
   width: 100vw;
-  height: 25vh;
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
+  height: 24vh;
+  /* border-top: 2px solid black; */
+  /* border-bottom: 2px solid black; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -127,10 +142,9 @@ let fade = () => {
 
 .scoreTitle {
   width: 40%;
-  height:25%;
-  border-bottom: 2px solid black;
-  border-left: 2px solid black;
-  border-right: 2px solid black;
+  height:20%;
+  margin-top: 5px;
+  border: 2px solid black;
   font-size: 24px;
   display: flex;
   justify-content: center;
@@ -145,6 +159,7 @@ let fade = () => {
   align-items: center; 
   flex-grow: 1; 
   width: 100%;
+  margin-bottom: 10px;
 }
 
 .vs {
@@ -154,7 +169,7 @@ let fade = () => {
 .scoreGroup {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center; 
   height: 100%;
   width: 80px;
@@ -171,7 +186,7 @@ let fade = () => {
   align-items: center;
 }
 .groupImg img {
-  width: 80%;
+  width: 75%;
 }
 /* 
 .groupNum{
@@ -184,6 +199,7 @@ let fade = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  /* max-height: 50vh; */
 }
 
 
@@ -192,9 +208,11 @@ let fade = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid black; 
-  background-color: #ffffff;
+  background-image: url("@/assets/iamge/border202.png");
+  background-size:  100% 100%;
+  background-repeat: no-repeat;
   margin-top: 10px;
+  padding: 10px;
 }
 
 .clickToFade {
@@ -206,22 +224,33 @@ let fade = () => {
 }
 
 
+.bottomBar {
+  margin-top: 10px;
+}
 
+.gridBorder {
+  height: 10px;
+  width: 100vw;
+  background-image: url("@/assets/iamge/gridBorder.png");
+  background-size: 100% 100% ;
+}
 
 
 .scrollBar {
   width: 100vw;
+  height: 45px;
   margin: 0;
-  margin-top: 10px;
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
+  /* border-top: 2px solid black; */
+  /* border-bottom: 2px solid black; */
   overflow: hidden;
   background-color: white;
+
 }
 
 .animate {
-    /* padding-left: 20px; */
     font-size: 20px;
+    margin: 0;
+    line-height: 45px;
     color: #000;
     display: inline-block;
     white-space: nowrap;

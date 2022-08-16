@@ -60,6 +60,8 @@ if (user.group.value == 0) {
   height: 100%;
   background-image: url("@/assets/iamge/background.jpg");
   background-size: 100vw;
+  position: relative;
+
 }
 
 .game {
@@ -68,5 +70,6 @@ if (user.group.value == 0) {
   justify-content: space-evenly;
   align-items: center;
   flex-grow: 1;  
+  /* position: relative; */
 }
 </style>

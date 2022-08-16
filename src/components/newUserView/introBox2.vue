@@ -46,15 +46,43 @@ let postGroup = function (clickable) {
   font-size: 20px;
 }
 .introBox {
+  position: relative;
   width: 75vw;
   height: 24vh;
-  border:  4px solid black;
+  /* border:  4px solid black; */
   margin-bottom: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  /* background-color: white; */
+  background-image: url("@/assets/iamge/selectborder.png");
+  background-size:  100% 100%;
+  background-repeat: no-repeat;
+}
+
+.introBox::before{
+  position: absolute;
+  content: "";
+  border: 4px solid black;
   background-color: white;
+  border-radius: 2px;
+  width: 14px;
+  height: 14px;
+  bottom: -8px;
+  left: -8px;
+}
+
+.introBox::after{
+  position: absolute;
+  content: "";
+  border: 4px solid black;
+  background-color: white;
+  border-radius: 2px;
+  width: 24px;
+  height: 24px;
+  bottom: -14px;
+  left: 20px;
 }
 
 .intrologo {

@@ -1,8 +1,8 @@
 <template>
-<div class="homePage">
+<div class="homePage" @click="toStart" >
   <div class="title">军训大对抗</div>
   <div class="discribe">还没想好文案，大概意思是“真的不参加一下这个游戏吗？”</div>
-  <div class="start" @click="toStart">开始游戏</div>
+  <!-- <div class="start" >开始游戏</div> -->
 </div>
 </template>
 
@@ -60,7 +60,7 @@ let toStart = function () {
   flex-grow:1;
   font-family: 'IPIX';  
 }
-.start {
+/* .start {
   background-color: rgb(255, 255, 255);
   width: 160px;
   height: 50px;
@@ -70,22 +70,24 @@ let toStart = function () {
   margin: 40px;
   border: 3px solid black;
   border-radius: 4px;
-}
+} */
 
 
 .title {
   font-size: 56px;
   margin-top: 60px;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .discribe {
+  padding: 10px;
   width: 75vw;
   height: 50vh;
-  border: 4px solid black;
-  background-color: white;
+  /* border: 4px solid black; */
+  /* background-color: white; */
   border-radius: 2px;
-
+  background-image: url("@/assets/iamge/border102.png");
+  background-size: 100% 100%;
 }
 
 </style>

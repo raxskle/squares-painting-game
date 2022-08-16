@@ -1,12 +1,14 @@
 <template>
 <div class="bar" >
-  <!-- <div class="btnBox"> -->
+  <div class="btnBox">
     <div class="btn btnleft"  @click="popSituation">战况</div>
     <div class="btncenter" @click="changeMode">
     <div id="drawBtn" class="btncenterChange" >{{drawBtnText}}</div>
     </div>
-    <div class="btn btnright"  @click="popTask">任务</div>    
-  <!-- </div> -->
+    <div class="btn btnright"  @click="popTask">任务</div>        
+  </div>    
+
+
 
 </div>
 
@@ -107,7 +109,7 @@ let changeMode = () => {
       if (res.data.state == true && user.CDtime.value<=0) {
         emit("changeMode", 1);          
       } else {
-        popTips("同一玩家每小时只能涂色一次！");
+        popTips("每位玩家每小时只能涂色一次！");
       }
     }).catch((res) => {
       console.log(res);
@@ -146,8 +148,8 @@ let changeMode = () => {
       } else {
         // 涂色失败就  弹窗失败， 回到mode1,请求画布并更新
         if (res.data.conflicting == true) {
-          popTips("涂色失败，你选择的方格已被同阵营涂色！");
-          // console.log("涂色失败，你选择的方格已被同阵营涂色");
+          popTips("你选择的方格已被你的阵营涂色，请重新选择！");
+          // console.log("涂色失败，你选择的方格已被你的阵营涂色");
         } else if (res.data.cooling == true) {
           popTips("涂色失败，请重试！")
           // console.log("涂色失败，同用户一小时内只能涂色一次");
@@ -187,19 +189,19 @@ watch(mode, (newval,oldval) => {
 });
 
 watch(refresh, (newval) => {
-  const drawBtn = document.querySelector("#drawBtn");  
+  // const drawBtn = document.querySelector("#drawBtn");  
   if (newval == true) {
     console.log(111)
-    drawBtn.style.height = "90px";    
-    drawBtn.style.width = "90px";    
-    drawBtn.style.lineHeight = "90px";    
-    drawBtn.style.borderRadius = "45px";        
+    // drawBtn.style.height = "90px";    
+    // drawBtn.style.width = "90px";    
+    // drawBtn.style.lineHeight = "90px";    
+    // drawBtn.style.borderRadius = "45px";        
   } else if (newval == false) {
     setTimeout(() => {
-      drawBtn.style.height = "76px";    
-      drawBtn.style.width = "76px";    
-      drawBtn.style.lineHeight = "76px"; 
-      drawBtn.style.borderRadius = "38px"; 
+      // drawBtn.style.height = "76px";    
+      // drawBtn.style.width = "76px";    
+      // drawBtn.style.lineHeight = "76px"; 
+      // drawBtn.style.borderRadius = "38px"; 
     }, 500);
     
   }
@@ -239,9 +241,7 @@ let fadeSituation = () => {
   let popup = document.querySelector(".popupSituation");
   popup.style.display = "none";  
 }
-
 </script>
-
 
 
 <style scoped>
@@ -251,49 +251,58 @@ let fadeSituation = () => {
   align-items: center;
   width: 100%;
   flex-grow: 1;
+  /* position: relative; */
 }
 
-/* .btnBox {
-  border: 4px solid black;
-  width: 200px;
-  height: 60px;
+.btnBox {
+  /* position: absolute; */
+  /* border: 4px solid black; */
+  width: 80vw;
+  height: 85px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-} */
+  justify-content: space-around;
+  align-items: center;
+  background-image: url("@/assets/iamge/controllera.png");
+  background-size:  100% 100%;
+  background-repeat: no-repeat;
+  /* filter: grayscale(100%); */
+}
 
 .btn{
-  border: 3px solid black;
+  /* border: 3px solid black; */
   z-index: 1;
   width: 32vw;
   height: 12vw;
   line-height: 12vw;
   text-align: center;
   font-size: 20px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0);
   border-radius: 4px;
 }
 
 .btncenter {
   position: absolute;
   z-index: 2;
-  height: 90px;
-  width: 90px;  
-  border: 4px solid black;
-  border-radius: 49px;
-  background-color: white;
+  height: 92px;
+  width: 92px;  
+  /* border: 4px solid black; */
+  /* border-radius: 49px; */
+  /* background-color: rgba(255, 255, 255, 0); */
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url("@/assets/iamge/controllerb.png");
+  background-size:  100% ;
+  background-repeat: no-repeat;
 }
 
 .btncenterChange {
   background-color: rgb(225, 225, 225);
-  height: 76px;
-  width: 76px;   
-  line-height: 76px;  
+  height: 74px;
+  width: 74px;   
+  line-height: 74px;  
   font-size: 24px;  
-  border-radius: 38px;  
+  border-radius: 37px;  
   text-align: center;
   transition: .5s;
 }
@@ -314,7 +323,7 @@ let fadeSituation = () => {
   align-items: center;
   position: absolute;
   width: 100vw;
-  height: 150vh;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.448);
   z-index: 10;
 }
@@ -343,12 +352,14 @@ let fadeSituation = () => {
   justify-content: center;
   align-items: center;
   position: absolute;
+  top: 0; 
+  /* 让它从网页的top 0 开始 */
   width: 100vw;
-  height: 140vh;
-  background-color: rgb(255, 188, 167);
+  height: 100vh;
   z-index: 10;
   background-image: url("@/assets/iamge/background.jpg");
   background-size: 100vw;
+  background-repeat: repeat-y;
 }
 
 .popupTips{
@@ -361,7 +372,7 @@ let fadeSituation = () => {
   height: 60px;
   border: 3px solid black;
   background-color: rgb(255, 255, 255);
-  top: 500px;
+  top: 450px;
   transition: all .5s;
   padding: 5px;
 }
