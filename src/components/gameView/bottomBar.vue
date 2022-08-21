@@ -21,7 +21,7 @@
 </div>
 
 <!-- 战况弹窗 -->
-<div class="popupSituation" @click="fadeSituation">
+<div class="popupSituation"  @click="fadeSituation">
   <situation :showSit="showSit" @changeShowSit="changeShowSit"></situation>
 </div>
 
@@ -48,7 +48,7 @@ let props = defineProps({
     type: Boolean,
   },  
 })
-let { mode,refresh } = toRefs(props);
+let { mode } = toRefs(props);
 // 设置颜色
 let drawColor;
 if (user.group.value == 1) {
@@ -90,9 +90,9 @@ let tipsText = ref("");
 let popTips = function (text) {
   tipsText.value = text;
   let tips = document.querySelector(".popupTips");
-  tips.style.visibility = "visible";
+  tips.className="popupTips scale-in-center"
   setTimeout(() => {
-    tips.style.visibility = "hidden";
+    tips.className = "popupTips scale-out-center";
   }, 2000);
 }
 
@@ -171,7 +171,6 @@ watch(mode, (newval,oldval) => {
   console.log("mode change ", newval);
   if (newval == 1&&oldval ==0) {
     drawBtn.style.backgroundColor = drawColor;    
-
     drawBtnText.value = "涂色";
   } else if (newval == 0&&oldval==1) {
     drawBtn.style.backgroundColor = "rgb(225, 225, 225)";   
@@ -179,34 +178,31 @@ watch(mode, (newval,oldval) => {
   } else if (newval == 2) {
     drawBtnText.value = "确认";
   } else if (newval == 0&&oldval == 2) {
-    setTimeout(() => {
-      drawBtn.style.backgroundColor = "rgb(225, 225, 225)";
-      drawBtnText.value = "涂色";          
-    }, 500);
+    drawBtn.style.backgroundColor = "rgb(225, 225, 225)";
+    drawBtnText.value = "涂色";          
   } else if (newval == 1 && oldval == 2) {
     drawBtnText.value = "涂色";      
   }
 });
 
-watch(refresh, (newval) => {
-  // const drawBtn = document.querySelector("#drawBtn");  
-  if (newval == true) {
-    console.log(111)
-    // drawBtn.style.height = "90px";    
-    // drawBtn.style.width = "90px";    
-    // drawBtn.style.lineHeight = "90px";    
-    // drawBtn.style.borderRadius = "45px";        
-  } else if (newval == false) {
-    setTimeout(() => {
-      // drawBtn.style.height = "76px";    
-      // drawBtn.style.width = "76px";    
-      // drawBtn.style.lineHeight = "76px"; 
-      // drawBtn.style.borderRadius = "38px"; 
-    }, 500);
+// watch(refresh, (newval) => {
+//   // const drawBtn = document.querySelector("#drawBtn");  
+//   if (newval == true) {
+//     // console.log(111)
+//     // drawBtn.style.height = "90px";    
+//     // drawBtn.style.width = "90px";    
+//     // drawBtn.style.lineHeight = "90px";    
+//     // drawBtn.style.borderRadius = "45px";        
+//   } else if (newval == false) {
+//     setTimeout(() => {
+//       // drawBtn.style.height = "76px";    
+//       // drawBtn.style.width = "76px";    
+//       // drawBtn.style.lineHeight = "76px"; 
+//       // drawBtn.style.borderRadius = "38px"; 
+//     }, 500);
     
-  }
-})
-
+//   }
+// })
 
 // 任务
 let popTask = ()=>{
@@ -368,14 +364,96 @@ let fadeSituation = () => {
   justify-content: center;
   align-items: center;
   visibility: hidden;
-  width: 200px;
+  width: 100px;
   height: 60px;
   border: 3px solid black;
+  /* border-radius: 2px; */
   background-color: rgb(255, 255, 255);
   top: 450px;
   transition: all .5s;
+  opacity: 0;
   padding: 5px;
+  z-index: -1;
 }
+
+/* .popanime {
+  z-index: 10;
+  visibility: visible;  
+  opacity: 1;
+  transition: all .5s;
+} */
+
+.scale-in-center {
+  z-index: 10;
+  visibility: visible;  
+  opacity: 1;
+	-webkit-animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@-webkit-keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.scale-out-center {
+  z-index: -1;
+  visibility: hidden;  
+	-webkit-animation: scale-out-center 0.3s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  animation: scale-out-center 0.3s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+@-webkit-keyframes scale-out-center {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;    
+  }
+  100% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 0;
+  }
+}
+@keyframes scale-out-center {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;    
+  }
+  100% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 0;
+  }
+}
+
 
 .tipsText {
   display: flex;

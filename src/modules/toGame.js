@@ -10,7 +10,7 @@ export function toGame() {
   axios
     .get(`/user/info`)
     .then((res) => {
-      console.log(res.data);
+      console.log(res);
       user.userName.value = res.data.nickname;
       user.userImg = res.data.headimgurl;
       user.group.value = res.data.group;

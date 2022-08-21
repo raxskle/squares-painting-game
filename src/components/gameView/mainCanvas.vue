@@ -1,6 +1,6 @@
 <template>
   <div ref="cc" id="canvasContainer">
-    <v-stage ref="stage" :config = "configKonva" >
+    <v-stage ref="stage" :config = "configKonva" @touchmove="scaleMove" @touchstart="scaleStart" @touchend="scaleEnd">
       <v-layer ref="layer" :config="configLayer">
 
         <v-group ref="Field" :config="configField">
@@ -9,6 +9,7 @@
 
         <!-- <v-image :config="configImage"></v-image> -->
         <!-- <v-rect :config="a"></v-rect> -->
+        <!-- <v-text :config="text"></v-text> -->
 
       </v-layer>
     </v-stage>
@@ -72,6 +73,205 @@ onMounted(() => {
   // 首次显示最新格子：进入主页面之前请求，fill时设置stroke，mounted时movetoTop
   console.log(canvas.configSquares);
 })
+
+
+
+// 双指缩放
+let scaleController = reactive({
+  scale: 1,    //field 的缩放倍率
+  centerX0: 0,   //stage里的缩放位置，不变
+  centerY0: 0,
+  centerX: 0,   //原centerX0和centerY0在缩放后对应Field的位置，应该与前者重合
+  centerY: 0,  
+  oldDistance:0,   //上一次move的两指间距离
+});
+
+let getDistance = (a,b) => {
+  return Math.hypot(a.x - b.x, a.y - b.y);
+}
+let getCenter = (a,b) => {
+  return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+}
+
+// let text = reactive({
+//   x: 0,
+//   y: 0,
+//   text: "no",
+//   fontSize: 20,
+//   fontFamily: 'Calibri',
+//   fill: 'green'
+// })
+
+let scaleStart = (event) => {
+// 设置初始的两指距离
+  if (event.evt == undefined) {
+    // console.log("touchstart", event);    
+    if (event.touches.length == 2) {
+      let a = {
+        x: event.touches[0].clientX,
+        y: event.touches[0].clientY,
+      }
+      let b = {
+        x: event.touches[1].clientX,
+        y: event.touches[1].clientY,        
+      }
+      let distance = getDistance(a, b);
+      scaleController.oldDistance = distance;
+
+      // 求client中间点
+      let center = getCenter(a, b);
+      // 得到中间点在stage里的坐标
+      let stageX = document.querySelector("#canvasContainer").getBoundingClientRect().x;
+      let stageY = document.querySelector("#canvasContainer").getBoundingClientRect().y;
+      scaleController.centerX0 = center.x - stageX;
+      scaleController.centerY0 = center.y - stageY;   
+
+      // text.text = `start ${scaleController.oldDistance}`;  
+    }
+  }
+}
+
+let scaleEnd = (event) => {
+  // 去除这次的两指初始距离
+  console.log("end:", event);
+  if (event.evt == undefined) {
+    scaleController.oldDistance = 0;
+    scaleController.centerX0 = 0;
+    scaleController.centerY0 = 0;
+    scaleController.centerX = 0;
+    scaleController.centerY = 0;
+    // text.text = `end`;  
+
+  }
+}
+
+let scaleMove = (event) => {
+  if (event.evt == undefined) {
+    // 此时event是stage而不是点到了rect
+  // console.log("event.changedTouches", event.changedTouches);
+  // console.log("event.changedTouches[0].clientX", event.changedTouches[0].clientX);
+  // console.log("event.changedTouches[0].clientY", event.changedTouches[0].clientY);
+    if (scaleController.oldDistance != 0) {
+      // 存在上一次的两指距离
+      if (event.changedTouches.length == 2) {
+        // 两个触点是缩放
+        // 得到新的两指距离
+        let a = {
+          x: event.changedTouches[0].clientX,
+          y: event.changedTouches[0].clientY,
+        }
+        let b = {
+          x: event.changedTouches[1].clientX,
+          y: event.changedTouches[1].clientY,        
+        }
+        let newDistance = getDistance(a, b);
+        // 两次之比求出这次move增减的倍率
+        let scrollSpeed = 0.04;
+        let ratio = newDistance / scaleController.oldDistance * scrollSpeed;
+        if (ratio > 1.5 * scrollSpeed) {
+          ratio = 1.5 * scrollSpeed;
+        } else if (ratio < 0.7 * scrollSpeed) {
+          ratio = 0.7 * scrollSpeed;
+        }
+        // 得到真实scale
+        if (ratio > 1*scrollSpeed) {
+          scaleController.scale = scaleController.scale + ratio > 4 ? 4 : scaleController.scale + ratio;          
+        } else if (ratio < 1*scrollSpeed) {
+          scaleController.scale = scaleController.scale - ratio > 4 ? 4 : scaleController.scale - ratio;             
+        }
+        // 设置缩放范围
+        if (scaleController.scale < 1) {
+          scaleController.scale = 1;
+        }
+        if (scaleController.scale > 4) {
+          scaleController.scale = 4;
+        }
+
+        // 求新的缩放后的中间点
+        let center = getCenter(a, b);
+        // 得到中间点在stage里的坐标
+        let stageX = document.querySelector("#canvasContainer").getBoundingClientRect().x;
+        let stageY = document.querySelector("#canvasContainer").getBoundingClientRect().y;
+        scaleController.centerX = center.x - stageX;
+        scaleController.centerY = center.y - stageY;   
+        // 得到中间点相对于field的位置  
+        scaleController.centerX = scaleController.centerX0 * scaleController.scale * canvas.fieldScale0;
+        scaleController.centerY = scaleController.centerY0 * scaleController.scale * canvas.fieldScale0;  
+
+
+        // text.text = `${scaleController.scale}
+        // ${scaleController.centerX}
+        // ${scaleController.centerY}`;  
+
+        // 控制fieldscale
+        if (scaleController.scale == 1) {
+        // 当scale==1时强制field回归fieldScale0，fieldX0，fieldY0，不能drag
+          canvas.configField.scaleX =  canvas.fieldScale0;
+          canvas.configField.scaleY =  canvas.fieldScale0;
+          canvas.configField.x = canvas.fieldX0;
+          canvas.configField.y = canvas.fieldY0;
+          canvas.configField.draggable = true;
+          canvas.configField.dragBoundFunc = function () {
+            return {
+              x: canvas.fieldX0,
+              y: canvas.fieldY0,
+            };
+          };
+        } else if (scaleController.scale > 1) {
+        // 当scale>1时 根据中心坐标为中心，sacle为倍率，能drag并且设置范围限制
+          canvas.configField.draggable = false;        
+          canvas.configField.scaleX = scaleController.scale * canvas.fieldScale0;
+          canvas.configField.scaleY = scaleController.scale * canvas.fieldScale0;
+          canvas.configField.x = scaleController.centerX0 - scaleController.centerX;
+          canvas.configField.y = scaleController.centerY0 - scaleController.centerY;
+        }
+
+        // 设置这次的两指位置作为下次move的参考
+        scaleController.oldDistance = newDistance;
+      } 
+    }
+    if (event.changedTouches.length == 1) {
+      // 一个触点是drag
+      if (scaleController.scale == 1) {
+        canvas.configField.draggable = true;
+        canvas.configField.dragBoundFunc = function () {
+          return {
+            x: canvas.fieldX0,
+            y: canvas.fieldY0,
+          };
+        };
+      } else if (scaleController.scale > 1) {
+        canvas.configField.draggable = true;
+        canvas.configField.dragBoundFunc = function (pos) {
+          let newY = pos.y;
+          if (pos.y > canvas.stageHeight*0.3) {
+            newY = canvas.stageHeight*0.3;
+          } else if (pos.y < canvas.stageHeight- canvas.fieldHeight*canvas.configField.scaleY - canvas.stageHeight*0.3) {
+            newY = canvas.stageHeight- canvas.fieldHeight*canvas.configField.scaleY - canvas.stageHeight*0.3;
+          } else {
+            newY = pos.y;
+          }
+          let newX = pos.x;
+          if (pos.x > canvas.stageWidth*0.3) {
+            newX = canvas.stageWidth * 0.3;
+          } else if (pos.x <  canvas.stageWidth- canvas.fieldWidth*canvas.configField.scaleX - canvas.stageWidth*0.3) {
+            newX =  canvas.stageWidth- canvas.fieldWidth*canvas.configField.scaleX - canvas.stageWidth*0.3 ;
+          } else {
+            newX = pos.x;
+          }    
+          return {
+            x: newX,
+            y: newY
+          };
+
+        };        
+      }
+
+    }
+
+
+  }
+}
 
 
 
@@ -156,11 +356,20 @@ let changeModeTo2 = () => {
   }
 };
 
+// mode切换 改变方格边框
 watch(mode, (newval,oldval) => { 
   if (newval == 1) {
     for (let i = 0; i < canvas.squareYnum; i++) {
       for (let j = 0; j < canvas.squareXnum; j++) {
-        canvas.configSquares[i*canvas.squareXnum+j].strokeWidth = 2;
+        if (canvas.configSquares[i * canvas.squareXnum + j].occupy != 3) {
+          // 非镂空格子
+          canvas.configSquares[i*canvas.squareXnum+j].strokeWidth = 2;          
+        } else if (canvas.configSquares[i * canvas.squareXnum + j].occupy == 3) {
+          // 镂空格子将其图层移动到底部，防止边缘格子边框显示错误
+            stage.value.getStage()
+            .find(`.square${i * canvas.squareXnum + j}`)[0]
+            .moveToBottom();
+        }
       }
     }
 
@@ -171,9 +380,11 @@ watch(mode, (newval,oldval) => {
   
   } else if (newval == 0) {
 
-        for (let i = 0; i < canvas.squareYnum; i++) {
+    for (let i = 0; i < canvas.squareYnum; i++) {
       for (let j = 0; j < canvas.squareXnum; j++) {
-        canvas.configSquares[i*canvas.squareXnum+j].strokeWidth = 0;
+        if (canvas.configSquares[i * canvas.squareXnum + j].occupy != 3) {
+          canvas.configSquares[i*canvas.squareXnum+j].strokeWidth = 0;          
+        }        
       }
     }
 
@@ -184,7 +395,7 @@ watch(mode, (newval,oldval) => {
     target.attrs.strokeWidth = saveSquare.strokeWidth;
     target.attrs.stroke = saveSquare.stroke;
     // console.log("涂色失败时latest",target.attrs.stroke); 
-    // 神奇的bug，注释掉if就能让latest变回黑色 
+    // 神奇的bug，注释掉if就能让latest变回黑色
     // if (target.attrs.stroke != "black") {
       target.moveToBottom();      
     // }    
@@ -198,7 +409,7 @@ watch(mode, (newval,oldval) => {
 
 let colorEvent = function (event) {
   console.log("点击了这个格子", event.target.attrs.occupy);
-  if (user.group.value != event.target.attrs.occupy) {
+  if (user.group.value != event.target.attrs.occupy && event.target.attrs.occupy!=3) {
     if (mode.value == 1 || mode.value ==2) {
       // 在这里涂色    
       // 获得位置信息
@@ -263,6 +474,7 @@ let colorEvent = function (event) {
   align-items: center;
   background-image: url("@/assets/iamge/border102.png");
   background-size: 100% 100%;
-}
+  padding: 8px;
+} 
 
 </style>

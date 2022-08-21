@@ -185,6 +185,22 @@ let canvas = {
   group1Num: ref(0),
   group1Level: ref(1),
   group2Level: ref(1),
+  group1Colors: [
+    "#76eaa3",
+    "#68c889",
+    "#59a773",
+    "#488a5a",
+    "#3a6c46",
+    "#2c5132",
+  ],
+  group2Colors: [
+    "#f6c173",
+    "#fbb958",
+    "#faa634",
+    "#fe9900",
+    "#fd8c24",
+    "#f09800",
+  ],
 
   // 选中的格子
   targetSquare: ref([0, 0]),
@@ -206,7 +222,7 @@ let canvas = {
   squareYnum: 0,
   squareBorder: ref(0),
   setStageWH() {
-    this.stageWidth = window.innerWidth * 0.95;
+    this.stageWidth = window.innerWidth * 0.9;
     this.stageHeight = window.innerHeight * 0.6;
     // this.stageHeight = window.innerWidth * 0.9;
     // this.stageHeight = document.querySelector(".canvasContainer").;
@@ -308,15 +324,48 @@ let canvas = {
   //   }
   // },
   squareColor(i, j) {
-    return this.canvasState.value[i][j];
+    if (this.canvasState.value[i][j] == "#") {
+      return "#ffffff";
+    } else if (this.canvasState.value[i][j] == "") {
+      return "#ffffff";
+    } else {
+      return this.canvasState.value[i][j];
+    }
+  },
+  checkOccupy1(color) {
+    for (let c = 0; c < this.group1Colors.length; c++) {
+      if (color == this.group1Colors[c]) {
+        return true;
+      }
+    }
+    return false;
+  },
+  checkOccupy2(color) {
+    for (let c = 0; c < this.group2Colors.length; c++) {
+      if (color == this.group2Colors[c]) {
+        return true;
+      }
+    }
+    return false;
   },
   setOccupy(i, j) {
-    if (this.canvasState.value[i][j] == "#00d599") {
+    if (this.checkOccupy1(this.canvasState.value[i][j])) {
+      // 绿队
       return 1;
-    } else if (this.canvasState.value[i][j] == "#ffc500") {
+    } else if (this.checkOccupy2(this.canvasState.value[i][j])) {
+      // 黄队
       return 2;
-    } else if (this.canvasState.value[i][j] == "#ffffff") {
+    } else if (
+      this.canvasState.value[i][j] == "#" ||
+      this.canvasState.value[i][j] == "#ffffff"
+    ) {
+      // 未涂色
       return 0;
+    } else if (this.canvasState.value[i][j] == "") {
+      // 镂空
+      return 3;
+    } else {
+      console.log("检查到canavs格子的颜色不合法");
     }
   },
   fillConfigSquares() {
@@ -332,6 +381,7 @@ let canvas = {
             fill: this.squareColor(i, j),
             stroke: "rgb(200, 200, 200)",
             strokeWidth: 0,
+            lineCap: "round",
             lineJoin: "bevel",
             name: `square${i * this.squareXnum + j}`,
             occupy: this.setOccupy(i, j),

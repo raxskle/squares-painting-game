@@ -13,10 +13,10 @@ let user = {
   level: ref(1),
   pixelsNum: ref(0),
   setWeixinOpenid(val) {
-    this.weixinOpenid = val;
+    this.weixinOpenid.value = val;
   },
   setToken(val) {
-    this.token = val;
+    this.token.value = val;
   },
   updateExpire(val) {
     this.expire = val;
