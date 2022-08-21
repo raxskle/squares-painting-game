@@ -19,9 +19,17 @@ let getUrlCode = function () {
 };
 
 let gotoWXlogin = function () {
-  let goto = "http://192.168.0.105:8081/home"; // window.location.href
+  let go = "http://192.168.0.105:8081/home"; // window.location.href
   let appid = "wx45e82dec06f16ca9";
-  let redirect_uri = encodeURIComponent(goto);
+  if (process.env.VUE_APP_develope == "true") {
+    // 开发环境
+    go = "http://192.168.0.105:8081/home";
+    appid = "wx45e82dec06f16ca9";
+  } else {
+    // 测试生产
+  }
+
+  let redirect_uri = encodeURIComponent(go);
   let wxhref =
     "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
     appid +

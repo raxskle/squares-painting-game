@@ -121,7 +121,11 @@ let changeMode = () => {
         position: canvas.targetSquare.value,
       }
     };
-    axios.post(`/canvaspost`, config).then((res) => {
+    let drawurl = `/canvas`;
+    if (process.env.VUE_APP_develope == "true") {
+      drawurl = `/canvaspost`;
+    }
+    axios.post(drawurl, config).then((res) => {
       console.log(res);
       // 成功涂色就  弹窗成功，回到mode0，请求画布并更新，请求冷却时间
       if (res.data.conflicting == false && res.data.cooling == false) {
@@ -364,7 +368,7 @@ let fadeSituation = () => {
   justify-content: center;
   align-items: center;
   visibility: hidden;
-  width: 100px;
+  width: 200px;
   height: 60px;
   border: 3px solid black;
   /* border-radius: 2px; */
@@ -430,7 +434,7 @@ let fadeSituation = () => {
     opacity: 1;
   }
   60% {
-    opacity: 0;    
+    opacity: 0;
   }
   100% {
     -webkit-transform: scale(0);
@@ -454,13 +458,10 @@ let fadeSituation = () => {
   }
 }
 
-
 .tipsText {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-
 
 </style>

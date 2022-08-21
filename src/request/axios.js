@@ -1,5 +1,12 @@
 import axios from "axios";
-axios.defaults.baseURL = "http://192.168.0.105:8081";
+if (process.env.VUE_APP_develope == "true") {
+  // 开发环境
+  axios.defaults.baseURL = "http://192.168.0.105:8081/api";
+} else {
+  // 测试生产
+  axios.defaults.baseURL = "/api";
+}
+
 // axios.defaults.baseURL = "http://127.0.0.1";
 axios.defaults.timeout = 4000;
 

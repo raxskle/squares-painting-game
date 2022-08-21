@@ -1,6 +1,6 @@
 const Mock = require("mockjs");
 let userToken = Mock.mock({
-  first_login: false,
+  first_login: true,
   weixin_openid: "OPENID123",
   jwtoken: "TOKEN123",
 });
@@ -254,7 +254,7 @@ let canvas = Mock.mock({
 });
 
 let canvaspost = Mock.mock({
-  conflicting: false,
+  conflicting: true,
   cooling: false,
   is_user_graded: false,
   user_level: 0,
@@ -273,49 +273,49 @@ module.exports = (middlewares, devServer) => {
   }
   if (process.env.MOCK == "true") {
     middlewares.unshift({
-      path: "/user/token",
+      path: "/api/user/token",
       middleware: (req, res) => {
         res.json(userToken);
       },
     });
     middlewares.unshift({
-      path: "/user/group",
+      path: "/api/user/group",
       middleware: (req, res) => {
         res.json(null);
       },
     });
     middlewares.unshift({
-      path: "/user/info",
+      path: "/api/user/info",
       middleware: (req, res) => {
         res.json(userInfo);
       },
     });
     middlewares.unshift({
-      path: `/group/status`,
+      path: `/api/group/status`,
       middleware: (req, res) => {
         res.json(groupStatus);
       },
     });
     middlewares.unshift({
-      path: `/task`,
+      path: `/api/task`,
       middleware: (req, res) => {
         res.json(task);
       },
     });
     middlewares.unshift({
-      path: `/canvas`,
+      path: `/api/canvas`,
       middleware: (req, res) => {
         res.json(canvas);
       },
     });
     middlewares.unshift({
-      path: `/canvaspost`,
+      path: `/api/canvaspost`,
       middleware: (req, res) => {
         res.json(canvaspost);
       },
     });
     middlewares.unshift({
-      path: `/user/state`,
+      path: `/api/user/state`,
       middleware: (req, res) => {
         res.json(canDrawState);
       },
