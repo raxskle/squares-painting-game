@@ -3,7 +3,7 @@
     <v-stage ref="stage" :config = "configKonva" @touchmove="scaleMove" @touchstart="scaleStart" @touchend="scaleEnd">
       <v-layer ref="layer" :config="configLayer">
 
-        <v-group ref="Field" :config="configField">
+        <v-group ref="Field" :config="configField" @touchstart="ar">
           <v-rect v-for="(square, index) in configSquares " :key="index" :config="square" @touchend="colorEvent" />          
         </v-group>
 
@@ -75,14 +75,21 @@ onMounted(() => {
 })
 
 
-
 // 手写双指缩放
+let currentFieldX;
+let currentFieldY;
+let ar = (event) => {
+  // console.log("点到了field", event.target.parent);
+  currentFieldX = event.target.parent.attrs.x;
+  currentFieldY = event.target.parent.attrs.y;
+}
+
 let scaleController = reactive({
   scale: 1,    //field 的缩放倍率
-  centerX0: 0,   //stage里的缩放位置，不变
+  centerX0: 0,   //点击中心位置相对于stage的位置
   centerY0: 0,
-  centerX: 0,   //原centerX0和centerY0在缩放后对应Field的位置，应该与前者重合
-  centerY: 0,  
+  centerXf: 0,     //点击中心位置相对于field的位置
+  centerYf:0,
   oldDistance:0,   //上一次move的两指间距离
 });
 
@@ -105,7 +112,7 @@ let getCenter = (a,b) => {
 let scaleStart = (event) => {
 // 设置初始的两指距离
   if (event.evt == undefined) {
-    // console.log("touchstart", event);    
+    console.log("touchstart", event);    
     if (event.touches.length == 2) {
       let a = {
         x: event.touches[0].clientX,
@@ -123,8 +130,11 @@ let scaleStart = (event) => {
       // 得到中间点在stage里的坐标
       let stageX = document.querySelector("#canvasContainer").getBoundingClientRect().x;
       let stageY = document.querySelector("#canvasContainer").getBoundingClientRect().y;
+
       scaleController.centerX0 = center.x - stageX;
-      scaleController.centerY0 = center.y - stageY;   
+      scaleController.centerY0 = center.y - stageY;    
+      scaleController.centerXf = (scaleController.centerX0 - currentFieldX )/scaleController.scale * canvas.fieldScale0;
+      scaleController.centerYf = (scaleController.centerY0 - currentFieldY )/scaleController.scale * canvas.fieldScale0;          
 
       // text.text = `start ${scaleController.oldDistance}`;  
     }
@@ -136,10 +146,7 @@ let scaleEnd = (event) => {
   console.log("end:", event);
   if (event.evt == undefined) {
     scaleController.oldDistance = 0;
-    scaleController.centerX0 = 0;
-    scaleController.centerY0 = 0;
-    scaleController.centerX = 0;
-    scaleController.centerY = 0;
+
     // text.text = `end`;  
 
   }
@@ -150,7 +157,6 @@ let scaleMove = (event) => {
     // 此时event是stage而不是点到了rect
   // console.log("event.changedTouches", event.changedTouches);
   // console.log("event.changedTouches[0].clientX", event.changedTouches[0].clientX);
-  // console.log("event.changedTouches[0].clientY", event.changedTouches[0].clientY);
     if (scaleController.oldDistance != 0) {
       // 存在上一次的两指距离
       if (event.changedTouches.length == 2) {
@@ -187,18 +193,6 @@ let scaleMove = (event) => {
           scaleController.scale = 4;
         }
 
-        // 求新的缩放后的中间点
-        let center = getCenter(a, b);
-        // 得到中间点在stage里的坐标
-        let stageX = document.querySelector("#canvasContainer").getBoundingClientRect().x;
-        let stageY = document.querySelector("#canvasContainer").getBoundingClientRect().y;
-        scaleController.centerX = center.x - stageX;
-        scaleController.centerY = center.y - stageY;   
-        // 得到中间点相对于field的位置  
-        scaleController.centerX = scaleController.centerX0 * scaleController.scale * canvas.fieldScale0;
-        scaleController.centerY = scaleController.centerY0 * scaleController.scale * canvas.fieldScale0;  
-
-
         // text.text = `${scaleController.scale}
         // ${scaleController.centerX}
         // ${scaleController.centerY}`;  
@@ -222,8 +216,8 @@ let scaleMove = (event) => {
           canvas.configField.draggable = false;        
           canvas.configField.scaleX = scaleController.scale * canvas.fieldScale0;
           canvas.configField.scaleY = scaleController.scale * canvas.fieldScale0;
-          canvas.configField.x = scaleController.centerX0 - scaleController.centerX;
-          canvas.configField.y = scaleController.centerY0 - scaleController.centerY;
+          canvas.configField.x = scaleController.centerX0 - scaleController.centerXf * scaleController.scale * canvas.fieldScale0;
+          canvas.configField.y = scaleController.centerY0 - scaleController.centerYf * scaleController.scale * canvas.fieldScale0; 
         }
 
         // 设置这次的两指位置作为下次move的参考
