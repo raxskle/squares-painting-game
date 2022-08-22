@@ -13,20 +13,26 @@ let getUrlCode = function () {
   // console.log("code: ", code);
   // 如果没有code就回到loading页
   if (code === "" || code == null) {
-    window.location.href = "http://192.168.0.105:8081/";
+    if (process.env.VUE_APP_develope == "true") {
+      window.location.href = "http://192.168.0.105:8081/home";
+    } else {
+      window.location.href = "h5.hust.online/drill-battle";
+    }
   }
   return code;
 };
 
 let gotoWXlogin = function () {
-  let go = "http://192.168.0.105:8081/home"; // window.location.href
-  let appid = "wx45e82dec06f16ca9";
+  let go = "h5.hust.online/drill-battle/home"; // window.location.href
+  let appid = "wxdb6d54fc376bf014";
   if (process.env.VUE_APP_develope == "true") {
     // 开发环境
-    go = "http://192.168.0.105:8081/home";
+    go = "http://192.168.0.105:8081/home"; // window.location.href
     appid = "wx45e82dec06f16ca9";
   } else {
     // 测试生产
+    go = "h5.hust.online/drill-battle/home"; // window.location.href
+    appid = "wxdb6d54fc376bf014";
   }
 
   let redirect_uri = encodeURIComponent(go);

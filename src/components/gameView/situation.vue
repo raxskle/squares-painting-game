@@ -208,7 +208,7 @@ let fade = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("@/assets/iamge/border202.png");
+  background-image: url("@/assets/iamge/situation_border.png");
   background-size:  100% 100%;
   background-repeat: no-repeat;
   margin-top: 10px;
@@ -231,7 +231,7 @@ let fade = () => {
 .gridBorder {
   height: 10px;
   width: 100vw;
-  background-image: url("@/assets/iamge/gridBorder.png");
+  background-image: url("@/assets/iamge/gridborder.png");
   background-size: 100% 100% ;
 }
 

@@ -6,7 +6,7 @@
     <div id="drawBtn" class="btncenterChange" >{{drawBtnText}}</div>
     </div>
     <div class="btn btnright"  @click="popTask">任务</div>        
-  </div>    
+  </div>
 
 
 

@@ -76,7 +76,7 @@ onMounted(() => {
 
 
 
-// 双指缩放
+// 手写双指缩放
 let scaleController = reactive({
   scale: 1,    //field 的缩放倍率
   centerX0: 0,   //stage里的缩放位置，不变
@@ -206,8 +206,8 @@ let scaleMove = (event) => {
         // 控制fieldscale
         if (scaleController.scale == 1) {
         // 当scale==1时强制field回归fieldScale0，fieldX0，fieldY0，不能drag
-          canvas.configField.scaleX =  canvas.fieldScale0;
-          canvas.configField.scaleY =  canvas.fieldScale0;
+          canvas.configField.scaleX = canvas.fieldScale0;
+          canvas.configField.scaleY = canvas.fieldScale0;
           canvas.configField.x = canvas.fieldX0;
           canvas.configField.y = canvas.fieldY0;
           canvas.configField.draggable = true;
@@ -263,13 +263,9 @@ let scaleMove = (event) => {
             x: newX,
             y: newY
           };
-
         };        
       }
-
     }
-
-
   }
 }
 
@@ -404,8 +400,6 @@ watch(mode, (newval,oldval) => {
 
 
 // 涂色事件  其实是在点击的位置post group
-// mode ,   user.group ,  canvas.postDrawed
-
 
 let colorEvent = function (event) {
   console.log("点击了这个格子", event.target.attrs.occupy);
@@ -425,8 +419,6 @@ let colorEvent = function (event) {
       // 标记选中格子
       canvas.targetSquare.value = targetSquare;
       
-
-
       changeModeTo2();
 
       // 将上一个恢复平常
@@ -436,7 +428,6 @@ let colorEvent = function (event) {
       if (lastTarget.attrs.stroke != "black") {
         lastTarget.moveToBottom();      
       }
-
 
       // 存储当前
       let target = stage.value.getStage().find(`.${name}`)[0];    
@@ -450,18 +441,11 @@ let colorEvent = function (event) {
       target.attrs.strokeWidth = 6;
       target.attrs.stroke = "rgb(200, 200, 200)";
 
-
-
     } else if (mode.value == 0) {
       console.log("modevalue is 0 fail to draw");
     }    
   }
-
 }
-
-
-
-
 
 // !!!!!!如果config对象某个属性的值没变，那么这个值相关就不会重新渲染
 // 就是缩放前后设置的x和y没变的话，即使实际拖拽x和y改变了，也不会重新渲染x和y
@@ -472,7 +456,7 @@ let colorEvent = function (event) {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("@/assets/iamge/border102.png");
+  background-image: url("@/assets/iamge/canvas_border.png");
   background-size: 100% 100%;
   padding: 8px;
 } 

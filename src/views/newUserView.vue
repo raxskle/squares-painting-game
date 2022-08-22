@@ -8,7 +8,6 @@
 
 <script setup>
 import footerAD from "../components/footerAD.vue"
-console.log("已经加载了newUserView");
 </script>
 
 <style scoped>

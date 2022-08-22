@@ -5,6 +5,8 @@
 </template>
 
 <script>
+console.log(process.env.VUE_APP_MODE);
+
 </script>
 
 <style scoped>

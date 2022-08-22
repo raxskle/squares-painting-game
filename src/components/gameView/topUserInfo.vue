@@ -3,7 +3,7 @@
   <div class="userInfo">
     <div class="infoImg">
       <img class="userImg" :src="user.userImg" />
-      <div class="headFrame" v-if="showFrame" ><img class="frameImg" :src="logo"/></div>
+      <div class="headFrame" v-if="showFrame" ><img class="frameImg" src="@/assets/iamge/frame.png"/></div>
     </div>
     <div class="infoText" @click="pop"><p>{{user.userName.value}}</p></div>
   </div>
@@ -88,16 +88,15 @@ watch(user.groupLevel, (newval) => {
 
 }
 
-
 .headFrame{
   position: absolute;
-  height: 50px;
-  width: 50px;
+  height: 60px;
+  width: 60px;
   top: 0;
 }
 
 .frameImg {
-  height: 100%;
+  width: 100%;
 }
 
 .infoText {

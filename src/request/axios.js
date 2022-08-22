@@ -4,7 +4,7 @@ if (process.env.VUE_APP_develope == "true") {
   axios.defaults.baseURL = "http://192.168.0.105:8081/api";
 } else {
   // 测试生产
-  axios.defaults.baseURL = "/api";
+  axios.defaults.baseURL = "api.hust.online/drillbattle";
 }
 
 // axios.defaults.baseURL = "http://127.0.0.1";

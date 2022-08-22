@@ -86,7 +86,7 @@ let toStart = function () {
   /* border: 4px solid black; */
   /* background-color: white; */
   border-radius: 2px;
-  background-image: url("@/assets/iamge/border102.png");
+  background-image: url("@/assets/iamge/canvas_border.png");
   background-size: 100% 100%;
 }
 

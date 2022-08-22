@@ -16,7 +16,9 @@ export default {
           if (lastTime > 1600000000000) {
             lastTime = Math.ceil(lastTime / 1000);
           }
-          let nextTime = lastTime + 3600;
+          // 测试设置冷却时长为60s
+          let duration = 60;
+          let nextTime = lastTime + duration;
           let nowTime = Math.floor(Date.now() / 1000);
           console.log("下一次", nextTime);
           console.log("现在", nowTime);

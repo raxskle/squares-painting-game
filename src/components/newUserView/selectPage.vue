@@ -48,7 +48,7 @@ let intromsg = ["他们誓当21世纪后羿，为武汉带来三分凉意。",
 .gridBorder {
   height: 10px;
   width: 100vw;
-  background-image: url("@/assets/iamge/gridBorder.png");
+  background-image: url("@/assets/iamge/gridborder.png");
   background-size: 100% 100% ;
 }
 
