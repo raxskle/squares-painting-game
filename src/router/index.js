@@ -1,7 +1,7 @@
 import {
   createRouter,
-  // createWebHashHistory,
-  createWebHistory,
+  createWebHashHistory,
+  // createWebHistory,
 } from "vue-router";
 const gameView = () => import("../views/gameView.vue");
 // import gameView from "../views/gameView.vue";
@@ -34,7 +34,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(), //历史模式在后端服务器路由要写一个非匹配任何资源就返回index主页
+  history: createWebHashHistory(), //历史模式在后端服务器路由要写一个非匹配任何资源就返回index主页
   routes, // short for `routes: routes`
 });
 

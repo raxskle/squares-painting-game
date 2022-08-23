@@ -23,16 +23,16 @@ let getUrlCode = function () {
 };
 
 let gotoWXlogin = function () {
-  let go = "https://h5.hust.online/drill-battle/home"; // window.location.href
+  let go = "https://h5.hust.online/drill-battle/#/home"; // window.location.href
   let appid = "wxdb6d54fc376bf014";
   if (process.env.VUE_APP_develope == "true") {
     // 开发环境
-    go = "http://192.168.0.105:8081/home"; // window.location.href
+    go = "http://192.168.0.105:8081/#/home"; // window.location.href
     appid = "wx45e82dec06f16ca9";
   } else {
     // 测试生产
     appid = "wxdb6d54fc376bf014";
-    go = "https://h5.hust.online/drill-battle/home"; // window.location.href
+    go = "http://127.0.0.1/drill-battle/#/home"; // window.location.href
   }
   let redirect_uri = encodeURIComponent(go);
   let wxhref =
