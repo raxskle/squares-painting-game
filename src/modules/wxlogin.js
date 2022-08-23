@@ -32,7 +32,7 @@ let gotoWXlogin = function () {
   } else {
     // 测试生产
     appid = "wxdb6d54fc376bf014";
-    go = "http://127.0.0.1/drill-battle/#/home"; // window.location.href
+    go = "https://h5.hust.online/drill-battle/#/home"; // window.location.href
   }
   let redirect_uri = encodeURIComponent(go);
   let wxhref =
