@@ -8,7 +8,7 @@
 
 <script setup>
 import { onMounted,ref} from 'vue';
-import { getUrlCode } from "../../modules/wxlogin.js"
+import { getUrlCode } from "../../modules/wxlogin.js";
 import user from "../../modules/userState";
 import {toGame} from "../../modules/toGame.js";
 import axios from "../../request/axios";
@@ -34,12 +34,16 @@ let toStart = function () {
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${res.data.jwtoken}`;
+      console.log("成功存token");
       if (res.data.first_login == true) {
-        // 进入新手流程
+        console.log("res.data.first_login == true");
         router.replace("/newUser/intro");
+        // window.location.hash("#/newUser/intro")
+        console.log("into /newUser/intro")
       } else if (res.data.first_login == false) {
-        // 获取用户信息，进入主页面
+        console.log("res.data.first_login == false");
         toGame();
+        console.log("执行完toGame");
       }
     })
     .catch((res) => {

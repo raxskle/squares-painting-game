@@ -6,6 +6,7 @@ import canvas from "./canvasState";
 import cdtime from "./cdtime";
 
 export function toGame() {
+  console.log("into toGame");
   // 获取用户数据
   axios
     .get(`/user/info`)
@@ -20,6 +21,7 @@ export function toGame() {
     })
     .then(() => {
       // 初始化获取画布数据
+      console.log("toGame获取画布");
       canvas.getCanvas();
     })
     .then(() => {
