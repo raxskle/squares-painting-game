@@ -118,9 +118,7 @@ let changeMode = () => {
   } else if (mode.value == 2) {
     // 发送涂色：选中的格子
     let config = {
-      data: {
-        position: canvas.targetSquare.value,
-      }
+      position: canvas.targetSquare.value,
     };
     let drawurl = `/canvas`;
     if (process.env.VUE_APP_develope == "true") {
