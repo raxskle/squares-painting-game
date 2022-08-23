@@ -2,7 +2,7 @@ const { defineConfig } = require("@vue/cli-service");
 
 let config = {
   transpileDependencies: true,
-  publicPath: "./",
+  publicPath: "/drill-battle/",
 };
 
 if (process.env.VUE_APP_MOCK == "true") {
@@ -13,7 +13,6 @@ if (process.env.VUE_APP_MOCK == "true") {
       port: 8081,
       setupMiddlewares: require("./mock/testMock.js"),
     },
-    publicPath: "./",
   };
 }
 
