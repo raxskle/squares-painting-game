@@ -300,12 +300,12 @@ let updateCanvas=()=>{
   axios
     .get(`/canvas`)
     .then((res) => {
-      canvas.canvasState.value = res.data.canvas;
+      canvas.canvasState.value = res.data.data.canvas;
       canvas.lastPosition.value = canvas.latestPosition.value;
-      canvas.group1Num.value = res.data.pixels_num.group_1;
-      canvas.group2Num.value = res.data.pixels_num.group_2;
+      canvas.group1Num.value = res.data.data.pixels_num.group_1;
+      canvas.group2Num.value = res.data.data.pixels_num.group_2;
 
-      canvas.latestPosition.value = res.data.last_paint.pixel_position;
+      canvas.latestPosition.value = res.data.data.last_paint.pixel_position;
       console.log(canvas.canvasState.value); 
 
       drawCanvas();

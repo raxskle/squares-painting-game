@@ -12,12 +12,12 @@ export function toGame() {
     .get(`/user/info`)
     .then((res) => {
       console.log(res);
-      user.userName.value = res.data.nickname;
-      user.userImg = res.data.headimgurl;
-      user.group.value = res.data.group;
-      // user.groupLevel.value = res.data.group_level;
-      user.level.value = res.data.user_level;
-      user.pixelsNum.value = res.data.user_pixels_num;
+      user.userName.value = res.data.data.nickname;
+      user.userImg = res.data.data.headimgurl;
+      user.group.value = res.data.data.group;
+      // user.groupLevel.value = res.data.data.group_level;
+      user.level.value = res.data.data.user_level;
+      user.pixelsNum.value = res.data.data.user_pixels_num;
     })
     .then(() => {
       // 初始化获取画布数据

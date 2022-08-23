@@ -291,12 +291,12 @@ let canvas = {
     axios
       .get(`/canvas`)
       .then((res) => {
-        this.canvasState.value = res.data.canvas;
-        this.latestPosition.value = res.data.last_paint.pixel_position;
-        this.group1Num.value = res.data.pixels_num.group_1;
-        this.group2Num.value = res.data.pixels_num.group_2;
-        this.squareYnum = res.data.canvas.length;
-        this.squareXnum = res.data.canvas[0].length;
+        this.canvasState.value = res.data.data.canvas;
+        this.latestPosition.value = res.data.data.last_paint.pixel_position;
+        this.group1Num.value = res.data.data.pixels_num.group_1;
+        this.group2Num.value = res.data.data.pixels_num.group_2;
+        this.squareYnum = res.data.data.canvas.length;
+        this.squareXnum = res.data.data.canvas[0].length;
         // console.log(this.canvasState.value);
       })
       .catch((res) => {
@@ -307,8 +307,8 @@ let canvas = {
     axios
       .get(`/group/status`)
       .then((res) => {
-        this.group1Level.value = res.data.groups[0].level;
-        this.group2Level.value = res.data.groups[1].level;
+        this.group1Level.value = res.data.data.groups[0].level;
+        this.group2Level.value = res.data.data.groups[1].level;
       })
       .catch((res) => {
         console.log(res);

@@ -106,8 +106,8 @@ let changeMode = () => {
     // 请求是否能涂色
     axios.get(`/user/state`).then((res) => {
       console.log(res);
-      if (res.data.state == true && user.CDtime.value<=0) {
-        emit("changeMode", 1);          
+      if (res.data.data.state == true && user.CDtime.value<=0) {
+        emit("changeMode", 1);
       } else {
         popTips("每位玩家每小时只能涂色一次！");
       }
@@ -128,33 +128,33 @@ let changeMode = () => {
     axios.post(drawurl, config).then((res) => {
       console.log(res);
       // 成功涂色就  弹窗成功，回到mode0，请求画布并更新，请求冷却时间
-      if (res.data.conflicting == false && res.data.cooling == false) {
+      if (res.data.data.conflicting == false && res.data.data.cooling == false) {
         popTips("涂色成功！");
         // console.log("涂色成功！");
         emit("changeMode", 0); 
         emit("changeRefresh", true);
         cdtime.getCDtime();
         // 更新个人等级
-        if (res.data.is_user_upgraded == true) {
-          user.level.value = res.data.user_level;
+        if (res.data.data.is_user_upgraded == true) {
+          user.level.value = res.data.data.user_level;
         }
         // 更新队伍等级
-        if (res.data.is_group_upgraded == true) {
+        if (res.data.data.is_group_upgraded == true) {
           if (user.group.value == 1) {
-            canvas.group1Level.value = res.data.group_level;
+            canvas.group1Level.value = res.data.data.group_level;
           }
           if (user.group.value == 2) {
-            canvas.group2Level.value = res.data.group_level;
+            canvas.group2Level.value = res.data.data.group_level;
           }          
-          user.groupLevel.value = res.data.group_level;
+          user.groupLevel.value = res.data.data.group_level;
         }        
 
       } else {
         // 涂色失败就  弹窗失败， 回到mode1,请求画布并更新
-        if (res.data.conflicting == true) {
+        if (res.data.data.conflicting == true) {
           popTips("你选择的方格已被你的阵营涂色，请重新选择！");
           // console.log("涂色失败，你选择的方格已被你的阵营涂色");
-        } else if (res.data.cooling == true) {
+        } else if (res.data.data.cooling == true) {
           popTips("涂色失败，请重试！")
           // console.log("涂色失败，同用户一小时内只能涂色一次");
         }
@@ -221,7 +221,7 @@ let taskText = ref("默认文字");
 // 打开主页面时获取任务
 axios.get(`/task`).then((res) => {
   console.log("获取任务", res);
-  taskText.value = res.data.task;
+  taskText.value = res.data.data.task;
 }).catch((res) => {
   console.log(res);
 })

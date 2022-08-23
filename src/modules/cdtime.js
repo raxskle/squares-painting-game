@@ -8,10 +8,10 @@ export default {
     axios
       .get(`/user/state`)
       .then((res) => {
-        if (res.data.state == true) {
+        if (res.data.data.state == true) {
           user.CDtime.value = 0;
-        } else if (res.data.state == false) {
-          let lastTime = res.data.last_paint_time;
+        } else if (res.data.data.state == false) {
+          let lastTime = res.data.data.last_paint_time;
           // 时间戳单位转换为秒
           if (lastTime > 1600000000000) {
             lastTime = Math.ceil(lastTime / 1000);

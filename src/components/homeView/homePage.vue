@@ -28,20 +28,20 @@ let toStart = function () {
   axios
     .get(url, config)
     .then((res) => {
-      console.log(res.data);
-      user.setWeixinOpenid(res.data.weixin_openid);
-      user.setToken(res.data.jwtoken);
+      console.log(res.data.data);
+      user.setWeixinOpenid(res.data.data.weixin_openid);
+      user.setToken(res.data.data.jwtoken);
       axios.defaults.headers.common[
         "Authorization"
-      ] = `Bearer ${res.data.jwtoken}`;
+      ] = `Bearer ${res.data.data.jwtoken}`;
       console.log("成功存token");
-      if (res.data.first_login == true) {
-        console.log("res.data.first_login == true");
+      if (res.data.data.first_login == true) {
+        console.log("res.data.data.first_login == true");
         router.replace("/newUser/intro");
         // window.location.hash("#/newUser/intro")
         console.log("into /newUser/intro")
-      } else if (res.data.first_login == false) {
-        console.log("res.data.first_login == false");
+      } else if (res.data.data.first_login == false) {
+        console.log("res.data.data.first_login == false");
         toGame();
         console.log("执行完toGame");
       }
