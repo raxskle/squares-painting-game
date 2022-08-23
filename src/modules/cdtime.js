@@ -8,9 +8,12 @@ export default {
     axios
       .get(`/user/state`)
       .then((res) => {
+        console.log("get 能否draw", res);
         if (res.data.data.state == true) {
+          console.log("能draw");
           user.CDtime.value = 0;
         } else if (res.data.data.state == false) {
+          console.log("不能draw");
           let lastTime = res.data.data.last_paint_time;
           // 时间戳单位转换为秒
           if (lastTime > 1600000000000) {
@@ -22,7 +25,7 @@ export default {
           let nowTime = Math.floor(Date.now() / 1000);
           console.log("下一次", nextTime);
           console.log("现在", nowTime);
-          user.CDtime.value = nextTime - nowTime;
+          user.CDtime.value = nextTime - nowTime < 0 ? 0 : nextTime - nowTime;
           user.timeGoes();
         }
       })

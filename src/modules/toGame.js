@@ -21,15 +21,17 @@ export function toGame() {
     })
     .then(() => {
       // 初始化获取画布数据
-      console.log("toGame获取画布");
+      console.log("toGame进行到获取画布");
       canvas.getCanvas();
     })
     .then(() => {
       // 获取队伍等级
+      console.log("toGame进行到获取队伍等级");
       canvas.getGroupState();
     })
     .then(() => {
       // 获取是否冷却时间内
+      console.log("toGame进行到获取冷却时间");
       cdtime.getCDtime();
     })
     .then(() => {

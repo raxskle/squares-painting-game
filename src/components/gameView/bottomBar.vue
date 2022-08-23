@@ -72,6 +72,7 @@ if (user.CDtime.value <= 0) {
 
 // cdtime实时更新显示
 watch(user.CDtime, (newval) => {
+  console.log("cd时间更新");
   if (newval == 0 ||newval<0) {
     drawBtnText.value = "涂色";
   } else {
@@ -130,16 +131,18 @@ let changeMode = () => {
       // 成功涂色就  弹窗成功，回到mode0，请求画布并更新，请求冷却时间
       if (res.data.data.conflicting == false && res.data.data.cooling == false) {
         popTips("涂色成功！");
-        // console.log("涂色成功！");
+        console.log("涂色成功！");
         emit("changeMode", 0); 
         emit("changeRefresh", true);
         cdtime.getCDtime();
         // 更新个人等级
         if (res.data.data.is_user_upgraded == true) {
+          console.log("user升级了");
           user.level.value = res.data.data.user_level;
         }
         // 更新队伍等级
         if (res.data.data.is_group_upgraded == true) {
+          console.log("group升级了")
           if (user.group.value == 1) {
             canvas.group1Level.value = res.data.data.group_level;
           }
@@ -153,10 +156,10 @@ let changeMode = () => {
         // 涂色失败就  弹窗失败， 回到mode1,请求画布并更新
         if (res.data.data.conflicting == true) {
           popTips("你选择的方格已被你的阵营涂色，请重新选择！");
-          // console.log("涂色失败，你选择的方格已被你的阵营涂色");
+          console.log("涂色失败，你选择的方格已被你的阵营涂色");
         } else if (res.data.data.cooling == true) {
           popTips("涂色失败，请重试！")
-          // console.log("涂色失败，同用户一小时内只能涂色一次");
+          console.log("涂色失败，同用户一小时内只能涂色一次");
         }
         emit("changeMode", 1);       
         emit("changeRefresh",true);          
@@ -220,7 +223,7 @@ let fadeTask = () => {
 let taskText = ref("默认文字");
 // 打开主页面时获取任务
 axios.get(`/task`).then((res) => {
-  console.log("获取任务", res);
+  console.log("获取任务：", res);
   taskText.value = res.data.data.task;
 }).catch((res) => {
   console.log(res);

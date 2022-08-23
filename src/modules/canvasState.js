@@ -179,8 +179,8 @@ let canvas = {
     ],
   ]),
   canvasStateDayn: new Array(12).fill(new Array(12).fill(1)),
-  latestPosition: ref([0, 0]),
-  lastPosition: ref([0, 0]),
+  latestPosition: ref([-1, -1]),
+  lastPosition: ref([-1, -1]),
   group2Num: ref(0),
   group1Num: ref(0),
   group1Level: ref(1),
@@ -258,7 +258,7 @@ let canvas = {
     this.setFieldHeight();
     this.setFieldScale0();
     this.setFieldXY();
-    console.log("stage:", this.stageHeight);
+    console.log("stageHeight:", this.stageHeight);
   },
 
   configKonva: reactive({}),
@@ -291,8 +291,14 @@ let canvas = {
     axios
       .get(`/canvas`)
       .then((res) => {
+        console.log("init get canvs:", res);
         this.canvasState.value = res.data.data.canvas;
-        this.latestPosition.value = res.data.data.last_paint.pixel_position;
+        if (res.data.data.last_paint == null) {
+          this.latestPosition.value = [-1, -1];
+        } else {
+          this.latestPosition.value = res.data.data.last_paint.pixel_position;
+        }
+
         this.group1Num.value = res.data.data.pixels_num.group_1;
         this.group2Num.value = res.data.data.pixels_num.group_2;
         this.squareYnum = res.data.data.canvas.length;
@@ -307,6 +313,7 @@ let canvas = {
     axios
       .get(`/group/status`)
       .then((res) => {
+        console.log("get group level", res.data);
         this.group1Level.value = res.data.data.groups[0].level;
         this.group2Level.value = res.data.data.groups[1].level;
       })
@@ -370,6 +377,7 @@ let canvas = {
   },
   fillConfigSquares() {
     // 初始化config对象
+    console.log("初始化config对象");
     for (let i = 0; i < this.squareYnum; i++) {
       for (let j = 0; j < this.squareXnum; j++) {
         this.configSquares.push(
@@ -390,10 +398,17 @@ let canvas = {
       }
     }
     // 第一次显示最新涂色块   //整个数组不会变换顺序所以不会乱序
-    this.configSquares[
-      this.latestPosition.value[0] * this.squareXnum +
-        this.latestPosition.value[1]
-    ].stroke = "black";
+    if (
+      this.latestPosition.value[0] == -1 &&
+      this.latestPosition.value[1] == -1
+    ) {
+      console.log("画布未涂色");
+    } else {
+      this.configSquares[
+        this.latestPosition.value[0] * this.squareXnum +
+          this.latestPosition.value[1]
+      ].stroke = "black";
+    }
   },
 };
 

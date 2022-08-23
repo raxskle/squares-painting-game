@@ -62,20 +62,23 @@ let cc = ref(null);
 let stage = ref(null);
 // Field是画布
 let Field = ref(null);
-onMounted(() => {
-  // console.log("canvasContainer", cc.value);  
-  // let FieldContext = Field.value.getNode().children[26];用children拿就会乱序
-  // console.log(FieldContext);  
-  // 用name拿不会乱序
-  stage.value.getStage()
-    .find(`.square${canvas.latestPosition.value[0] * canvas.squareXnum + canvas.latestPosition.value[1]}`)[0]
-    .moveToTop();
-  // 首次显示最新格子：进入主页面之前请求，fill时设置stroke，mounted时movetoTop
-  console.log(canvas.configSquares);
-})
+// onMounted(() => {
+//   // console.log("canvasContainer", cc.value);  
+//   // let FieldContext = Field.value.getNode().children[26];用children拿就会乱序
+//   // console.log(FieldContext);
+//   // 用name拿不会乱序
+//   if (canvas.lastPosition.value[0] != -1 && canvas.lastPosition.value[1] != -1) {
+//     stage.value.getStage()
+//       .find(`.square${canvas.latestPosition.value[0] * canvas.squareXnum + canvas.latestPosition.value[1]}`)[0]
+//       .moveToTop();
+//     // 首次显示最新格子：进入主页面之前请求，fill时设置stroke，mounted时movetoTop
+//     console.log(canvas.configSquares);    
+//   }
+
+// })
 
 
-// 手写双指缩放
+// 双指缩放
 let currentFieldX;
 let currentFieldY;
 let ar = (event) => {
@@ -271,6 +274,7 @@ let drawCanvas=()=>{
   // 将[i][j]转换为i*rownum+j
 
   // 更新整个画布
+  console.log("into drawCanvas更新画布");
   for (let i = 0; i < canvas.squareYnum; i++) {
     for (let j = 0; j < canvas.squareXnum; j++) {
       // 更新所有格子颜色
@@ -280,19 +284,25 @@ let drawCanvas=()=>{
     }
   }
   // 更新最新格子
-    canvas.configSquares[
-      canvas.lastPosition.value[0] * canvas.squareXnum +
-        canvas.lastPosition.value[1]
-    ].stroke = "rgb(200, 200, 200)";  
+  if (canvas.latestPosition.value[0] != -1 && canvas.latestPosition.value[1] != -1) {
+    if (canvas.lastPosition.value[0] != -1 && canvas.lastPosition.value[1] != -1) {
+      console.log("canvas.lastPosition存在")
+      canvas.configSquares[
+        canvas.lastPosition.value[0] * canvas.squareXnum +
+          canvas.lastPosition.value[1]
+      ].stroke = "rgb(200, 200, 200)";
+    }
     canvas.configSquares[
       canvas.latestPosition.value[0] * canvas.squareXnum +
         canvas.latestPosition.value[1]
-    ].stroke = "black";
+    ].stroke = "black"; 
 
-  // 最新格子movetoTop
-  stage.value.getStage()
-  .find(`.square${canvas.latestPosition.value[0] * canvas.squareXnum + canvas.latestPosition.value[1]}`)[0]
-  .moveToTop();
+    // 最新格子movetoTop
+    stage.value.getStage()
+    .find(`.square${canvas.latestPosition.value[0] * canvas.squareXnum + canvas.latestPosition.value[1]}`)[0]
+    .moveToTop();    
+  }
+
 };
 
 let updateCanvas=()=>{
@@ -300,19 +310,26 @@ let updateCanvas=()=>{
   axios
     .get(`/canvas`)
     .then((res) => {
+      console.log("get canvas数据:", res);
       canvas.canvasState.value = res.data.data.canvas;
+      // 每次请求将last变为latest
       canvas.lastPosition.value = canvas.latestPosition.value;
       canvas.group1Num.value = res.data.data.pixels_num.group_1;
       canvas.group2Num.value = res.data.data.pixels_num.group_2;
 
-      canvas.latestPosition.value = res.data.data.last_paint.pixel_position;
-      console.log(canvas.canvasState.value); 
+      if (res.data.data.last_paint == null) {
+        canvas.latestPosition.value = [-1, -1];
+      } else {
+        canvas.latestPosition.value = res.data.data.last_paint.pixel_position;
+      }
+
+      console.log("canvas.canvasState.value:",canvas.canvasState.value); 
 
       drawCanvas();
       console.log("成功刷新画布");
     })
     .catch((res) => {
-      console.log("发生错误",res);
+      console.log("请求canvas发生错误：",res);
     });
 };
 
@@ -440,6 +457,22 @@ let colorEvent = function (event) {
     }    
   }
 }
+
+onMounted(() => {
+  // console.log("canvasContainer", cc.value);  
+  // let FieldContext = Field.value.getNode().children[26];用children拿就会乱序
+  // console.log(FieldContext);
+  // 用name拿不会乱序
+  if (canvas.latestPosition.value[0] != -1 && canvas.latestPosition.value[1] != -1) {
+    stage.value.getStage()
+      .find(`.square${canvas.latestPosition.value[0] * canvas.squareXnum + canvas.latestPosition.value[1]}`)[0]
+      .moveToTop();
+    // 首次显示最新格子：进入主页面之前请求，fill时设置stroke，mounted时movetoTop
+    console.log(canvas.configSquares);    
+  }
+
+})
+
 
 // !!!!!!如果config对象某个属性的值没变，那么这个值相关就不会重新渲染
 // 就是缩放前后设置的x和y没变的话，即使实际拖拽x和y改变了，也不会重新渲染x和y

@@ -41,6 +41,7 @@ console.log("在gameView时的group", user.group.value);
 
 // 没有group就跳回loading
 if (user.group.value == 0) {
+  console.log("到game主页面，但是没选择group")
   router.replace("/loading");
 } else if (user.group.value == 1) {
   topLogoImg.value = require(`@/assets/iamge/greenlogo.png`);
