@@ -16,14 +16,14 @@ let getUrlCode = function () {
     if (process.env.VUE_APP_develope == "true") {
       window.location.href = "http://192.168.0.105:8081/home";
     } else {
-      window.location.href = "h5.hust.online/drill-battle";
+      window.location.href = "https://h5.hust.online/drill-battle";
     }
   }
   return code;
 };
 
 let gotoWXlogin = function () {
-  let go = "h5.hust.online/drill-battle/home"; // window.location.href
+  let go = "https://h5.hust.online/drill-battle/home"; // window.location.href
   let appid = "wxdb6d54fc376bf014";
   if (process.env.VUE_APP_develope == "true") {
     // 开发环境
@@ -31,10 +31,9 @@ let gotoWXlogin = function () {
     appid = "wx45e82dec06f16ca9";
   } else {
     // 测试生产
-    go = "h5.hust.online/drill-battle/home"; // window.location.href
     appid = "wxdb6d54fc376bf014";
+    go = "https://h5.hust.online/drill-battle/home"; // window.location.href
   }
-
   let redirect_uri = encodeURIComponent(go);
   let wxhref =
     "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
