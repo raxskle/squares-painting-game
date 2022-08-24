@@ -1,11 +1,15 @@
 <template>
 <div class="infoBox">
   <div class="userInfo">
+
     <div class="infoImg">
-      <img class="userImg" :src="user.userImg" />
-      <div class="headFrame" v-if="showFrame" ><img class="frameImg" src="@/assets/iamge/frame.png"/></div>
+      <div class="headFrame">
+          <img class="userImg" :src="user.userImg" />  
+      </div>
     </div>
+
     <div class="infoText" @click="pop"><p>{{user.userName.value}}</p></div>
+
   </div>
 
   <div class="groupLogo"><img :src="logo" /></div>
@@ -13,13 +17,13 @@
 
 <!-- 点称号显示弹窗 -->
 <div class="popup" @click="fade">
-  <div class="window" @click.stop="null">文字文字文字文字文字</div>
+  <div class="window" @click.stop="null"></div>
 </div>
 
 </template>
 
 <script setup>
-import { toRefs,defineProps,watch,ref } from "vue";
+import { toRefs,defineProps,watch, onMounted } from "vue";
 import user from "../../modules/userState";
 import canvas from "../../modules/canvasState";
 const props = defineProps({
@@ -46,17 +50,38 @@ let fade = () => {
 if (user.group.value == 1) {
   user.groupLevel.value = canvas.group1Level.value;  
 }else if (user.group.value == 2) {
-  user.groupLevel.value = canvas.group1Level.value;  
+  user.groupLevel.value = canvas.group2Level.value;  
 }
+console.log("设置user.groupLevel", user.groupLevel.value);
 // 根据队伍等级设置头像框
-let showFrame = ref(false);
-if (user.groupLevel.value > 1) {
-  showFrame.value = true;
-}
+
+onMounted(() => {
+  // if (user.groupLevel.value > 0) {
+    if (user.group.value == 1) {
+      try {
+      document.querySelector(".headFrame").style.backgroundImage = "url(green_frame.png)";        
+      } catch (err) {
+        console.log(err);
+      }
+
+    } else if (user.group.value == 2) {
+      try {
+      document.querySelector(".headFrame").style.backgroundImage = "url(yellow_frame.png)";        
+      } catch (err) {
+        console.log(err);
+      }   
+    }
+  // }  
+})
+
 // 监视队伍升级
 watch(user.groupLevel, (newval) => {
   if (newval > 1) {
-  showFrame.value = true; 
+    if (user.group.value == 2) {
+    document.querySelector(".headFrame").style.backgroundImage = "url(green_frame.png)";
+    } else if (user.group.value == 1) {
+      document.querySelector(".headFrame").style.backgroundImage = "url(yellow_frame.png)";    
+    }  
   }
 })
 
@@ -65,6 +90,7 @@ watch(user.groupLevel, (newval) => {
 <style scoped>
 .infoBox {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   height: 18%; 
@@ -74,39 +100,50 @@ watch(user.groupLevel, (newval) => {
 .userInfo {
   display: flex;
   flex-direction: row;
-  border: 2px solid black;
+  justify-content: center;
+  align-items: center;
+
 }
-.infoImg {
-  height: 50px;
-  width: 50px;
-  border-right: 2px solid black;
-  position: relative;
+
+.infoImg{
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .userImg {
-  height: 100%;
-
+  width: 46%;
+  border-radius: 50%;
+  border: 2px solid black;
 }
 
 .headFrame{
-  position: absolute;
-  height: 60px;
-  width: 60px;
-  top: 0;
+  height: 88px;
+  width: 88px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: antiquewhite; */
+  /* background-image: url("@/assets/iamge/green_frame.png"); */
+  /* background-image: url("@/assets/iamge/yellow_frame.png"); */
+  background-size: 100%;
+  margin-right: 4px;
+
 }
 
-.frameImg {
-  width: 100%;
-}
 
 .infoText {
   height: 50px;
-  width: 140px;
-  background-color: rgb(244, 244, 244);
+  max-width: 150px;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: rgb(255, 255, 255);
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  border: 2px solid black;
 }
 
 .infoText p {

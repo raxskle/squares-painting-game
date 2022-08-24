@@ -309,6 +309,7 @@ let canvas = {
         console.log(res);
       });
   },
+
   getGroupState() {
     axios
       .get(`/group/status`)
@@ -334,7 +335,7 @@ let canvas = {
     if (this.canvasState.value[i][j] == "#") {
       return "#ffffff";
     } else if (this.canvasState.value[i][j] == "") {
-      return "#ffffff";
+      return "#e5e5e5";
     } else {
       return this.canvasState.value[i][j];
     }

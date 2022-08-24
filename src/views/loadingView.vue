@@ -25,10 +25,10 @@ window.onload = function(){
   setTimeout(() => {
     show.value = false;
     // toStart();
-  }, 2800);
+  }, 2400);
   setTimeout(() => {
     gotoWXlogin();
-  }, 3300);
+  }, 2800);
 
 }
 
@@ -48,7 +48,7 @@ window.onload = function(){
   color: rgba(255, 255, 255, 0);
 }
 .a-enter-active {
-  transition: all 2.8s;
+  transition: all 2.4s;
 }
 .a-enter-to   { 
   filter: grayscale(0);  

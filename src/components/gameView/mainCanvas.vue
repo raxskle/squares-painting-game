@@ -45,6 +45,7 @@ let configLayer = reactive({
 })
 
 // 初始化数据
+console.log("进入主页面且开始初始化数据");
 canvas.initCanvasData();
 
 let configKonva = canvas.configKonva;
@@ -175,7 +176,7 @@ let scaleMove = (event) => {
         }
         let newDistance = getDistance(a, b);
         // 两次之比求出这次move增减的倍率
-        let scrollSpeed = 0.04;
+        let scrollSpeed = 0.08;
         let ratio = newDistance / scaleController.oldDistance * scrollSpeed;
         if (ratio > 1.5 * scrollSpeed) {
           ratio = 1.5 * scrollSpeed;
@@ -345,8 +346,9 @@ watch(refresh, (newval) => {
 })
 
 let saveSquare = {
-  squareName:"square0",
-  stroke: "rgb(200, 200, 200)",
+  squareName: "square0",
+  squareId:-1,
+  stroke: "#c8c8c8",
   strokeWidth: 2,
 };
 
@@ -370,7 +372,7 @@ watch(mode, (newval,oldval) => {
       for (let j = 0; j < canvas.squareXnum; j++) {
         if (canvas.configSquares[i * canvas.squareXnum + j].occupy != 3) {
           // 非镂空格子
-          canvas.configSquares[i*canvas.squareXnum+j].strokeWidth = 2;          
+          canvas.configSquares[i*canvas.squareXnum+j].strokeWidth = 1;          
         } else if (canvas.configSquares[i * canvas.squareXnum + j].occupy == 3) {
           // 镂空格子将其图层移动到底部，防止边缘格子边框显示错误
             stage.value.getStage()
@@ -431,26 +433,55 @@ let colorEvent = function (event) {
       canvas.targetSquare.value = targetSquare;
       
       changeModeTo2();
+      let Stage = stage.value.getStage();
 
       // 将上一个恢复平常
-      let lastTarget = stage.value.getStage().find(`.${saveSquare.squareName}`)[0];
-      lastTarget.attrs.strokeWidth = saveSquare.strokeWidth;
-      lastTarget.attrs.stroke = saveSquare.stroke;
-      if (lastTarget.attrs.stroke != "black") {
-        lastTarget.moveToBottom();      
+      if (saveSquare.squareId != -1) {
+        console.log("恢复上一个")
+        let lastTarget = Stage.find(`.${saveSquare.squareName}`)[0];
+        console.log("lastTarget.attrs", lastTarget.attrs);
+        console.log("saveSquare.squareName")
+        lastTarget.attrs.strokeWidth = saveSquare.strokeWidth;
+        lastTarget.attrs.stroke = saveSquare.stroke;
+        if (lastTarget.attrs.stroke != "black") {
+          lastTarget.moveToBottom();      
+        }
+        // 上一个的周围如果有镂空，就将镂空movetobottom
+        let below = Number(saveSquare.squareId) + Number(canvas.squareXnum);
+        if (below<canvas.squareXnum*canvas.squareYnum && Stage.find(`.square${below}`)[0].attrs.occupy == 3) {
+          Stage.find(`.square${below}`)[0].moveToBottom(); 
+        }
+        let above = Number(saveSquare.squareId) - Number(canvas.squareXnum);
+        if (above>=0 && Stage.find(`.square${above}`)[0].attrs.occupy == 3) {
+          Stage.find(`.square${above}`)[0].moveToBottom(); 
+        }           
+        let left = Number(saveSquare.squareId) - 1;
+        if (left>=0 && Stage.find(`.square${left}`)[0].attrs.occupy == 3) {
+          Stage.find(`.square${left}`)[0].moveToBottom(); 
+        }    
+        let right = Number(saveSquare.squareId) + 1;
+        if (right<canvas.squareXnum*canvas.squareYnum && Stage.find(`.square${right}`)[0].attrs.occupy == 3) {
+          Stage.find(`.square${right}`)[0].moveToBottom(); 
+        }    
+        
+      } else {
+        console.log("初次选择");
       }
 
+
       // 存储当前
-      let target = stage.value.getStage().find(`.${name}`)[0];    
+      let target = Stage.find(`.${name}`)[0];    
       saveSquare.squareName = target.attrs.name;
+      saveSquare.squareId = id;
+
       saveSquare.stroke = target.attrs.stroke;
       saveSquare.strokeWidth = target.attrs.strokeWidth;
-      console.log("保存当前的stroke",saveSquare.stroke)
+      console.log("保存当前的stroke", saveSquare.stroke);
 
       // 操作当前
-      target.moveToTop();    
-      target.attrs.strokeWidth = 6;
-      target.attrs.stroke = "rgb(200, 200, 200)";
+      target.moveToTop();
+      target.attrs.strokeWidth = 3;
+      target.attrs.stroke = "#c8c8c8";
 
     } else if (mode.value == 0) {
       console.log("modevalue is 0 fail to draw");
@@ -470,7 +501,6 @@ onMounted(() => {
     // 首次显示最新格子：进入主页面之前请求，fill时设置stroke，mounted时movetoTop
     console.log(canvas.configSquares);    
   }
-
 })
 
 
@@ -486,6 +516,13 @@ onMounted(() => {
   background-image: url("@/assets/iamge/canvas_border.png");
   background-size: 100% 100%;
   padding: 8px;
+  /* background-color: #979797; */
+  /* background-color: #c8c8c8; */
+  /* background-color: #e5e5e5; */
 } 
+
+
+
+
 
 </style>

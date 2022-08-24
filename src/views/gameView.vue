@@ -1,13 +1,13 @@
 <template>
-<div class="gameView">
-  <div class="game">
+<div class="gameView ">
+  <div class="game fade-in">
     <topUserInfo :logo="topLogoImg" :img="require(`@/assets/iamge/greenlogo.png`)"></topUserInfo>
     <mainCanvas :mode="mode" :refresh="refresh" @changeMode="changeMode" @changeRefresh="changeRefresh" ></mainCanvas>    
     <bottomBar :mode="mode" :refresh="refresh" @changeMode="changeMode" @changeRefresh="changeRefresh" ></bottomBar>    
   </div>
   
 
-  <footerAD></footerAD>  
+  <footerAD class=" fade-in"></footerAD>  
 </div>
 </template>
 
@@ -74,4 +74,27 @@ if (user.group.value == 0) {
   flex-grow: 1;  
   /* position: relative; */
 }
+
+.fade-in {
+	-webkit-animation: fade-in .2s ease-in both;
+  animation: fade-in .2s ease-in both;
+}
+
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 </style>

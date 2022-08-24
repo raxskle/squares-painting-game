@@ -24,7 +24,7 @@
       <v-stage ref="stage" :config = "configKonva" >
         <v-layer ref="layer" :config="configLayer">
           <v-group ref="Field" :config="configField">
-            <v-rect v-for="(square, index) in configSquares " :key="index" :config="square"/>          
+            <v-rect v-for="(square, index) in SconfigSquares " :key="index" :config="square"/>          
           </v-group>
         </v-layer>
       </v-stage>
@@ -48,7 +48,7 @@
 <script setup>
 import { reactive  } from "vue";
 import canvas from "../../modules/canvasState";
-import footerAD from "../footerAD.vue"
+import footerAD from "../footerAD.vue";
 import { toRefs, defineProps, defineEmits,watch } from 'vue';
 
 let props = defineProps({
@@ -68,22 +68,23 @@ let configLayer = reactive({
   scaleX:1,
   scaleY:1,
 })
-let configSquares = [];
+let SconfigSquares = [];
 // square原稿大小
 for (let i of canvas.configSquares) {
-  configSquares.push({
+  SconfigSquares.push(
+    reactive({
     x: i.x,
     y: i.y,
     width: i.width,
     height: i.height,
     fill: i.fill,    
-  })
+  }))
 }
 
 let copyConfigSquares = () => {
   for (let i of canvas.configSquares) {
-    configSquares.fill = i.fill;  
-
+    SconfigSquares.fill = i.fill;  
+    console.log("战况页 每个格子",SconfigSquares.fill, i.fill); 
   }  
 }
 
@@ -104,7 +105,7 @@ watch(showSit, (newval) => {
     copyConfigSquares();
     console.log("战况页面更新");
     let popup = document.querySelector(".popupSituation");
-    popup.style.display = "flex";
+    popup.style.display = "flex";     
     emit("changeShowSit", false);
   }
 })

@@ -236,7 +236,7 @@ let changeShowSit = (val) => {
 let popSituation = () => {
   // 战况页面与主页面同步一下
   changeShowSit(true);
-  // 在situation组件里控制显示
+  // situation里控制显示
 }
 let fadeSituation = () => {
   let popup = document.querySelector(".popupSituation");
