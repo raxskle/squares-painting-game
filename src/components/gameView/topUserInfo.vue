@@ -1,89 +1,28 @@
 <template>
-<div class="infoBox">
-  <div class="userInfo">
-
-    <div class="infoImg">
-      <div class="headFrame">
-          <img class="userImg" :src="user.userImg" />  
-      </div>
-    </div>
-
-    <div class="infoText" @click="pop"><p>{{user.userName.value}}</p></div>
-
-  </div>
-
-  <div class="groupLogo"><img :src="logo" /></div>
-</div>
+<userInfo :logo="logo"  :clickable="true"></userInfo>
 
 <!-- 点称号显示弹窗 -->
-<div class="popup" @click="fade">
-  <div class="window" @click.stop="null"></div>
+<div class="popupWinerPage" >
+  <winnerPage  :logo="logo"></winnerPage>
 </div>
 
 </template>
 
 <script setup>
-import { toRefs,defineProps,watch, onMounted } from "vue";
-import user from "../../modules/userState";
-import canvas from "../../modules/canvasState";
+import { toRefs,defineProps } from "vue";
+// import user from "../../modules/userState";
+// import canvas from "../../modules/canvasState";s
+import userInfo from "./userInfo.vue"
+import winnerPage from "./winnerPage.vue"
+
 const props = defineProps({
-  logo: {},img:{}
+  logo: {}
 });
-const {logo,img} = toRefs(props);
-// console.log(logo.value);
-// console.log(props.logo);
-// console.log(props.img);
-console.log(img.value);
-
-let pop = ()=>{
-  let popup = document.querySelector(".popup");
-  popup.style.display = "flex";
-}
-let fade = () => {
-  let popup = document.querySelector(".popup");
-  popup.style.display = "none";  
-}
+const {logo} = toRefs(props);
 
 
-//
-// 设置user的队伍等级
-if (user.group.value == 1) {
-  user.groupLevel.value = canvas.group1Level.value;  
-}else if (user.group.value == 2) {
-  user.groupLevel.value = canvas.group2Level.value;  
-}
-console.log("设置user.groupLevel", user.groupLevel.value);
-// 根据队伍等级设置头像框
 
-onMounted(() => {
-  // if (user.groupLevel.value > 0) {
-    if (user.group.value == 1) {
-      try {
-      document.querySelector(".headFrame").style.backgroundImage = "url(green_frame.png)";        
-      } catch (err) {
-        console.log(err);
-      }
 
-    } else if (user.group.value == 2) {
-      try {
-      document.querySelector(".headFrame").style.backgroundImage = "url(yellow_frame.png)";        
-      } catch (err) {
-        console.log(err);
-      }   
-    }
-  // }  
-})
-
-// 监视队伍升级
-watch(user.groupLevel, (newval) => {
-  if (newval > 1) {
-    if (user.group.value == 2) {
-    document.querySelector(".headFrame").style.backgroundImage = "url(green_frame.png)";
-    } else if (user.group.value == 1) {
-      document.querySelector(".headFrame").style.backgroundImage = "url(yellow_frame.png)";    
-    }  
-  }
-})
 
 </script>
 
@@ -93,8 +32,8 @@ watch(user.groupLevel, (newval) => {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 18%; 
-  width: 90%;
+  height: 15vh; 
+  width: 95%;
 }
 
 .userInfo {
@@ -106,7 +45,6 @@ watch(user.groupLevel, (newval) => {
 }
 
 .infoImg{
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -119,8 +57,8 @@ watch(user.groupLevel, (newval) => {
 }
 
 .headFrame{
-  height: 88px;
-  width: 88px;
+  height: 12vh;
+  width: 12vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -134,51 +72,44 @@ watch(user.groupLevel, (newval) => {
 
 
 .infoText {
-  height: 50px;
-  max-width: 150px;
-  padding-left: 16px;
-  padding-right: 16px;
+  max-width: 35vw;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
   background-color: rgb(255, 255, 255);
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
   border: 2px solid black;
-}
-
-.infoText p {
-  margin: 0px;
-  padding: 0px;
 }
 
 
 .groupLogo {
-  width: 20%;
+  height: 10vh;
 }
 
 .groupLogo img {
-  width: 100%;
+  height: 100%;
 }
 
-.popup {
+.popupWinerPage {
   display: none;
   justify-content: center;
   align-items: center;
   position: absolute;
+  top: 0;
   width: 100vw;
-  height: 150vh;
-  background-color: rgba(0, 0, 0, 0.448);
+  height: 100vh;
+  background-image: url("@/assets/iamge/background.jpg");
+  background-size: 100% ;
+  background-repeat: repeat;
   z-index: 10;
 }
 
-.window{
-  width: 70vw;
-  height: 50vh;
-  background-color: white;
-  border: 4px solid black;
-  padding: 10px;
-  font-size: 20px;
-  border-radius: 4px;
-}
+
 
 </style>

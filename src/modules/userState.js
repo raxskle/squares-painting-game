@@ -9,8 +9,8 @@ let user = {
   userImg: "userimg",
   CDtime: ref(0),
   group: ref(0),
-  groupLevel: ref(1),
-  level: ref(1),
+  groupLevel: ref(0),
+  level: ref(0),
   pixelsNum: ref(0),
   setWeixinOpenid(val) {
     this.weixinOpenid.value = val;

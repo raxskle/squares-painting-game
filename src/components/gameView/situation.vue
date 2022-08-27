@@ -18,10 +18,10 @@
     </div>
     <div class="gridBorder"></div>
   </div>
-  
+  <!-- scoreBar 24vh -->
   <div class="wholeView">
     <div  id="canvasContainer">
-      <v-stage ref="stage" :config = "configKonva" >
+      <v-stage ref="stage" :config = "configKonva">
         <v-layer ref="layer" :config="configLayer">
           <v-group ref="Field" :config="configField">
             <v-rect v-for="(square, index) in SconfigSquares " :key="index" :config="square"/>          
@@ -31,16 +31,17 @@
     </div> 
     <div class="clickToFade"  @click="fade"></div> 
   </div>
+  <!-- wholeView 最大60vh -->
   <div class="bottomBar">
     <div class="gridBorder"></div>
     <div class="scrollBar">
       <p class="animate">射日队已完成拼图!</p>
     </div>     
     <div class="gridBorder"></div>
-  </div>
-
-  <footerAD></footerAD> 
   
+  </div>
+  <footerAD></footerAD>   
+  <!-- bottomBar+AD 70+50px 有16vh，  750px以上的手机才安全 -->  
 </div>
 
 </template>
@@ -82,22 +83,29 @@ for (let i of canvas.configSquares) {
 }
 
 let copyConfigSquares = () => {
-  for (let i of canvas.configSquares) {
-    SconfigSquares.fill = i.fill;  
-    console.log("战况页 每个格子",SconfigSquares.fill, i.fill); 
-  }  
+  // for (let i of canvas.configSquares) {
+  //   SconfigSquares.fill = i.fill;  
+  //   // console.log("战况页 每个格子",SconfigSquares.fill, i.fill); 
+  // } 
+
+  for (let i = 0; i < canvas.squareYnum; i++) {
+    for (let j = 0; j < canvas.squareXnum; j++) {
+      // 更新所有格子颜色
+      SconfigSquares[i * canvas.squareXnum + j].fill = canvas.configSquares[i * canvas.squareXnum + j].fill;
+    }
+  }
 }
 
-let configField = {
+let configField = reactive({
   x:0,
   y:0,
   scaleX:canvas.configField.scaleX,
   scaleY: canvas.configField.scaleX,
-};
-let configKonva = {
+});
+let configKonva = reactive({
   width: canvas.fieldWidth*canvas.fieldScale0,
   height: canvas.fieldHeight*canvas.fieldScale0,
-};
+});
 
 watch(showSit, (newval) => {
   if (newval == true) {
@@ -126,7 +134,12 @@ let fade = () => {
 
 .situation {
   width: 100vw;
-  height: 100%;
+  height: 100vh;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   /* position: absolute; */
   /* background-color: antiquewhite; */
 }
@@ -200,7 +213,7 @@ let fade = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* max-height: 50vh; */
+  max-height: 62vh;
 }
 
 
@@ -226,7 +239,8 @@ let fade = () => {
 
 
 .bottomBar {
-  margin-top: 10px;
+  margin-top: 5px;
+  /* flex-grow: 1; */
 }
 
 .gridBorder {

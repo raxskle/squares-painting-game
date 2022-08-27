@@ -209,7 +209,8 @@ let canvas = {
   stageHeight: 0,
   stageWidth: 0,
 
-  fieldWidth: 350, // 原稿宽度
+  fieldWidth: window.innerWidth * 0.85, // 原稿宽度
+  // fieldWidth: 350,
   fieldHeight: 0, // 原稿高度
   fieldScale0: 0,
   fieldX0: 0,
@@ -232,6 +233,7 @@ let canvas = {
   setFieldHeight() {
     this.fieldHeight = (this.fieldWidth / this.squareXnum) * this.squareYnum;
     console.log("fieldHeight", this.fieldHeight);
+    console.log("fieldWidth", this.fieldWidth);
   },
   setFieldScale0() {
     this.fieldScale0 = (this.stageWidth * 0.95) / this.fieldWidth;
@@ -335,7 +337,7 @@ let canvas = {
     if (this.canvasState.value[i][j] == "#") {
       return "#ffffff";
     } else if (this.canvasState.value[i][j] == "") {
-      return "#e5e5e5";
+      return "#f2f2f2";
     } else {
       return this.canvasState.value[i][j];
     }

@@ -74,6 +74,13 @@ export function toGame() {
       canvas.group2Level.value = res.data.data.groups_info[1].level;
       console.log("group1Level:", canvas.group1Level.value);
       console.log("group2Level:", canvas.group2Level.value);
+      // 设置user group level
+      if (user.group.value == 1) {
+        user.groupLevel.value = res.data.data.groups_info[0].level;
+      } else if (user.group.value == 2) {
+        user.groupLevel.value = res.data.data.groups_info[1].level;
+      }
+      console.log("user.groupLevel", user.groupLevel);
 
       console.log("toGame进行到获取冷却时间");
       if (res.data.data.user_info.state == true) {
@@ -84,6 +91,7 @@ export function toGame() {
         let lastTime = res.data.data.user_info.last_paint_time;
         // 时间戳单位转换为秒
         if (lastTime > 1600000000000) {
+          // 向上取整
           lastTime = Math.ceil(lastTime / 1000);
         }
         // 测试设置冷却时长为60s
@@ -92,7 +100,12 @@ export function toGame() {
         let nowTime = Math.floor(Date.now() / 1000);
         console.log("下一次", nextTime);
         console.log("现在", nowTime);
-        user.CDtime.value = nextTime - nowTime < 0 ? 0 : nextTime - nowTime;
+        // cdt会偏大一丢丢
+        let cdt = nextTime - nowTime < 0 ? 0 : nextTime - nowTime;
+        if (cdt >= duration) {
+          cdt = duration - 1;
+        }
+        user.CDtime.value = cdt;
         user.timeGoes();
       }
 

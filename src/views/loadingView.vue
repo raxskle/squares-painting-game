@@ -1,69 +1,78 @@
 <template>
-  <transition name="a">
-    <loading v-if="show"></loading>
-  </transition>
+  <div ref="loadingview" class="loadingview fade-in">
+    <loading></loading>    
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-// import { useRouter } from "vue-router";
+import { onMounted, ref } from 'vue';
 import loading from '../components/loadingView/loading.vue'
 import { gotoWXlogin } from "../modules/wxlogin"
-let show = ref(false);
 
-// let router = useRouter();
-// let toStart = function () {
-//   router.replace("/home");
-// }
-
-
-
-
-
-window.onload = function(){
-  show.value = true;
+let loadingview = ref(null);
+onMounted(() => {
   setTimeout(() => {
-    show.value = false;
-    // toStart();
-  }, 2400);
-  setTimeout(() => {
-    gotoWXlogin();
-  }, 2800);
+    loadingview.value.className = "loadingview fade-in fade-out";
+  }, 2300);  
+})
 
-}
-
-
-
-
-
+setTimeout(() => {
+  gotoWXlogin();
+}, 2800);
 
 </script>
 
 <style scoped>
-
-.a-enter-from  {
+.loadingview{
+  width: 100vw;
+  height: 100vh;
   background-color: white;
-  opacity: 0;
-  filter: grayscale(1);
-  color: rgba(255, 255, 255, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
-.a-enter-active {
-  transition: all 2.4s;
-}
-.a-enter-to   { 
-  filter: grayscale(0);  
-}   
-.a-leave-from {
-  opacity: 1;
+.fade-in {
+	-webkit-animation: fade-in 2s ease-in both;
+  animation: fade-in 2s ease-in both;
 }
 
-.a-leave-active{
-  transition: all .4s;
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
-.a-leave-to{
-  opacity: 0;
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
+.fade-out {
+	-webkit-animation: fade-out .5s ease-in-out both;
+  animation: fade-out .5s ease-in-out both;
+}
 
-
+@-webkit-keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 </style>

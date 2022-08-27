@@ -1,6 +1,6 @@
 <template>
   <div class="loading">
-    <img src="../../assets/iamge/loading.jpg" />
+    <img src="../../assets/iamge/loading.png" />
   </div>
 </template>
 
@@ -11,10 +11,9 @@ console.log(process.env.VUE_APP_MODE);
 
 <style scoped>
 .loading {
-  position: absolute;
   background-color: rgb(255, 255, 255);
-  width: 70vw;
-  height: 70vw;
+  width: 60vw;
+  height: 70vh;
   display: flex;
   justify-content: center;
   align-items: center;

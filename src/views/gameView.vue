@@ -1,18 +1,27 @@
 <template>
 <div class="gameView ">
   <div class="game fade-in">
-    <topUserInfo :logo="topLogoImg" :img="require(`@/assets/iamge/greenlogo.png`)"></topUserInfo>
+    <topUserInfo :logo="topLogoImg" ></topUserInfo>
     <mainCanvas :mode="mode" :refresh="refresh" @changeMode="changeMode" @changeRefresh="changeRefresh" ></mainCanvas>    
     <bottomBar :mode="mode" :refresh="refresh" @changeMode="changeMode" @changeRefresh="changeRefresh" ></bottomBar>    
+    <footerAD></footerAD>   
+    <!--
+      用700来算
+      -top  15vh
+      -maincanvas 62vh
+      -AD  50px  8vh
+      bottom 100px   有15vh
+      -->
   </div>
-  
 
-  <footerAD class=" fade-in"></footerAD>  
+  <!-- <div class="showWinCard1Warp showingCard1">
+    <div class="showWinCard1">青铜哦，再接再厉！</div>
+  </div> -->
 </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import mainCanvas from '../components/gameView/mainCanvas.vue'
 import bottomBar from '../components/gameView/bottomBar.vue'
 import topUserInfo from '../components/gameView/topUserInfo.vue'
@@ -49,6 +58,9 @@ if (user.group.value == 0) {
   topLogoImg.value = require(`@/assets/iamge/yellowlogo.png`);  
 }
 
+onMounted(() => {
+  console.log("gameView onMounted");
+})
 
 </script>
 
@@ -59,7 +71,7 @@ if (user.group.value == 0) {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-image: url("@/assets/iamge/background.jpg");
   background-size: 100vw;
   position: relative;
@@ -69,9 +81,11 @@ if (user.group.value == 0) {
 .game {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
   flex-grow: 1;  
+  width: 100%;
+  height: 100%;
   /* position: relative; */
 }
 
@@ -94,6 +108,48 @@ if (user.group.value == 0) {
   }
   100% {
     opacity: 1;
+  }
+}
+
+
+.showWinCard1Warp {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.547);
+}
+
+.showWinCard1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 16vh;
+  height: 23vw;
+  width: 90vw;
+  background-image: url("@/assets/iamge/win_card1.png");
+  background-size: 100% 100%;  
+  animation: showingcard 2s infinite;   
+}
+
+.showingCard1 {
+  display: flex;
+}
+
+
+
+@keyframes showingcard {
+  0% {
+    filter: drop-shadow(0 0 2vw #ffb520aa);      
+  }
+  50% {
+    filter: drop-shadow(0 0 15vw #ffb520aa);      
+  }
+  100% {
+    filter: drop-shadow(0 0 2vw #ffb520aa);       
   }
 }
 

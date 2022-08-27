@@ -8,8 +8,6 @@
     <div class="btn btnright"  @click="popTask">任务</div>        
   </div>
 
-
-
 </div>
 
 <!-- 任务弹窗 -->
@@ -25,7 +23,7 @@
   <situation :showSit="showSit" @changeShowSit="changeShowSit"></situation>
 </div>
 
-<!-- 涂色成功，涂色冲突失败，涂色冷却中 -->
+<!-- 填色成功，填色冲突失败，填色冷却中 -->
 <div class="popupTips">
   <div class="tipsText">{{tipsText}}</div>
 </div>
@@ -60,7 +58,7 @@ if (user.group.value == 1) {
 // 设置cdtime
 let drawBtnText = ref("");
 if (user.CDtime.value <= 0) {
-  drawBtnText.value = "涂色";
+  drawBtnText.value = "填色";
 } else if (user.CDtime.value > 0) {
     let CDTimeM = ref(Math.floor(user.CDtime.value / 60));
     let CDTimeS = ref(user.CDtime.value % 60);
@@ -74,7 +72,7 @@ if (user.CDtime.value <= 0) {
 watch(user.CDtime, (newval) => {
   console.log("cd时间更新");
   if (newval == 0 ||newval<0) {
-    drawBtnText.value = "涂色";
+    drawBtnText.value = "填色";
   } else {
     let CDTimeM = ref(Math.floor(user.CDtime.value / 60));
     let CDTimeS = ref(user.CDtime.value % 60);
@@ -86,7 +84,7 @@ watch(user.CDtime, (newval) => {
   
 })
 
-// 涂色成功、失败、冷却提示
+// 填色成功、失败、冷却提示
 let tipsText = ref("");
 let popTips = function (text) {
   tipsText.value = text;
@@ -104,19 +102,19 @@ let changeMode = () => {
     
     emit("changeMode", 0);  
   } else if (mode.value == 0) {
-    // 请求是否能涂色
+    // 请求是否能填色
     axios.get(`/user/state`).then((res) => {
       console.log(res);
       if (res.data.data.state == true && user.CDtime.value<=0) {
         emit("changeMode", 1);
       } else {
-        popTips("每位玩家每小时只能涂色一次！");
+        popTips("每位玩家每小时只能填色一次！");
       }
     }).catch((res) => {
       console.log(res);
     })
   } else if (mode.value == 2) {
-    // 发送涂色：选中的格子
+    // 发送填色：选中的格子
     let config = {
       position: canvas.targetSquare.value,
     };
@@ -126,10 +124,10 @@ let changeMode = () => {
     }
     axios.post(drawurl, config).then((res) => {
       console.log(res);
-      // 成功涂色就  弹窗成功，回到mode0，请求画布并更新，请求冷却时间
+      // 成功填色就  弹窗成功，回到mode0，请求画布并更新，请求冷却时间
       if (res.data.data.conflicting == false && res.data.data.cooling == false) {
-        popTips("涂色成功！");
-        console.log("涂色成功！");
+        popTips("填色成功！");
+        console.log("填色成功！");
         emit("changeMode", 0); 
         emit("changeRefresh", true);
         cdtime.getCDtime();
@@ -151,13 +149,13 @@ let changeMode = () => {
         }        
 
       } else {
-        // 涂色失败就  弹窗失败， 回到mode1,请求画布并更新
+        // 填色失败就  弹窗失败， 回到mode1,请求画布并更新
         if (res.data.data.conflicting == true) {
-          popTips("你选择的方格已被你的阵营涂色，请重新选择！");
-          console.log("涂色失败，你选择的方格已被你的阵营涂色");
+          popTips("你选择的方格已被你的阵营填色，请重新选择！");
+          console.log("填色失败，你选择的方格已被你的阵营填色");
         } else if (res.data.data.cooling == true) {
-          popTips("涂色失败，请重试！")
-          console.log("涂色失败，同用户一小时内只能涂色一次");
+          popTips("填色失败，请重试！")
+          console.log("填色失败，同用户一小时内只能填色一次");
         }
         emit("changeMode", 1);       
         emit("changeRefresh",true);          
@@ -170,23 +168,23 @@ let changeMode = () => {
 
 }
 
-// 监视mode改变时改涂色框的颜色
+// 监视mode改变时改填色框的颜色
 watch(mode, (newval,oldval) => {
   const drawBtn = document.querySelector("#drawBtn");  
   console.log("mode change ", newval);
   if (newval == 1&&oldval ==0) {
     drawBtn.style.backgroundColor = drawColor;    
-    drawBtnText.value = "涂色";
+    drawBtnText.value = "填色";
   } else if (newval == 0&&oldval==1) {
     drawBtn.style.backgroundColor = "rgb(225, 225, 225)";   
-    drawBtnText.value = "涂色";
+    drawBtnText.value = "填色";
   } else if (newval == 2) {
     drawBtnText.value = "确认";
   } else if (newval == 0&&oldval == 2) {
     drawBtn.style.backgroundColor = "rgb(225, 225, 225)";
-    drawBtnText.value = "涂色";          
+    drawBtnText.value = "填色";          
   } else if (newval == 1 && oldval == 2) {
-    drawBtnText.value = "涂色";      
+    drawBtnText.value = "填色";      
   }
 });
 
@@ -205,7 +203,7 @@ watch(mode, (newval,oldval) => {
 //       // drawBtn.style.lineHeight = "76px"; 
 //       // drawBtn.style.borderRadius = "38px"; 
 //     }, 500);
-    
+
 //   }
 // })
 
@@ -252,6 +250,7 @@ let fadeSituation = () => {
   align-items: center;
   width: 100%;
   flex-grow: 1;
+  height: 100px;
   /* position: relative; */
 }
 
@@ -293,7 +292,7 @@ let fadeSituation = () => {
   justify-content: center;
   align-items: center;
   background-image: url("@/assets/iamge/controllerb.png");
-  background-size:  100% ;
+  background-size:  100% 100%;
   background-repeat: no-repeat;
 }
 
@@ -320,11 +319,13 @@ let fadeSituation = () => {
 
 .popupTask {
   display: none;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   position: absolute;
+  top: 0;
   width: 100vw;
-  height: 100vh;
+  height: 120vh;
   background-color: rgba(0, 0, 0, 0.448);
   z-index: 10;
 }
@@ -334,11 +335,13 @@ let fadeSituation = () => {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 70vw;
-  height: 50vh;
+  width: 80vw;
+  height: 60vh;
+  margin-top: 16vh;
   background-color: white;
   border: 4px solid black;
   padding: 10px;
+  box-sizing: border-box;
   font-size: 20px;
   border-radius: 4px;
 }
@@ -350,13 +353,13 @@ let fadeSituation = () => {
 .popupSituation {
   display: none;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   position: absolute;
   top: 0; 
   /* 让它从网页的top 0 开始 */
   width: 100vw;
-  height: 100vh;
+  height: 120vh;
   z-index: 10;
   background-image: url("@/assets/iamge/background.jpg");
   background-size: 100vw;

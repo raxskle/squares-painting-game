@@ -1,6 +1,12 @@
-@font-face {
+/* @font-face {
   font-family: "IPIX";
   src: url('./IPix.ttf');
+  font-weight: normal;
+  font-style: normal;
+} */
+@font-face {
+  font-family: "PINGFANG SC MEDIUM";
+  src: url('./PINGFANG MEDIUM.TTF');
   font-weight: normal;
   font-style: normal;
 }

@@ -1,0 +1,211 @@
+<template>
+<div class="winPageWarp">
+  <userInfo :logo="logo"  :clickable="false" ></userInfo>
+  <section class="winCardWarp">
+    <div class="card0">
+      <div ref="card1" class="card1">
+        <img class="userimg" :src="user.userImg" />
+        <div>青铜哦，再接再厉！</div>
+      </div>
+      </div>
+    <div class="card0">
+      <div ref="card2" class="card2">
+        <img class="userimg" :src="user.userImg" />
+        <div>太棒啦，白银能手！</div>
+      </div>
+      </div>
+    <div class="card0">
+      <div ref="card3" class="card3">
+        <img class="userimg" :src="user.userImg" />
+        <div>OMG！已经是黄金啦！</div>
+      </div>
+      </div>
+  </section>
+
+  <div class="backToMain">
+    <div class="toMainBtn">
+      <div class="btnColor" :style="{backgroundColor}"  @click="toMain">填色</div>
+    </div>
+  </div>
+  <footerAD></footerAD>
+</div>
+</template>
+
+<script setup>
+import userInfo from './userInfo.vue';
+import { toRefs,defineProps, ref, onMounted,watch} from "vue";
+import user from "../../modules/userState";
+// import canvas from "../../modules/canvasState";
+import footerAD from '../footerAD.vue';
+
+
+const props = defineProps({
+  logo: {},
+});
+const { logo } = toRefs(props);
+
+let backgroundColor = ref("");
+if (user.group.value == 1) {
+  console.log("设置winpage 涂色框的颜色")
+  backgroundColor.value = "#00d599";
+} else if (user.group.value == 2) {
+  console.log("设置winpage 涂色框的颜色")
+  backgroundColor.value = "#ffc500"
+}
+
+let card1 = ref(null);
+let card2 = ref(null);
+let card3 = ref(null);
+// 初始化设置卡片
+onMounted(() => {
+  console.log("winner page mounted");
+  // 即使display==none的组件也会执行代码
+  if (user.groupLevel.value>=1) {
+    card1.value.style.display = "flex";
+  }
+  if (user.groupLevel.value >= 2) {
+    card2.value.style.display = "flex";    
+  }
+  if (user.groupLevel.value >= 4) {
+    card3.value.style.display = "flex";    
+  }
+})
+
+watch(user.groupLevel, (newval) => {
+  if (newval == 1) {
+    card1.value.style.display = "flex";
+  }  
+  else if (newval == 2 || newval == 3) {
+    card1.value.style.display = "flex";    
+    card2.value.style.display = "flex";
+  }  
+  else if (newval == 4 || newval == 5) {
+    card1.value.style.display = "flex";    
+    card2.value.style.display = "flex";    
+    card3.value.style.display = "flex";
+  }    
+})
+
+
+
+let toMain = () => {
+  document.querySelector(".popupWinerPage").style.display = "none";
+}
+</script>
+
+<style scoped>
+.winPageWarp {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(94, 94, 94, 0.186);
+}
+
+
+.winCardWarp {
+  width: 100vw;
+  height: 55vh;
+  /* background-color: antiquewhite; */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
+.card0 {
+  max-height: 16vh;
+  height: 23vw;
+  width: 90vw;
+  /* background-color: rgb(88, 184, 184); */
+  background-image: url("@/assets/iamge/win_card0.png");
+  background-size: 100% 100%;
+  /* filter: drop-shadow(0 0 4vw #ffb520aa); */
+
+}
+
+
+.userimg {
+  width: 13%;
+  height: auto;
+  border-radius: 50%;
+  border: 2px solid black;
+  position: absolute;
+  left: 5%;
+}
+
+.card1 {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  max-height: 16vh;
+  height: 23vw;
+  width: 90vw;
+  color: rgb(162, 54, 0);
+  background-image: url("@/assets/iamge/win_card1.png");
+  background-size: 100% 100%;
+  position: relative;
+}
+
+
+.card2 {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  max-height: 16vh;
+  height: 23vw;
+  width: 90vw;
+  color: rgb(0, 0, 111);
+  background-image: url("@/assets/iamge/win_card2.png");
+  background-size: 100% 100%;
+  position: relative;
+}
+
+.card3 {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  max-height: 16vh;
+  height: 23vw;
+  width: 90vw;
+  color: rgb(103, 12, 0);
+  background-image: url("@/assets/iamge/win_card3.png");
+  background-size: 100% 100%;
+  position: relative;
+}
+
+
+.backToMain {
+  width: 100vw;
+  height: 14vh;
+  /* background-color: aquamarine; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toMainBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 12vh;
+  height: 12vh;
+  background-image: url("@/assets/iamge/controllerb.png");
+  background-size: 100% 100%;
+}
+
+.btnColor {
+  width: 9.5vh;
+  height: 9.5vh;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3.5vh;
+}
+</style>

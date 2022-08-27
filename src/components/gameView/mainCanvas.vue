@@ -20,6 +20,7 @@
 
 <script setup>
 import user from "@/modules/userState";
+import router from "@/router";
 import { toRefs, ref, reactive, defineProps, defineEmits,onMounted,watch  } from "vue";
 import canvas from "../../modules/canvasState";
 import axios from "../../request/axios";
@@ -41,7 +42,8 @@ let emit = defineEmits(['changeMode',"changeRefresh"]);
 // 画布缩放
 let configLayer = reactive({
   scaleX:1,
-  scaleY:1,
+  scaleY: 1,
+  // fill:"#f2f2f2",
 })
 
 // 初始化数据
@@ -77,6 +79,13 @@ let Field = ref(null);
 //   }
 
 // })
+
+let saveSquare = {
+  squareName: "square0",
+  squareId:-1,
+  stroke: "#c8c8c8",
+  strokeWidth: 1,
+};
 
 
 // 双指缩放
@@ -176,7 +185,7 @@ let scaleMove = (event) => {
         }
         let newDistance = getDistance(a, b);
         // 两次之比求出这次move增减的倍率
-        let scrollSpeed = 0.08;
+        let scrollSpeed = 0.08 * canvas.squareXnum/25;
         let ratio = newDistance / scaleController.oldDistance * scrollSpeed;
         if (ratio > 1.5 * scrollSpeed) {
           ratio = 1.5 * scrollSpeed;
@@ -193,7 +202,7 @@ let scaleMove = (event) => {
         if (scaleController.scale < 1) {
           scaleController.scale = 1;
         }
-        if (scaleController.scale > 4) {
+        if (scaleController.scale > 4*canvas.squareXnum/25) {
           scaleController.scale = 4;
         }
 
@@ -269,6 +278,7 @@ let scaleMove = (event) => {
 
 
 
+
 // 更新画布
 let drawCanvas=()=>{
   // 更新画布时的draw操作
@@ -313,6 +323,11 @@ let updateCanvas=()=>{
     .then((res) => {
       console.log("get canvas数据:", res);
       canvas.canvasState.value = res.data.data.canvas;
+      // 每天0点换画布
+      if (canvas.canvasState.value.length != canvas.squareYnum) {
+        router.replace("/loading");
+        location.reload(true);
+      }
       // 每次请求将last变为latest
       canvas.lastPosition.value = canvas.latestPosition.value;
       canvas.group1Num.value = res.data.data.pixels_num.group_1;
@@ -337,20 +352,18 @@ let updateCanvas=()=>{
 // 每隔20s获取并刷新canvs数据
 setInterval(updateCanvas, 20000);// setInterval里的函数不要用this
 
-// 成功涂色时刷新canvas数据
+// 涂色后刷新canvas数据
 watch(refresh, (newval) => {
   if (newval == true) {
     updateCanvas();
+    // 清除存储的方块，防止将自己上次涂的方块变灰
+    saveSquare.squareId = -1;
+    saveSquare.squareName = "square0";
     emit("changeRefresh", false);
   }
 })
 
-let saveSquare = {
-  squareName: "square0",
-  squareId:-1,
-  stroke: "#c8c8c8",
-  strokeWidth: 2,
-};
+
 
 
 // 改变模式
@@ -415,9 +428,9 @@ watch(mode, (newval,oldval) => {
 // 涂色事件  其实是在点击的位置post group
 
 let colorEvent = function (event) {
-  console.log("点击了这个格子", event.target.attrs.occupy);
-  if (user.group.value != event.target.attrs.occupy && event.target.attrs.occupy!=3) {
-    if (mode.value == 1 || mode.value ==2) {
+  console.log("点击了这个格子", event.evt);
+  if (mode.value == 1 || mode.value == 2) {
+    if (user.group.value != event.target.attrs.occupy && event.target.attrs.occupy != 3) {
       // 在这里涂色    
       // 获得位置信息
       let name = event.target.attrs.name;
@@ -428,10 +441,10 @@ let colorEvent = function (event) {
       let targetSquare = [];
       targetSquare.push(i);
       targetSquare.push(j);
-      console.log(targetSquare);    
+      console.log(targetSquare);
       // 标记选中格子
       canvas.targetSquare.value = targetSquare;
-      
+
       changeModeTo2();
       let Stage = stage.value.getStage();
 
@@ -444,33 +457,33 @@ let colorEvent = function (event) {
         lastTarget.attrs.strokeWidth = saveSquare.strokeWidth;
         lastTarget.attrs.stroke = saveSquare.stroke;
         if (lastTarget.attrs.stroke != "black") {
-          lastTarget.moveToBottom();      
+          lastTarget.moveToBottom();
         }
         // 上一个的周围如果有镂空，就将镂空movetobottom
         let below = Number(saveSquare.squareId) + Number(canvas.squareXnum);
-        if (below<canvas.squareXnum*canvas.squareYnum && Stage.find(`.square${below}`)[0].attrs.occupy == 3) {
-          Stage.find(`.square${below}`)[0].moveToBottom(); 
+        if (below < canvas.squareXnum * canvas.squareYnum && Stage.find(`.square${below}`)[0].attrs.occupy == 3) {
+          Stage.find(`.square${below}`)[0].moveToBottom();
         }
         let above = Number(saveSquare.squareId) - Number(canvas.squareXnum);
-        if (above>=0 && Stage.find(`.square${above}`)[0].attrs.occupy == 3) {
-          Stage.find(`.square${above}`)[0].moveToBottom(); 
-        }           
+        if (above >= 0 && Stage.find(`.square${above}`)[0].attrs.occupy == 3) {
+          Stage.find(`.square${above}`)[0].moveToBottom();
+        }
         let left = Number(saveSquare.squareId) - 1;
-        if (left>=0 && Stage.find(`.square${left}`)[0].attrs.occupy == 3) {
-          Stage.find(`.square${left}`)[0].moveToBottom(); 
-        }    
+        if (left >= 0 && Stage.find(`.square${left}`)[0].attrs.occupy == 3) {
+          Stage.find(`.square${left}`)[0].moveToBottom();
+        }
         let right = Number(saveSquare.squareId) + 1;
-        if (right<canvas.squareXnum*canvas.squareYnum && Stage.find(`.square${right}`)[0].attrs.occupy == 3) {
-          Stage.find(`.square${right}`)[0].moveToBottom(); 
-        }    
-        
+        if (right < canvas.squareXnum * canvas.squareYnum && Stage.find(`.square${right}`)[0].attrs.occupy == 3) {
+          Stage.find(`.square${right}`)[0].moveToBottom();
+        }
+
       } else {
         console.log("初次选择");
       }
 
 
       // 存储当前
-      let target = Stage.find(`.${name}`)[0];    
+      let target = Stage.find(`.${name}`)[0];
       saveSquare.squareName = target.attrs.name;
       saveSquare.squareId = id;
 
@@ -483,10 +496,12 @@ let colorEvent = function (event) {
       target.attrs.strokeWidth = 3;
       target.attrs.stroke = "#c8c8c8";
 
-    } else if (mode.value == 0) {
+    }
+  } else if (mode.value == 0 && event.evt.changedTouches.length <= 1  &&event.evt.targetTouches.length == 0) {
       console.log("modevalue is 0 fail to draw");
+      emit("changeMode", 1);
     }    
-  }
+  
 }
 
 onMounted(() => {
@@ -494,6 +509,7 @@ onMounted(() => {
   // let FieldContext = Field.value.getNode().children[26];用children拿就会乱序
   // console.log(FieldContext);
   // 用name拿不会乱序
+  console.log("mainCanvas onMounted")
   if (canvas.latestPosition.value[0] != -1 && canvas.latestPosition.value[1] != -1) {
     stage.value.getStage()
       .find(`.square${canvas.latestPosition.value[0] * canvas.squareXnum + canvas.latestPosition.value[1]}`)[0]
@@ -516,11 +532,10 @@ onMounted(() => {
   background-image: url("@/assets/iamge/canvas_border.png");
   background-size: 100% 100%;
   padding: 8px;
-  /* background-color: #979797; */
-  /* background-color: #c8c8c8; */
-  /* background-color: #e5e5e5; */
+  /* background-color: #979797;
+  background-color: #c8c8c8;
+  background-color: #f2f2f2; */
 } 
-
 
 
 

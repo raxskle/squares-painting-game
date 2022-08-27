@@ -14,7 +14,7 @@ let getUrlCode = function () {
   // 如果没有code就回到loading页
   if (code === "" || code == null) {
     if (process.env.VUE_APP_develope == "true") {
-      window.location.href = "http://192.168.0.105:8081/home";
+      window.location.href = "http://10.21.206.143:8081/home";
     } else {
       window.location.href = "https://h5.hust.online/drill-battle";
     }
@@ -27,7 +27,7 @@ let gotoWXlogin = function () {
   let appid = "wxdb6d54fc376bf014";
   if (process.env.VUE_APP_develope == "true") {
     // 开发环境
-    go = "http://192.168.0.105:8081/#/home"; // window.location.href
+    go = "http://10.21.206.143:8081/#/home"; // window.location.href
     appid = "wx45e82dec06f16ca9";
   } else {
     // 测试生产

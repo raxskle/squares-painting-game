@@ -17,6 +17,7 @@ export default {
           let lastTime = res.data.data.last_paint_time;
           // 时间戳单位转换为秒
           if (lastTime > 1600000000000) {
+            // 向上取整
             lastTime = Math.ceil(lastTime / 1000);
           }
           // 测试设置冷却时长为60s
@@ -25,7 +26,13 @@ export default {
           let nowTime = Math.floor(Date.now() / 1000);
           console.log("下一次", nextTime);
           console.log("现在", nowTime);
-          user.CDtime.value = nextTime - nowTime < 0 ? 0 : nextTime - nowTime;
+          let cdt = nextTime - nowTime < 0 ? 0 : nextTime - nowTime;
+          if (cdt >= duration) {
+            cdt = duration - 1;
+          } else if (cdt < duration - 2) {
+            cdt = duration - 1;
+          }
+          user.CDtime.value = cdt;
           user.timeGoes();
         }
       })
