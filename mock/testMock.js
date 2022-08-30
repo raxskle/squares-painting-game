@@ -1,7 +1,7 @@
 const Mock = require("mockjs");
 let userToken = Mock.mock({
   data: {
-    first_login: false,
+    first_login: true,
     weixin_openid: "OPENID123",
     jwtoken: "TOKEN123",
   },
@@ -1292,8 +1292,8 @@ let home_info = Mock.mock({
       user_level: 0,
       user_pixels_num: 0,
 
-      state: true,
-      last_paint_time: 1661157243075,
+      state: false,
+      last_paint_time: 1661684621613,
     },
     canvas_info: {
       canvas: [

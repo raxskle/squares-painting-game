@@ -34,6 +34,17 @@ let postGroup = function (clickable) {
     }).catch((res) => {
       console.log(res);
     });
+    let newUserView = document.querySelector(".newUserView");
+    newUserView.className = "newUserView fade-out";
+    setTimeout(() => {
+      if (newUserView != null) {
+        newUserView.style.display = "none";           
+      }
+      if (document.querySelector(".sloaderwarp") != null) {
+        console.log("加载中")
+        document.querySelector(".sloaderwarp").style.display = "flex";          
+      }      
+    }, 50)
 
   } else {
     console.log("fail to click");

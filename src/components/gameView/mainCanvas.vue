@@ -498,8 +498,9 @@ let colorEvent = function (event) {
 
     }
   } else if (mode.value == 0 && event.evt.changedTouches.length <= 1  &&event.evt.targetTouches.length == 0) {
-      console.log("modevalue is 0 fail to draw");
-      emit("changeMode", 1);
+      if (user.CDtime.value == 0) {
+        emit("changeMode", 1);        
+      } 
     }    
   
 }
