@@ -6,11 +6,10 @@
     <bottomBar :mode="mode" :refresh="refresh" @changeMode="changeMode" @changeRefresh="changeRefresh" ></bottomBar>    
     <footerAD></footerAD>   
     <!--
-      用700来算
       -top  15vh
       -maincanvas 62vh
-      -AD  50px  8vh
-      bottom 100px   有15vh
+      -AD  7vh
+      bottom 13vh
       -->
   </div>
 
@@ -58,6 +57,12 @@ if (user.group.value == 0) {
   topLogoImg.value = require(`@/assets/iamge/yellowlogo.png`);  
 }
 
+let situationBorder = new Image();
+situationBorder.src = require(`@/assets/iamge/situation_border.png`); 
+let wincard0 = new Image();
+wincard0.src = require(`@/assets/iamge/win_card0.png`);
+
+
 onMounted(() => {
   console.log("gameView onMounted");
 })
@@ -81,7 +86,7 @@ onMounted(() => {
 .game {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   flex-grow: 1;  
   width: 100%;
@@ -90,8 +95,8 @@ onMounted(() => {
 }
 
 .fade-in {
-	-webkit-animation: fade-in .2s ease-in both;
-  animation: fade-in .2s ease-in both;
+	-webkit-animation: fade-in .4s ease-in both;
+  animation: fade-in .4s ease-in both;
 }
 
 @-webkit-keyframes fade-in {

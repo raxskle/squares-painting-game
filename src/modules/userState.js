@@ -4,7 +4,7 @@ let user = {
   weixinOpenid: ref("OPENIDundefined"),
   token: ref("tokenundefined"),
   expire: "undefined",
-
+  isNewUser: false,
   userName: ref("Alex"),
   userImg: "userimg",
   CDtime: ref(0),

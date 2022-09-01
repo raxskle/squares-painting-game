@@ -12,7 +12,7 @@ console.log(process.env.VUE_APP_MODE);
 <style scoped>
 .loading {
   background-color: rgb(255, 255, 255);
-  width: 60vw;
+  width: 60vmin;
   height: 70vh;
   display: flex;
   justify-content: center;

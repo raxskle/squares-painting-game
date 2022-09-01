@@ -55,14 +55,14 @@ let postGroup = function (clickable) {
 <style scoped>
 .introText {
   width: 50%;
-  font-size: 20px;
+  font-size: 5vmin;
 }
 .introBox {
   position: relative;
   width: 75vw;
-  height: 24vh;
+  height: 23vh;
   /* border:  4px solid black; */
-  margin-bottom: 20px;
+  margin-bottom: 2vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -76,25 +76,25 @@ let postGroup = function (clickable) {
 .introBox::before{
   position: absolute;
   content: "";
-  border: 4px solid black;
+  border: 1vmin solid black;
   background-color: white;
   border-radius: 2px;
-  width: 14px;
-  height: 14px;
-  bottom: -8px;
-  left: -8px;
+  width: 3.5vw;
+  height: 3.5vw;
+  bottom: -2vmin;
+  left: -2vmin;
 }
 
 .introBox::after{
   position: absolute;
   content: "";
-  border: 4px solid black;
+  border: 1vmin solid black;
   background-color: white;
   border-radius: 2px;
-  width: 24px;
-  height: 24px;
-  bottom: -14px;
-  left: 20px;
+  width: 6vmin;
+  height: 6vmin;
+  bottom: -3.5vmin;
+  left: 5vmin;
 }
 
 .intrologo {

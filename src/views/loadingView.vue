@@ -2,12 +2,26 @@
   <div ref="loadingview" class="loadingview fade-in">
     <loading></loading>    
   </div>
+  <div class="cc"></div>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import loading from '../components/loadingView/loading.vue'
 import { gotoWXlogin } from "../modules/wxlogin"
+
+
+// window.onload = () => {
+  // 预加载图片
+  let logo1 = new Image();
+  logo1.src = require(`@/assets/iamge/greenlogo.png`);
+  let logo2 = new Image();
+  logo2.src = require(`@/assets/iamge/yellowlogo.png`);
+// }
+
+
+
+
 
 let loadingview = ref(null);
 onMounted(() => {
@@ -75,4 +89,17 @@ setTimeout(() => {
     opacity: 0;
   }
 }
+
+.cc {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-image: url("@/assets/iamge/canvas_border.png");
+  background-size: 100% 100%;
+  padding: 8px;
+  /* background-color: #979797;
+  background-color: #c8c8c8;
+  background-color: #f2f2f2; */
+} 
+
 </style>

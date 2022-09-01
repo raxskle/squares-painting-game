@@ -6,6 +6,7 @@ import {
 const gameView = () => import("../views/gameView.vue");
 // import gameView from "../views/gameView.vue";
 import homeView from "../views/homeView.vue";
+import guideView from "../views/guideView.vue";
 import newUserView from "../views/newUserView.vue";
 import loadingView from "../views/loadingView.vue";
 import introPage from "../components/newUserView/introPage.vue";
@@ -15,6 +16,7 @@ const routes = [
   // { path: "/", redirect: "/loading" },
   { path: "/", component: loadingView },
   { path: "/home", component: homeView },
+  { path: "/guide", component: guideView },
   { path: "/game", component: gameView },
   {
     path: "/newUser",

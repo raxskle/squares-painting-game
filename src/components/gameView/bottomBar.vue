@@ -249,8 +249,7 @@ let fadeSituation = () => {
   justify-content: center;
   align-items: center;
   width: 100%;
-  flex-grow: 1;
-  height: 100px;
+  height: 13vh;
   /* position: relative; */
 }
 
@@ -258,7 +257,7 @@ let fadeSituation = () => {
   /* position: absolute; */
   /* border: 4px solid black; */
   width: 80vw;
-  height: 85px;
+  height: 12vh;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -275,16 +274,15 @@ let fadeSituation = () => {
   height: 12vw;
   line-height: 12vw;
   text-align: center;
-  font-size: 20px;
+  font-size: 2.6vh;
   background-color: rgba(255, 255, 255, 0);
-  border-radius: 4px;
 }
 
 .btncenter {
   position: absolute;
   z-index: 2;
-  height: 92px;
-  width: 92px;  
+  height: 12vh;
+  width: 12vh;  
   /* border: 4px solid black; */
   /* border-radius: 49px; */
   /* background-color: rgba(255, 255, 255, 0); */
@@ -298,22 +296,22 @@ let fadeSituation = () => {
 
 .btncenterChange {
   background-color: rgb(225, 225, 225);
-  height: 74px;
-  width: 74px;   
-  line-height: 74px;  
-  font-size: 24px;  
-  border-radius: 37px;  
+  height: 9vh;
+  width: 9vh;   
+  line-height: 9vh;  
+  font-size: 3vh;  
+  border-radius: 50%;  
   text-align: center;
   transition: .5s;
 }
 
 .btnleft {
-  margin-right: 30px;
+  margin-right: 7.5vmin;
 }
 
 
 .btnright {
-  margin-left: 30px;
+  margin-left: 7.5vmin;
 }
 
 
@@ -337,17 +335,22 @@ let fadeSituation = () => {
   align-items: center;
   width: 80vw;
   height: 60vh;
-  margin-top: 16vh;
+  margin-top: 14vh;
   background-color: white;
   border: 4px solid black;
-  padding: 10px;
+  padding: 2vh;
   box-sizing: border-box;
-  font-size: 20px;
+  font-size: 5vmin;
   border-radius: 4px;
 }
 
 .taskWindow h2 {
   margin: 0;
+}
+
+.taskWindow p {
+  margin: 0;
+  padding: 0;
 }
 
 .popupSituation {
@@ -372,12 +375,12 @@ let fadeSituation = () => {
   justify-content: center;
   align-items: center;
   visibility: hidden;
-  width: 200px;
-  height: 60px;
+  width: 55vw;
+  height: 14vw;
   border: 3px solid black;
   /* border-radius: 2px; */
   background-color: rgb(255, 255, 255);
-  top: 450px;
+  top: 60vh;
   transition: all .5s;
   opacity: 0;
   padding: 5px;

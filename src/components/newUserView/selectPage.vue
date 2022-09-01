@@ -38,9 +38,9 @@ let intromsg = ["他们誓当21世纪后羿，为武汉带来三分凉意。",
 }
 
 .title {
-  font-size: 56px;
-  margin-top: 60px;
-  margin-bottom: 40px;
+  font-size: 14vmin;
+  margin-top: 8vh;
+  margin-bottom: 4vh;
 }
 
 
@@ -53,12 +53,12 @@ let intromsg = ["他们誓当21世纪后羿，为武汉带来三分凉意。",
 }
 
 .scrollBox {
-  margin-top: 10px;  
+  margin-top: 3vmin;  
 }
 
 .scrollBar {
   width: 100vw;
-  height: 50px;
+  height: 6.5vh;
   margin: 0;
   overflow: hidden;
   background-color: white;
@@ -66,8 +66,8 @@ let intromsg = ["他们誓当21世纪后羿，为武汉带来三分凉意。",
 
 .animate {
     /* padding-left: 20px; */
-    font-size: 18px;
-    line-height: 50px;
+    font-size: 4.5vmin;
+    line-height: 6.5vh;
     color: #000;
     margin: 0;
     display: inline-block;

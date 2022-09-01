@@ -146,6 +146,7 @@ let fade = () => {
 .scoreBar {
   width: 100vw;
   height: 24vh;
+  background-color: #ffffff6b;
   /* border-top: 2px solid black; */
   /* border-bottom: 2px solid black; */
   display: flex;
@@ -156,10 +157,10 @@ let fade = () => {
 
 .scoreTitle {
   width: 40%;
-  height:20%;
-  margin-top: 5px;
+  height: 4vh;
+  margin-top: 0.5vh;
   border: 2px solid black;
-  font-size: 24px;
+  font-size: 100%;
   display: flex;
   justify-content: center;
   align-items: center;  
@@ -171,22 +172,32 @@ let fade = () => {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center; 
-  flex-grow: 1; 
+  /* flex-grow: 1;  */
   width: 100%;
-  margin-bottom: 10px;
+  height: 16vh;
+  /* margin-bottom: 10px; */
 }
 
 .vs {
-  font-size: 40px;
+  font-size: 10vmin;
+}
+
+.groupName{
+  font-size: 2.2vh;
+}
+
+.groupNum {
+  font-size: 2.2vh;
 }
 
 .scoreGroup {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
+  /* justify-content: flex-start; */
   align-items: center; 
-  height: 100%;
-  width: 80px;
+  height: 16vh;
+  width: 20vmin;
 
 }
 
@@ -198,9 +209,10 @@ let fade = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 8vh;
 }
 .groupImg img {
-  width: 75%;
+  height: 8vh;
 }
 /* 
 .groupNum{
@@ -225,7 +237,7 @@ let fade = () => {
   background-image: url("@/assets/iamge/situation_border.png");
   background-size:  100% 100%;
   background-repeat: no-repeat;
-  margin-top: 10px;
+  margin-top: 0.2vh;
   padding: 10px;
 }
 
@@ -239,8 +251,7 @@ let fade = () => {
 
 
 .bottomBar {
-  margin-top: 5px;
-  /* flex-grow: 1; */
+  margin-top: 0.2vh;
 }
 
 .gridBorder {
@@ -253,44 +264,45 @@ let fade = () => {
 
 .scrollBar {
   width: 100vw;
-  height: 45px;
+  height: 7vmin;
   margin: 0;
   /* border-top: 2px solid black; */
   /* border-bottom: 2px solid black; */
   overflow: hidden;
   background-color: white;
+  text-align: center;
 
 }
 
 .animate {
-    font-size: 20px;
+    font-size: 5vmin;
     margin: 0;
-    line-height: 45px;
+    line-height: 7vmin;
     color: #000;
     display: inline-block;
     white-space: nowrap;
-    animation: 8s wordsLoop linear infinite normal;
+    animation: 6s wordsLoop linear infinite normal;
 }
 
 @keyframes wordsLoop {
     0% {
-        transform: translateX(140%);
-        -webkit-transform: translateX(140%);
+        transform: translateX(180%);
+        -webkit-transform: translateX(180%);
     }
     100% {
-        transform: translateX(-100%);
-        -webkit-transform: translateX(-100%);
+        transform: translateX(-180%);
+        -webkit-transform: translateX(-180%);
     }
 }
 
 @-webkit-keyframes wordsLoop {
     0% {
-        transform: translateX(100%);
-        -webkit-transform: translateX(100%);
+        transform: translateX(180%);
+        -webkit-transform: translateX(180%);
     }
     100% {
-        transform: translateX(-100%);
-        -webkit-transform: translateX(-100%);
+        transform: translateX(-180%);
+        -webkit-transform: translateX(-180%);
     }
 }
 

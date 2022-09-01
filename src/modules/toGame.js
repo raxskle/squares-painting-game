@@ -113,7 +113,11 @@ export function toGame() {
     })
     .then(() => {
       // 进入主页面
-      Router.replace("/game");
+      if (user.isNewUser == true) {
+        Router.replace("/guide");
+      } else {
+        Router.replace("/game");
+      }
     })
     .catch((res) => {
       console.log(res);

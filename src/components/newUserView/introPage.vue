@@ -1,11 +1,21 @@
 <template>
 <div class="intro">
-<div class="title">军训大对抗</div>
-<introBox1 :img="require('@/assets/iamge/yellowlogo.png')" :text="intromsg[0]" :clickable="false"></introBox1>
-<introBox2 :img="require('@/assets/iamge/greenlogo.png')" :text="intromsg[1]"  :clickable="false"></introBox2>
+  <div class="title">军训大对抗</div>
+  <introBox1 :img="require('@/assets/iamge/yellowlogo.png')" :text="intromsg[0]" :clickable="false"></introBox1>
+  <introBox2 :img="require('@/assets/iamge/greenlogo.png')" :text="intromsg[1]"  :clickable="false"></introBox2>
 
-<div class="toSelect"  @click="toSelect">我要加入对抗!</div>
+  <div class="toSelect"  @click="toSelect">我要加入对抗!</div>
 </div>
+<!-- title 25vh
+  box 25vh
+  box 25vh
+  select 10vh
+  AD7vh
+
+  scrollbox  12vh
+
+
+-->
 </template>
 
 <script setup>
@@ -32,22 +42,22 @@ let intromsg = ["他们誓当21世纪后羿，为武汉带来三分凉意。",
 
 
 .title {
-  font-size: 56px;
-  margin-top: 60px;
-  margin-bottom: 40px;
+  font-size: 14vmin;
+  margin-top: 8vh;
+  margin-bottom: 4vh;
 }
 
 
 .toSelect {
   position: relative;
-  width: 180px;
-  height: 70px;
+  width: 50vmin;
+  height: 10vh;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "IPIX";
-  font-size: 20PX;
-  margin-top: 10PX;
+  font-size: 5vmin;
+  margin-top: 2.5vmin;
   background-image: url("@/assets/iamge/confirmborder.png");
   background-size:  100% 100%;
   background-repeat: no-repeat;
@@ -57,12 +67,12 @@ let intromsg = ["他们誓当21世纪后羿，为武汉带来三分凉意。",
 .toSelect::after {
   position: absolute;
   content: "";
-  border: 4px solid black;
+  border: 1vmin solid black;
   border-radius: 3px;
-  width: 20px;
-  height: 20px;
-  bottom: -12px;
-  right: -12px;
+  width: 5vmin;
+  height: 5vmin;
+  bottom: -3vmin;
+  right: -3vmin;
   transform: translateZ(-1px);
 }
 

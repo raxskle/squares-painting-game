@@ -7,7 +7,10 @@
     <p>还在幻想着军训的时候有学姐学长送西瓜？</p>
     <p>这里，只有正义的偷瓜队和射日队。</p>
   </div>
-  <!-- <div class="start" >开始游戏</div> -->
+<!-- title 25vh
+    discribe  50vh
+    AD  7vh
+-->
 </div>
 
 
@@ -23,7 +26,7 @@ import { useRouter } from "vue-router";
 let router = useRouter();
 
 let readytogame = ref(false);
-let isNewUser;
+
 
 let code = ref("");
 code.value = getUrlCode();
@@ -39,7 +42,7 @@ axios
       "Authorization"
     ] = `Bearer ${res.data.data.jwtoken}`;
     console.log("成功存token");
-    isNewUser = res.data.data.first_login;
+    user.isNewUser = res.data.data.first_login;
     readytogame.value = true;
     console.log("可以进入游戏")
   })
@@ -50,12 +53,12 @@ axios
 // 获取token和判断是否新玩家
 let toStart = function () {
   if (readytogame.value == true) {
-    if (isNewUser == true) {
+    if (user.isNewUser == true) {
       console.log("新用户");
       router.replace("/newUser/intro");
       // window.location.hash("#/newUser/intro")
       console.log("into /newUser/intro")
-    } else if (isNewUser == false) {
+    } else if (user.isNewUser == false) {
       console.log("旧用户");
       toGame();
       console.log("从toGame出来");
@@ -92,34 +95,19 @@ onMounted(() => {
   flex-grow:1;
   font-family: 'IPIX';  
 }
-/* .start {
-  background-color: rgb(255, 255, 255);
-  width: 160px;
-  height: 50px;
-  font-size: 20px;
-  text-align: center;
-  line-height: 50px;
-  margin: 40px;
-  border: 3px solid black;
-  border-radius: 4px;
-} */
-
-
 
 
 .title {
-  font-size: 56px;
-  margin-top: 60px;
-  margin-bottom: 40px;
+  font-size: 14vmin;
+  margin-top: 8vh;
+  margin-bottom: 6vh;
 }
 
 .discribe {
   box-sizing: border-box;
-  padding: 20px;
+  padding: 5vmin;
   width: 75vw;
   height: 50vh;
-  /* border: 4px solid black; */
-  /* background-color: white; */
   border-radius: 2px;
   background-image: url("@/assets/iamge/start_border.png");
   background-size: 100% 100%;
@@ -130,10 +118,10 @@ onMounted(() => {
 }
 
 .discribe p {
-  font-size: 20px;
+  font-size: 5vmin;
   padding: 0;
   margin-top: 0px;
-  margin-bottom: 6%;
+  margin-bottom: 4vmin;
 
 }
 

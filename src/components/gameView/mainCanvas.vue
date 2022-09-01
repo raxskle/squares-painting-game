@@ -203,7 +203,7 @@ let scaleMove = (event) => {
           scaleController.scale = 1;
         }
         if (scaleController.scale > 4*canvas.squareXnum/25) {
-          scaleController.scale = 4;
+          scaleController.scale = 4*canvas.squareXnum/25;
         }
 
         // text.text = `${scaleController.scale}

@@ -1,34 +1,47 @@
 <template>
 <div class="winPageWarp">
-  <userInfo :logo="logo"  :clickable="false" ></userInfo>
-  <section class="winCardWarp">
-    <div class="card0">
-      <div ref="card1" class="card1">
-        <img class="userimg" :src="user.userImg" />
-        <div>青铜哦，再接再厉！</div>
-      </div>
-      </div>
-    <div class="card0">
-      <div ref="card2" class="card2">
-        <img class="userimg" :src="user.userImg" />
-        <div>太棒啦，白银能手！</div>
-      </div>
-      </div>
-    <div class="card0">
-      <div ref="card3" class="card3">
-        <img class="userimg" :src="user.userImg" />
-        <div>OMG！已经是黄金啦！</div>
-      </div>
-      </div>
-  </section>
+  <div class="winpageWarp-AD">
+    <userInfo :logo="logo"  :clickable="false" ></userInfo>
+    <section class="winCardWarp">
+      <div class="card0">
+        <div ref="card1" class="card1">
+          <img class="userimg" :src="user.userImg" />
+          <div>青铜哦，再接再厉！</div>
+        </div>
+        </div>
+      <div class="card0">
+        <div ref="card2" class="card2">
+          <img class="userimg" :src="user.userImg" />
+          <div>太棒啦，白银能手！</div>
+        </div>
+        </div>
+      <div class="card0">
+        <div ref="card3" class="card3">
+          <img class="userimg" :src="user.userImg" />
+          <div>OMG！已经是黄金啦！</div>
+        </div>
+        </div>
+    </section>
 
-  <div class="backToMain">
-    <div class="toMainBtn">
-      <div class="btnColor" :style="{backgroundColor}"  @click="toMain">填色</div>
+    <div class="backToMain">
+      <div class="toMainBtn">
+        <div class="btnColor" :style="{backgroundColor}"  @click="toMain">填色</div>
+      </div>
     </div>
+     
   </div>
-  <footerAD></footerAD>
+  <footerAD></footerAD>   
 </div>
+
+<!-- 
+  top  15vh
+  cards 55vh
+  btn 13vh
+
+
+ -->
+
+
 </template>
 
 <script setup>
@@ -104,7 +117,14 @@ let toMain = () => {
   background-color: rgba(94, 94, 94, 0.186);
 }
 
-
+.winpageWarp-AD{
+  width: 100%;
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
 .winCardWarp {
   width: 100vw;
   height: 55vh;
@@ -182,10 +202,11 @@ let toMain = () => {
 
 .backToMain {
   width: 100vw;
-  height: 14vh;
+  height: 13.5vh;
   /* background-color: aquamarine; */
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -200,12 +221,12 @@ let toMain = () => {
 }
 
 .btnColor {
-  width: 9.5vh;
-  height: 9.5vh;
+  width: 9vh;
+  height: 9vh;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3.5vh;
+  font-size: 3vh;
 }
 </style>
