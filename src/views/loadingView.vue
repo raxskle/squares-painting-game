@@ -1,6 +1,6 @@
 <template>
   <div ref="loadingview" class="loadingview fade-in">
-    <loading></loading>    
+    <loading></loading>
   </div>
   <div class="cc"></div>
 </template>
@@ -17,6 +17,9 @@ import { gotoWXlogin } from "../modules/wxlogin"
   logo1.src = require(`@/assets/iamge/greenlogo.png`);
   let logo2 = new Image();
   logo2.src = require(`@/assets/iamge/yellowlogo.png`);
+  let background = new Image();
+  background.src = require(`@/assets/iamge/background.jpg`);
+  
 // }
 
 

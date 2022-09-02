@@ -37,10 +37,7 @@
   top  15vh
   cards 55vh
   btn 13vh
-
-
- -->
-
+-->
 
 </template>
 
@@ -59,10 +56,10 @@ const { logo } = toRefs(props);
 
 let backgroundColor = ref("");
 if (user.group.value == 1) {
-  console.log("设置winpage 涂色框的颜色")
+  // console.log("设置winpage 涂色框的颜色")
   backgroundColor.value = "#00d599";
 } else if (user.group.value == 2) {
-  console.log("设置winpage 涂色框的颜色")
+  // console.log("设置winpage 涂色框的颜色")
   backgroundColor.value = "#ffc500"
 }
 

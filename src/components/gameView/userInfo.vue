@@ -7,7 +7,10 @@
       </div>
     </div>
 
-    <div class="infoText" @click="pop">{{user.userName.value}}</div>
+    <div class="infoText" @click="pop">
+      <div class="redPoint3"></div>
+      {{user.userName.value}}
+    </div>
   </div>
 
   <div class="groupLogo"><img :src="logo" /></div>
@@ -26,7 +29,14 @@ const {logo,clickable} = toRefs(props);
 
 let pop = () => {
   if (clickable.value == true) {
-    document.querySelector(".popupWinerPage").style.display = "flex";    
+    const redPoint3 = document.querySelectorAll(".redPoint3");  
+    if (redPoint3[0].style.display == "flex") {
+    redPoint3[0].style.display = "none";
+    redPoint3[1].style.display = "none";
+    console.log(user.groupLevel.value);
+    localStorage.setItem("groupLevelCard", user.groupLevel.value);    
+    }   
+    document.querySelector(".popupWinerPage").style.display = "flex";     
   }
 }
 
@@ -60,6 +70,27 @@ onMounted(() => {
       }   
     }
   }  
+
+
+
+  // 名称小红点 等级==1，2，4
+  let oldCardSign = localStorage.getItem("groupLevelCard");
+  if (oldCardSign == null) {
+    oldCardSign = 0;
+  }
+  console.log("oldCardSign", oldCardSign);
+  console.log("user.groupLevel.value", user.groupLevel.value);
+  const redPoint3 = document.querySelector(".redPoint3");
+  if (oldCardSign < user.groupLevel.value) {
+    if (user.groupLevel.value == 1 || user.groupLevel.value == 2 || user.groupLevel.value == 4) {
+      redPoint3.style.display = "flex";
+    } else {
+      redPoint3.style.display = "none";
+    }
+  } else {
+    redPoint3.style.display = "none";      
+  }
+
 })
 
 
@@ -140,6 +171,7 @@ watch(user.groupLevel, (newval) => {
   text-overflow:ellipsis;
   white-space: nowrap;
   border: 2px solid black;
+  position: relative;
 }
 
 
@@ -151,5 +183,16 @@ watch(user.groupLevel, (newval) => {
   height: 100%;
 }
 
+
+.redPoint3 {
+  width: 2vw;
+  height: 2vw;
+  border-radius: 50%;
+  background-color: red;
+  display: none;
+  position: absolute;
+  top: 1vw;
+  right: 1vw;
+}
 
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div ref="cc" id="canvasContainer">
+    <div class="lastPaintBar">{{lastPaintText}}</div>
     <v-stage ref="stage" :config = "configKonva" @touchmove="scaleMove" @touchstart="scaleStart" @touchend="scaleEnd">
       <v-layer ref="layer" :config="configLayer">
 
@@ -36,7 +37,7 @@ const props = defineProps({
   },
 });
 const { mode,refresh } = toRefs(props);   //得到的props是响应式的
-console.log("mode.value:",mode.value);
+// console.log("mode.value:",mode.value);
 let emit = defineEmits(['changeMode',"changeRefresh"]);
 
 // 画布缩放
@@ -125,7 +126,7 @@ let getCenter = (a,b) => {
 let scaleStart = (event) => {
 // 设置初始的两指距离
   if (event.evt == undefined) {
-    console.log("touchstart", event);    
+    // console.log("touchstart", event);    
     if (event.touches.length == 2) {
       let a = {
         x: event.touches[0].clientX,
@@ -156,7 +157,7 @@ let scaleStart = (event) => {
 
 let scaleEnd = (event) => {
   // 去除这次的两指初始距离
-  console.log("end:", event);
+  // console.log("end:", event);
   if (event.evt == undefined) {
     scaleController.oldDistance = 0;
 
@@ -297,7 +298,7 @@ let drawCanvas=()=>{
   // 更新最新格子
   if (canvas.latestPosition.value[0] != -1 && canvas.latestPosition.value[1] != -1) {
     if (canvas.lastPosition.value[0] != -1 && canvas.lastPosition.value[1] != -1) {
-      console.log("canvas.lastPosition存在")
+      // console.log("canvas.lastPosition存在")
       canvas.configSquares[
         canvas.lastPosition.value[0] * canvas.squareXnum +
           canvas.lastPosition.value[1]
@@ -321,7 +322,7 @@ let updateCanvas=()=>{
   axios
     .get(`/canvas`)
     .then((res) => {
-      console.log("get canvas数据:", res);
+      // console.log("get canvas数据:", res);
       canvas.canvasState.value = res.data.data.canvas;
       // 每天0点换画布
       if (canvas.canvasState.value.length != canvas.squareYnum) {
@@ -338,6 +339,15 @@ let updateCanvas=()=>{
       } else {
         canvas.latestPosition.value = res.data.data.last_paint.pixel_position;
       }
+
+      // 获取xx分钟前xx涂色
+      if (res.data.data.last_paint != null) {
+        canvas.lastPaintTime.value = res.data.data.last_paint.time;
+        canvas.lastPaintName.value = res.data.data.last_paint.nickname;         
+      } else {
+        canvas.lastPaintTime.value = 0;
+      }
+    
 
       console.log("canvas.canvasState.value:",canvas.canvasState.value); 
 
@@ -428,7 +438,7 @@ watch(mode, (newval,oldval) => {
 // 涂色事件  其实是在点击的位置post group
 
 let colorEvent = function (event) {
-  console.log("点击了这个格子", event.evt);
+  // console.log("点击了这个格子", event.evt);
   if (mode.value == 1 || mode.value == 2) {
     if (user.group.value != event.target.attrs.occupy && event.target.attrs.occupy != 3) {
       // 在这里涂色    
@@ -505,6 +515,36 @@ let colorEvent = function (event) {
   
 }
 
+
+
+let lastPaintTime = canvas.lastPaintTime.value;
+let lastPaintName = canvas.lastPaintName.value;
+if (lastPaintName.length > 3) {
+  lastPaintName = lastPaintName.slice(0, 3)+"...";
+}
+let lastPaintMin;
+let lastPaintRawText;
+if (lastPaintTime == 0) {
+  lastPaintRawText = ``;
+} else if (lastPaintTime > 0) {
+  if (lastPaintTime > 1600000000000) {
+    lastPaintTime = Math.ceil(lastPaintTime / 1000);
+  }
+  let nowTime = Math.floor(Date.now() / 1000);
+  lastPaintMin = Math.floor((nowTime - lastPaintTime) / 60);
+  let lastPaintHour = 0;
+  if (lastPaintMin >= 60) {
+    lastPaintHour = Math.floor(lastPaintMin / 60);
+    lastPaintMin = lastPaintMin % 60;
+    lastPaintRawText = `${lastPaintHour}小时${lastPaintMin}分钟前“${lastPaintName}”涂色`;  
+  } else {
+    lastPaintRawText = `${lastPaintMin}分钟前“${lastPaintName}”涂色`;      
+  }
+
+}
+let lastPaintText = ref(lastPaintRawText);
+
+
 onMounted(() => {
   // console.log("canvasContainer", cc.value);  
   // let FieldContext = Field.value.getNode().children[26];用children拿就会乱序
@@ -518,7 +558,65 @@ onMounted(() => {
     // 首次显示最新格子：进入主页面之前请求，fill时设置stroke，mounted时movetoTop
     console.log(canvas.configSquares);    
   }
+
+  let lastpaintBar = document.querySelector(".lastPaintBar");
+  if (user.group.value == 1) {
+    lastpaintBar.style.backgroundColor = "#00d599";
+  } else if (user.group.value == 2) {
+    lastpaintBar.style.backgroundColor = "#ffc500";    
+  }
+
+  if (lastPaintTime > 0) {
+    document.querySelector(".lastPaintBar").className = "lastPaintBar fade-in";
+  }
 })
+
+
+watch(canvas.lastPaintTime, (newval) => {
+  if (newval > 0) {
+    lastPaintName = canvas.lastPaintName.value;
+    if (lastPaintName.length > 3) {
+      lastPaintName = lastPaintName.slice(0, 3)+"...";
+    }
+
+    lastPaintTime = canvas.lastPaintTime.value;    
+    if (lastPaintTime > 1600000000000) {
+      lastPaintTime = Math.ceil(lastPaintTime / 1000);
+    }
+    let nowTime = Math.floor(Date.now() / 1000);
+    lastPaintMin = Math.floor((nowTime - lastPaintTime) / 60);
+    
+    // lastPaintRawText = ``;  
+    // lastPaintText.value = lastPaintRawText;
+    document.querySelector(".lastPaintBar").className += " fade-out";
+    setTimeout(() => {
+
+      let lastPaintHour = 0;
+      if (lastPaintMin >= 60) {
+        lastPaintHour = Math.floor(lastPaintMin / 60);
+        lastPaintMin = lastPaintMin % 60;
+        if (lastPaintMin == 0) {
+          lastPaintRawText = `${lastPaintHour}小时前“${lastPaintName}”涂色`;  
+        } else {
+          lastPaintRawText = `${lastPaintHour}小时${lastPaintMin}分钟前“${lastPaintName}”涂色`;  
+        }
+        
+      } else {
+        lastPaintRawText = `${lastPaintMin}分钟前“${lastPaintName}”涂色`;      
+      }
+
+      lastPaintText.value = lastPaintRawText;
+      document.querySelector(".lastPaintBar").className = "lastPaintBar fade-in";
+    }, 1000);
+
+  } else if (newval == 0) {
+    lastPaintRawText = ``;
+    lastPaintText.value = lastPaintRawText;
+    document.querySelector(".lastPaintBar").className = "lastPaintBar fade-out";
+  }
+})
+
+
 
 
 // !!!!!!如果config对象某个属性的值没变，那么这个值相关就不会重新渲染
@@ -533,12 +631,78 @@ onMounted(() => {
   background-image: url("@/assets/iamge/canvas_border.png");
   background-size: 100% 100%;
   padding: 8px;
+  position: relative;
   /* background-color: #979797;
   background-color: #c8c8c8;
   background-color: #f2f2f2; */
 } 
 
 
+.lastPaintBar {
+  visibility: hidden;
+  position: absolute;
+  overflow: hidden;
+  flex-wrap: nowrap;
+  white-space:nowrap;
+  border-radius: 2px;
+  z-index: 2;
+  top: 8px;
+  left: 8px;
+  width: 46vw;
+  height: 3vh;
+  background-color: rgb(231, 231, 231);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.6vh;
+  transition: .4s;
+}
 
+.fade-in {
+  visibility: visible;
+	-webkit-animation: fade-in .6s ease-in-out both;
+  animation: fade-in .6s ease-in-out both;
+}
+
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-out {
+	-webkit-animation: fade-out .4s ease-in both;
+  animation: fade-out .4s ease-in both;
+}
+
+@-webkit-keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
 
 </style>

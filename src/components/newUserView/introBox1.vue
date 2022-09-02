@@ -41,7 +41,7 @@ let postGroup = function (clickable) {
         newUserView.style.display = "none";           
       }
       if (document.querySelector(".sloaderwarp") != null) {
-        console.log("加载中")
+        // console.log("加载中")
         document.querySelector(".sloaderwarp").style.display = "flex";          
       }      
     }, 50)

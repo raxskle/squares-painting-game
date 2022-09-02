@@ -8,7 +8,7 @@ export default {
     axios
       .get(`/user/state`)
       .then((res) => {
-        console.log("get 能否draw", res);
+        // console.log("get 能否draw", res);
         if (res.data.data.state == true) {
           console.log("能draw");
           user.CDtime.value = 0;
@@ -25,7 +25,7 @@ export default {
           let nextTime = lastTime + duration;
           let nowTime = Math.floor(Date.now() / 1000);
           console.log("下一次", nextTime);
-          console.log("现在", nowTime);
+          // console.log("现在", nowTime);
           let cdt = nextTime - nowTime < 0 ? 0 : nextTime - nowTime;
           if (cdt >= duration) {
             cdt = duration - 1;

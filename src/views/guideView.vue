@@ -87,7 +87,7 @@ let toguideforward = () => {
   if (guidePage.value == 1) {
     guidePage.value = 2;    
   }else if (guidePage.value == 3 && toguide3flag == true) {
-    guidePage.value = 4;       
+    guidePage.value = 4;
   }else if (guidePage.value == 4) {
     guidePage.value = 5;
   } else if (guidePage.value == 6) {
@@ -115,7 +115,7 @@ let toguideforward = () => {
 
 let toguide3 = (e) => {
   if (guidePage.value == 2 && e.changedTouches.length > 1) {
-    toguide3flag = false;    
+    toguide3flag = false; 
     guidePage.value = 3; 
     setTimeout(() => {
       toguide3flag = true;
@@ -229,7 +229,6 @@ watch(guidePage, (newval) => {
   height: 100vh;
   background-image: url("@/assets/iamge/background.jpg");
   background-size: 100vw;
-  /* background-color: transparent; */
   position: relative;
   transition: 1s all;
   /* filter: brightness(50%); */
@@ -244,16 +243,11 @@ watch(guidePage, (newval) => {
   flex-grow: 1;  
   width: 100%;
   height: 100%;
-  /* background-color: transparent; */
   /* position: relative; */
-  /* filter: brightness(50%); */
 }
 
 
-/* 
-.userInfoH { */
-  /* filter: brightness(50%); */
-/* } */
+
 .canvasContainer {
   display: flex;
   justify-content: center;
@@ -261,9 +255,6 @@ watch(guidePage, (newval) => {
   background-image: url("@/assets/iamge/canvas_border.png");
   background-size: 100% 100%;
   padding: 8px;
-  /* background-color: #979797;
-  background-color: #c8c8c8;
-  background-color: #f2f2f2; */
 } 
 
 
@@ -300,11 +291,9 @@ height: 13vh;
   background-image: url("@/assets/iamge/controllera.png");
   background-size:  100% 100%;
   background-repeat: no-repeat;
-  /* filter: grayscale(100%); */
 }
 
 .btn{
-  /* border: 3px solid black; */
   z-index: 1;
   width: 32vw;
   height: 12vw;
@@ -340,16 +329,13 @@ height: 13vh;
   text-align: center;
   transition: .5s;
 }
-
 .btnleft {
   margin-right: 7.5vmin;
 }
 
-
 .btnright {
   margin-left: 7.5vmin;
 }
-
 
 .fade-in {
 	-webkit-animation: fade-in .6s ease-in-out both;

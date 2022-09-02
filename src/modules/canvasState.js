@@ -202,6 +202,12 @@ let canvas = {
     "#f09800",
   ],
 
+  lastPaintTime: ref(0),
+  lastPaintName: ref("某用户"),
+
+  group1CompleteTarget: ref(false),
+  group2CompleteTarget: ref(false),
+
   // 选中的格子
   targetSquare: ref([0, 0]),
 
@@ -405,7 +411,7 @@ let canvas = {
       this.latestPosition.value[0] == -1 &&
       this.latestPosition.value[1] == -1
     ) {
-      console.log("画布未涂色");
+      // console.log("画布未涂色");
     } else {
       this.configSquares[
         this.latestPosition.value[0] * this.squareXnum +

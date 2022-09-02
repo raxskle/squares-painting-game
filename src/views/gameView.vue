@@ -29,27 +29,25 @@ import user from "@/modules/userState"
 import router from "@/router";
 // import "../request/axios"
 
-
 let mode = ref(0);
 let refresh = ref(false);
 // mode控制涂色，mode1能涂色，mode0不能
 // refresh == true 时刷新画布
 let changeMode = (num) => {
   mode.value = num;
-  console.log("change mode to ", mode.value);
+  // console.log("change mode to ", mode.value);
 };
 let changeRefresh = (val) => {
   refresh.value = val;
 };
 
-
 // top的logo根据阵营显示
 let topLogoImg = ref(null);
-console.log("在gameView时的group", user.group.value);
+// console.log("在gameView时的group", user.group.value);
 
 // 没有group就跳回loading
 if (user.group.value == 0) {
-  console.log("到game主页面，但是没选择group")
+  // console.log("到game主页面，但是没选择group")
   router.replace("/loading");
 } else if (user.group.value == 1) {
   topLogoImg.value = require(`@/assets/iamge/greenlogo.png`);

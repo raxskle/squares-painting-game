@@ -1,7 +1,7 @@
 <template>
 <div class="situation">
   <div class="scoreBar">
-    <div class="gridBorder"></div>    
+    <div class="gridBorder"></div>
     <div class="scoreTitle">已涂色块数目</div>
     <div class="scoreBox">
       <div class="scoreGroup">
@@ -35,7 +35,7 @@
   <div class="bottomBar">
     <div class="gridBorder"></div>
     <div class="scrollBar">
-      <p class="animate">射日队已完成拼图!</p>
+      <p class="animate">{{scrollText}}</p>
     </div>     
     <div class="gridBorder"></div>
   
@@ -47,10 +47,9 @@
 </template>
 
 <script setup>
-import { reactive  } from "vue";
+import { reactive,ref,toRefs, defineProps, defineEmits,watch } from "vue";
 import canvas from "../../modules/canvasState";
 import footerAD from "../footerAD.vue";
-import { toRefs, defineProps, defineEmits,watch } from 'vue';
 
 let props = defineProps({
   showSit: {
@@ -111,7 +110,7 @@ watch(showSit, (newval) => {
   if (newval == true) {
     // 同步
     copyConfigSquares();
-    console.log("战况页面更新");
+    // console.log("战况页面更新");
     let popup = document.querySelector(".popupSituation");
     popup.style.display = "flex";     
     emit("changeShowSit", false);
@@ -126,6 +125,37 @@ let fade = () => {
 }
 
 
+// 设置播报文字
+let scrollText = ref("");
+if (canvas.group1CompleteTarget.value == true && canvas.group2CompleteTarget.value == true) {
+  scrollText.value = "偷瓜队已完成目标拼图！   射日队已完成目标拼图！";
+} else if (canvas.group1CompleteTarget.value == true) {
+  scrollText.value = "偷瓜队已完成目标拼图！";
+} else if (canvas.group2CompleteTarget.value == true) {
+  scrollText.value = "射日队已完成目标拼图！";  
+} else {
+  scrollText.value = " ";    
+}  
+
+watch(canvas.group1CompleteTarget, (newval) => {
+  if (newval == true) {
+    if (canvas.group2CompleteTarget.value == true) {
+      scrollText.value = "偷瓜队已完成目标拼图！   射日队已完成目标拼图！";      
+    } else {
+      scrollText.value = "偷瓜队已完成目标拼图！";      
+    }
+  }
+})
+
+watch(canvas.group2CompleteTarget, (newval) => {
+  if (newval == true) {
+    if (canvas.group1CompleteTarget.value == true) {
+      scrollText.value = "偷瓜队已完成目标拼图！  射日队已完成目标拼图！";      
+    } else {
+      scrollText.value = "射日队已完成目标拼图！";      
+    }
+  }
+})
 
 
 </script>
@@ -281,7 +311,7 @@ let fade = () => {
     color: #000;
     display: inline-block;
     white-space: nowrap;
-    animation: 6s wordsLoop linear infinite normal;
+    animation: 8s wordsLoop linear infinite normal;
 }
 
 @keyframes wordsLoop {

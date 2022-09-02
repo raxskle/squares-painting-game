@@ -12,12 +12,10 @@
     AD  7vh
 -->
 </div>
-
-
 </template>
 
 <script setup>
-import { onMounted,ref} from 'vue';
+import { ref } from 'vue';
 import { getUrlCode } from "../../modules/wxlogin.js";
 import user from "../../modules/userState";
 import {toGame} from "../../modules/toGame.js";
@@ -41,10 +39,10 @@ axios
     axios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${res.data.data.jwtoken}`;
-    console.log("成功存token");
+    // console.log("成功存token");
     user.isNewUser = res.data.data.first_login;
     readytogame.value = true;
-    console.log("可以进入游戏")
+    // console.log("可以进入游戏");
   })
   .catch((res) => {
     console.log("发生错误", res);
@@ -54,14 +52,13 @@ axios
 let toStart = function () {
   if (readytogame.value == true) {
     if (user.isNewUser == true) {
-      console.log("新用户");
+      // console.log("新用户");
       router.replace("/newUser/intro");
       // window.location.hash("#/newUser/intro")
       console.log("into /newUser/intro")
     } else if (user.isNewUser == false) {
-      console.log("旧用户");
+      // console.log("旧用户");
       toGame();
-      console.log("从toGame出来");
     }
     let homeWarp = document.querySelector(".homewarp");
     homeWarp.className = "homewarp fade-in fade-out";
@@ -70,7 +67,7 @@ let toStart = function () {
         homeWarp.style.display = "none";           
       }
       if (document.querySelector(".loaderwarp") != null) {
-        console.log("加载中")
+        // console.log("加载中")
         document.querySelector(".loaderwarp").style.display = "flex";          
       }      
     }, 300)
@@ -80,9 +77,8 @@ let toStart = function () {
 
 };
 
-onMounted(() => {
-  console.log(code.value);
-});
+let canvasBorder = new Image();
+canvasBorder.src = require(`@/assets/iamge/canvas_border.png`);
 
 </script>
 

@@ -15,7 +15,7 @@ if (
   config = {
     transpileDependencies: true,
     devServer: {
-      host: "10.21.200.162",
+      host: "192.168.80.149",
       port: 8081,
       setupMiddlewares: require("./mock/testMock.js"),
     },

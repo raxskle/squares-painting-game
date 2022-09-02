@@ -17,6 +17,8 @@
 import homePage from '../components/homeView/homePage.vue'
 import footerAD from "../components/footerAD.vue"
 
+
+
 </script>
 
 <style scoped>

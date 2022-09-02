@@ -1,20 +1,29 @@
 <template>
 <div class="bar" >
   <div class="btnBox">
-    <div class="btn btnleft"  @click="popSituation">战况</div>
+    <div class="btn btnleft"  @click="popSituation">
+      <div class="redPoint2"></div>
+      战况</div>
     <div class="btncenter" @click="changeMode">
     <div id="drawBtn" class="btncenterChange" >{{drawBtnText}}</div>
     </div>
-    <div class="btn btnright"  @click="popTask">任务</div>        
+    <div class="btn btnright"  @click="popTask">
+      <div class="redPoint1"></div>
+      规则</div>        
   </div>
 
 </div>
 
 <!-- 任务弹窗 -->
 <div class="popupTask" @click="fadeTask">
-  <div class="taskWindow" @click.stop="null">
-  <h2>任务</h2>
-  <p>{{taskText}}</p>  
+  <div class="taskWindow">
+    <h2>规则</h2>
+    <div class="taskInfo" v-bind:innerHTML="taskText"></div>  
+    <div class="taskTitle">目标图案：</div>
+    <div class="taskImg" @click.stop="null">
+      <!-- <img  class="taskimage" src="http://192.168.80.149:8081/green_frame.png"/> -->
+      <img  class="taskimage" :src="taskImgurl"/>
+    </div>  
   </div>
 </div>
 
@@ -32,7 +41,7 @@
 
 <script setup>
 import axios from 'axios';
-import { toRefs, defineProps, defineEmits,watch,ref } from 'vue';
+import { toRefs, defineProps, defineEmits,watch,ref, onMounted } from 'vue';
 import user from "../../modules/userState";
 import canvas from "../../modules/canvasState";
 import situation from "./situation.vue";
@@ -127,7 +136,7 @@ let changeMode = () => {
       // 成功填色就  弹窗成功，回到mode0，请求画布并更新，请求冷却时间
       if (res.data.data.conflicting == false && res.data.data.cooling == false) {
         popTips("填色成功！");
-        console.log("填色成功！");
+        // console.log("填色成功！");
         emit("changeMode", 0); 
         emit("changeRefresh", true);
         cdtime.getCDtime();
@@ -138,7 +147,7 @@ let changeMode = () => {
         }
         // 更新队伍等级
         if (res.data.data.is_group_upgraded == true) {
-          console.log("group升级了")
+          console.log("group升级了");
           if (user.group.value == 1) {
             canvas.group1Level.value = res.data.data.group_level;
           }
@@ -146,13 +155,46 @@ let changeMode = () => {
             canvas.group2Level.value = res.data.data.group_level;
           }          
           user.groupLevel.value = res.data.data.group_level;
+
+          // 显示小红点
+          let oldSitSign = localStorage.getItem("groupLevelSit");
+          if (oldSitSign == null) {
+            oldSitSign = 0;
+          }
+
+          let oldCardSign = localStorage.getItem("groupLevelCard");
+          if (oldCardSign == null) {
+            oldCardSign = 0;
+          }
+
+          if ( oldSitSign < user.groupLevel.value) {
+            const redPoint2 = document.querySelector(".redPoint2");
+            redPoint2.style.display = "flex";  
+          }
+          if (oldCardSign < user.groupLevel.value) {
+            const redPoint3 = document.querySelector(".redPoint3");
+            if (user.groupLevel.value == 1 || user.groupLevel.value == 2 || user.groupLevel.value == 4) {
+              redPoint3.style.display = "flex";
+            }
+          }      
+
+          //查看是否有完成了画布
+          axios.get("/group/status").then((res) => {
+            console.log(res);
+            canvas.group1CompleteTarget.value = res.data.data.groups[0].complete_target;
+            canvas.group2CompleteTarget.value = res.data.data.groups[1].complete_target;
+          }).catch((res) => {
+            console.log(res);
+          })
+
+
         }        
 
       } else {
         // 填色失败就  弹窗失败， 回到mode1,请求画布并更新
         if (res.data.data.conflicting == true) {
           popTips("你选择的方格已被你的阵营填色，请重新选择！");
-          console.log("填色失败，你选择的方格已被你的阵营填色");
+          // console.log("填色失败，你选择的方格已被你的阵营填色");
         } else if (res.data.data.cooling == true) {
           popTips("填色失败，请重试！")
           console.log("填色失败，同用户一小时内只能填色一次");
@@ -189,44 +231,52 @@ watch(mode, (newval,oldval) => {
 });
 
 // watch(refresh, (newval) => {
-//   // const drawBtn = document.querySelector("#drawBtn");  
+//   // const drawBtn = document.querySelector("#drawBtn");
 //   if (newval == true) {
 //     // console.log(111)
-//     // drawBtn.style.height = "90px";    
-//     // drawBtn.style.width = "90px";    
-//     // drawBtn.style.lineHeight = "90px";    
-//     // drawBtn.style.borderRadius = "45px";        
+//     // drawBtn.style.height = "90px";
+//     // drawBtn.style.width = "90px";
+//     // drawBtn.style.lineHeight = "90px";
+//     // drawBtn.style.borderRadius = "45px";
 //   } else if (newval == false) {
 //     setTimeout(() => {
-//       // drawBtn.style.height = "76px";    
-//       // drawBtn.style.width = "76px";    
-//       // drawBtn.style.lineHeight = "76px"; 
-//       // drawBtn.style.borderRadius = "38px"; 
+//       // drawBtn.style.height = "76px";
+//       // drawBtn.style.width = "76px";
+//       // drawBtn.style.lineHeight = "76px";
+//       // drawBtn.style.borderRadius = "38px";
 //     }, 500);
 
 //   }
 // })
 
 // 任务
-let popTask = ()=>{
+const taskText1 = `&nbsp; &nbsp; Huster，本游戏维持三天，你可以凭借最终的游戏等级，获取相应的水果捞福利，游戏等级越高福利则越高哦。<br/>&nbsp; &nbsp; 今天，涂色块数量更多的队伍将升级。`;
+const taskText2 = `&nbsp; &nbsp; Huster，本游戏维持三天，你可以凭借最终的游戏等级，获取相应的水果捞福利，游戏等级越高福利则越高哦。<br/>&nbsp; &nbsp; 今天，不仅涂色块数量更多的队伍将升级，我们还为每个队伍设置了目标图案，在画布上完成目标图案的队伍也将升级哦`;
+const taskText3 = `&nbsp; &nbsp; Huster，本游戏维持三天，你可以凭借最终的游戏等级，获取相应的水果捞福利，游戏等级越高福利则越高哦。<br/>&nbsp; &nbsp; 今天，不仅涂色块数量更多的队伍将升级，我们还为每个队伍设置了目标图案，在画布上完成目标图案的队伍也将升级哦。<br/>&nbsp; &nbsp; 明天游戏就要结束啦，记得来看如何领取福利哦！`;
+let taskText = ref(`默认文字`);
+let sign;
+
+
+
+let popTask = () => {
   let popup = document.querySelector(".popupTask");
   popup.style.display = "flex";
+  const redPoint1 = document.querySelector(".redPoint1");  
+  if (redPoint1.style.display == "flex") {
+    redPoint1.style.display = "none";
+    console.log(sign);
+    localStorage.setItem("task", sign);
+  }
 }
 let fadeTask = () => {
   let popup = document.querySelector(".popupTask");
   popup.style.display = "none";  
 }
-let taskText = ref("默认文字");
-// 打开主页面时获取任务
-axios.get(`/task`).then((res) => {
-  console.log("获取任务：", res);
-  taskText.value = res.data.data.task;
-}).catch((res) => {
-  console.log(res);
-})
 
 
-// 战况
+
+
+
 let showSit = ref(false);
 let changeShowSit = (val) => {
   showSit.value = val;
@@ -235,11 +285,76 @@ let popSituation = () => {
   // 战况页面与主页面同步一下
   changeShowSit(true);
   // situation里控制显示
+  const redPoint2 = document.querySelector(".redPoint2");  
+  // 设置当前的等级
+  if (redPoint2.style.display == "flex") {
+    redPoint2.style.display = "none";
+    console.log(user.groupLevel.value);
+    localStorage.setItem("groupLevelSit", user.groupLevel.value);
+  }
 }
 let fadeSituation = () => {
   let popup = document.querySelector(".popupSituation");
   popup.style.display = "none";  
 }
+
+let taskImgurl=ref("");
+//小红点
+onMounted(() => {
+  // 打开主页面时获取任务
+  axios.get(`/task`).then((res) => {
+    // console.log("获取任务：", res);
+    sign = res.data.data.task;
+    console.log("sign",sign);
+    if (sign == 1) {
+      taskText.value = taskText1;
+    } else if (sign == 2) {
+      taskText.value = taskText2;      
+    } else if (sign == 3) {
+      taskText.value = taskText3;            
+    }
+
+    
+    if (res.data.data.img == null) {
+      document.querySelector(".taskimage").style.display = "none";
+      document.querySelector(".taskTitle").style.display = "none";
+    } else {
+      taskImgurl.value = res.data.data.img;
+    }
+
+
+
+
+    let oldMission = localStorage.getItem("task");
+    if (oldMission == null) {
+      oldMission = 0;
+    }  
+    console.log("oldMission", oldMission);
+    const redPoint1 = document.querySelector(".redPoint1");
+    if (oldMission < sign) {
+      redPoint1.style.display = "flex";
+    } else {
+      redPoint1.style.display = "none";
+    }
+  }).catch((res) => {
+    console.log(res);
+  })
+
+  // 战况小红点
+  let oldSitSign = localStorage.getItem("groupLevelSit");
+  if (oldSitSign == null) {
+    oldSitSign = 0;
+  }
+  console.log("oldSitSign", oldSitSign);
+  console.log("user.groupLevel.value", user.groupLevel.value);
+  const redPoint2 = document.querySelector(".redPoint2");
+  if (oldSitSign < user.groupLevel.value) {
+    redPoint2.style.display = "flex";  
+  } else {
+      redPoint2.style.display = "none"; 
+    }
+})
+
 </script>
 
 
@@ -276,6 +391,7 @@ let fadeSituation = () => {
   text-align: center;
   font-size: 2.6vh;
   background-color: rgba(255, 255, 255, 0);
+  position: relative;
 }
 
 .btncenter {
@@ -333,24 +449,46 @@ let fadeSituation = () => {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 80vw;
-  height: 60vh;
+  overflow: scroll;
+  width: 86vw;
+  height: 65vh;
   margin-top: 14vh;
   background-color: white;
   border: 4px solid black;
-  padding: 2vh;
+  padding: 1vh;
   box-sizing: border-box;
-  font-size: 5vmin;
+  font-size: 4vmin;
   border-radius: 4px;
 }
 
 .taskWindow h2 {
   margin: 0;
+  margin-top: 1vh;
+  padding: 0;
 }
 
-.taskWindow p {
-  margin: 0;
-  padding: 0;
+.taskInfo{
+  font-size: 4vmin;
+}
+
+.taskTitle{
+  margin-top: 2vh;
+  font-size: 5vmin;  
+}
+
+.taskImg {
+  width: 96%;
+  margin-top: 0;
+  margin-bottom: 2vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.taskimage {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
 }
 
 .popupSituation {
@@ -469,6 +607,28 @@ let fadeSituation = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.redPoint1 {
+  width: 2vw;
+  height: 2vw;
+  border-radius: 50%;
+  background-color: red;
+  display: none;
+  position: absolute;
+  top: 5vw;
+  right: 6vw;
+}
+
+.redPoint2 {
+  width: 2vw;
+  height: 2vw;
+  border-radius: 50%;
+  background-color: red;
+  display: none;
+  position: absolute;
+  top: 5vw;
+  right: 6vw;
 }
 
 </style>

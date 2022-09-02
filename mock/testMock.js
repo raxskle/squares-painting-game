@@ -1,7 +1,7 @@
 const Mock = require("mockjs");
 let userToken = Mock.mock({
   data: {
-    first_login: true,
+    first_login: false,
     weixin_openid: "OPENID123",
     jwtoken: "TOKEN123",
   },
@@ -30,23 +30,27 @@ let groupStatus = Mock.mock({
       {
         id: 1,
         name: "偷瓜队",
-        level: 3,
+        level: 2,
         total_members_num: 0,
         total_pixels_num: 0,
+        complete_target: true,
       },
       {
         id: 2,
         name: "射日队",
-        level: 1,
+        level: 2,
         total_members_num: 0,
         total_pixels_num: 0,
+        complete_target: true,
       },
     ],
   },
 });
 let task = Mock.mock({
   data: {
-    task: "这是获取的任务内容 这是获取的任务内容 这是获取的任务内容 ",
+    task: 3,
+    img: "http://192.168.80.149:8081/tasktest2.png",
+    // img: null,
   },
 });
 
@@ -1245,9 +1249,9 @@ let canvas = Mock.mock({
     // canvas: new Array(45).fill(new Array(45).fill("#")),
 
     last_paint: {
-      pixel_position: [0, 8],
-      time: 0,
-      nickname: "NAME",
+      pixel_position: [12, 9],
+      time: 1662050143294,
+      nickname: "sfafdfasss",
       headimgurl:
         "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
     },
@@ -1269,7 +1273,7 @@ let canvaspost = Mock.mock({
     user_level: 0,
     user_pixels_num: 0,
     is_group_upgraded: true,
-    group_level: 4,
+    group_level: 2,
     group_pixels_num: 0,
   },
 });
@@ -1288,8 +1292,8 @@ let home_info = Mock.mock({
       nickname: "NAME1234abcd",
       headimgurl:
         "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
-      group: 2,
-      user_level: 0,
+      group: 1,
+      user_level: 1,
       user_pixels_num: 0,
 
       state: false,
@@ -2489,26 +2493,29 @@ let home_info = Mock.mock({
 
       last_paint: {
         pixel_position: [3, 8],
-        time: 0,
-        nickname: "NAME",
+        time: 1662049292830,
+        nickname: "某用户某用户",
         headimgurl:
           "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
       },
+      // last_paint: null,
     },
     groups_info: [
       {
-        id: 1,
-        name: "偷瓜队",
-        level: 2,
-        total_members_num: 0,
-        total_pixels_num: 12,
-      },
-      {
         id: 2,
         name: "射日队",
-        level: 3,
+        level: 1,
+        total_members_num: 0,
+        total_pixels_num: 12,
+        complete_target: false,
+      },
+      {
+        id: 1,
+        name: "偷瓜队",
+        level: 1,
         total_members_num: 0,
         total_pixels_num: 13,
+        complete_target: false,
       },
     ],
   },
