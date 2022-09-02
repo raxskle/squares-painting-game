@@ -21,7 +21,7 @@ export default {
             lastTime = Math.ceil(lastTime / 1000);
           }
           // 测试设置冷却时长为60s
-          let duration = 60;
+          let duration = 3600;
           let nextTime = lastTime + duration;
           let nowTime = Math.floor(Date.now() / 1000);
           console.log("下一次", nextTime);
