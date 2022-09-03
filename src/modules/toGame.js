@@ -70,7 +70,7 @@ export function toGame() {
             lastTime = Math.ceil(lastTime / 1000);
           }
           // 设置冷却时长
-          let duration = 1800;
+          let duration = 300;
           let nextTime = lastTime + duration;
           let nowTime = Math.floor(Date.now() / 1000);
           console.log("下一次", nextTime);
