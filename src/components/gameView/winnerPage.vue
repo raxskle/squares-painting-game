@@ -1,6 +1,6 @@
 <template>
 <div class="winPageWarp">
-  <div class="winpageWarp-AD">
+  <div class="winpageWarp-AD" @click="toMain">
     <userInfo :logo="logo"  :clickable="false" ></userInfo>
     <section class="winCardWarp">
       <div class="card0">
@@ -24,9 +24,10 @@
     </section>
 
     <div class="backToMain">
-      <div class="toMainBtn">
-        <div class="btnColor" :style="{backgroundColor}"  @click="toMain">填色</div>
-      </div>
+      <!-- <div class="toMainBtn">
+        <div class="btnColor" :style="{backgroundColor}"  >填色</div>
+      </div> -->
+      <div class="returnTips">点击任意地方返回</div>
     </div>
      
   </div>
@@ -124,7 +125,7 @@ let toMain = () => {
 }
 .winCardWarp {
   width: 100vw;
-  height: 55vh;
+  height: 58vh;
   /* background-color: antiquewhite; */
   display: flex;
   justify-content: space-around;
@@ -225,5 +226,11 @@ let toMain = () => {
   justify-content: center;
   align-items: center;
   font-size: 3vh;
+}
+
+
+.returnTips{
+  font-size: 4vmin;
+  color: rgb(67, 67, 67);
 }
 </style>

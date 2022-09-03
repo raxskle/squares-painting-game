@@ -39,7 +39,7 @@
 </template>
   
 <script setup>
-import {  ref, watch } from "vue";
+import {  ref, watch,defineProps,defineEmits,toRefs } from "vue";
 // import mainCanvas from '../components/gameView/mainCanvas.vue'
 // import bottomBar from '../components/gameView/bottomBar.vue'
 import userInfo from '../components/gameView/userInfo.vue'
@@ -47,7 +47,16 @@ import footerAD from "../components/footerAD.vue"
 import user from "@/modules/userState"
 import router from "@/router";
 
+let props = defineProps({
+  notuserouter: {
+    type: Boolean,
+    default: false,
+  },
 
+})
+let { notuserouter } = toRefs(props);
+
+let emit = defineEmits(['showguideA',]);
 
 let guidePage = ref(1);
 let userInfoH = "userInfoH";
@@ -107,7 +116,13 @@ let toguideforward = () => {
       document.querySelector(".gloaderwarp").style.display = "flex";      
     }, 300);
     setTimeout(() => {
-      router.replace("/game");
+      console.log("notuserouter");
+      if (notuserouter.value == true) {
+        emit('showguideA', false);
+      } else {
+        router.replace("/game");
+      }
+
     }, 400);
     
   }
@@ -203,13 +218,13 @@ watch(guidePage, (newval) => {
     guideImg.value = require(`@/assets/iamge/guide01.png`);
     wait();
   } else if (newval == 9) {
-    window.style.width = "60vw";
+    window.style.width = "72vw";
     window.style.height = "14vh";
     guideBox.style.flexDirection = "column";    
     guideBox.style.alignItems = "flex-start";    
     guideBox.style.height = "30vh";
-    guideBox.style.top = "0vh";
-    guideBox.style.left = "";
+    guideBox.style.top = "0.5vh";
+    guideBox.style.left = "4vmin";
     guideBox.style.right = "";
     guidewords.value ="点击名字看看自己的等级吧！"  
     guideImg.value = require(`@/assets/iamge/guide01.png`);
@@ -229,9 +244,10 @@ watch(guidePage, (newval) => {
   height: 100vh;
   background-image: url("@/assets/iamge/background.jpg");
   background-size: 100vw;
-  position: relative;
+  position: absolute;
   transition: 1s all;
   /* filter: brightness(50%); */
+  z-index: 100;
 }
 
 
@@ -243,7 +259,7 @@ watch(guidePage, (newval) => {
   flex-grow: 1;  
   width: 100%;
   height: 100%;
-  /* position: relative; */
+  position: relative;
 }
 
 

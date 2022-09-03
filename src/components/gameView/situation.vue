@@ -32,7 +32,9 @@
     <div class="clickToFade"  @click="fade"></div> 
   </div>
   <!-- wholeView 最大60vh -->
+
   <div class="bottomBar">
+    <div class="returnTips">点击任意地方返回</div>
     <div class="gridBorder"></div>
     <div class="scrollBar">
       <p class="animate">{{scrollText}}</p>
@@ -41,7 +43,6 @@
   
   </div>
   <footerAD></footerAD>   
-  <!-- bottomBar+AD 70+50px 有16vh，  750px以上的手机才安全 -->  
 </div>
 
 </template>
@@ -169,6 +170,7 @@ watch(canvas.group2CompleteTarget, (newval) => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 
   /* position: absolute; */
   /* background-color: antiquewhite; */
@@ -282,6 +284,16 @@ watch(canvas.group2CompleteTarget, (newval) => {
 
 .bottomBar {
   margin-top: 0.2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.returnTips {
+  font-size: 4vmin;
+  color: rgb(70, 70, 70);
+  margin-bottom: 0.6vmin;
 }
 
 .gridBorder {

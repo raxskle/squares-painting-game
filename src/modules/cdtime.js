@@ -20,8 +20,7 @@ export default {
             // 向上取整
             lastTime = Math.ceil(lastTime / 1000);
           }
-          // 测试设置冷却时长为60s
-          let duration = 3600;
+          let duration = 1800;
           let nextTime = lastTime + duration;
           let nowTime = Math.floor(Date.now() / 1000);
           console.log("下一次", nextTime);

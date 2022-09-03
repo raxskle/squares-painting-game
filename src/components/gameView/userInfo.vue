@@ -1,7 +1,7 @@
 <template>
 <div class="infoBox">
   <div class="userInfo">
-    <div class="infoImg">
+    <div class="infoImg" @click="pop">
       <div ref="headFrame" class="headFrame">
           <img class="userImg" :src="user.userImg" />  
       </div>
@@ -13,19 +13,24 @@
     </div>
   </div>
 
-  <div class="groupLogo"><img :src="logo" /></div>
+  <div class="groupLogo"  @click="toGuide"><img :src="logo" /></div>
 </div>
-
+<guideView v-if="showguide" @showguideA="showguideA" :notuserouter="true"></guideView>
 
 </template>
 <script setup>
-import { toRefs,defineProps,onMounted,watch, ref } from "vue";
+import { toRefs,defineProps, onMounted,watch, ref } from "vue";
 import user from "../../modules/userState";
+// import router from "@/router";
+import guideView from "../../views/guideView.vue"
 // import canvas from "../../modules/canvasState";
 const props = defineProps({
   logo: {},clickable:{}
 });
-const {logo,clickable} = toRefs(props);
+
+const { logo, clickable } = toRefs(props);
+
+
 
 let pop = () => {
   if (clickable.value == true) {
@@ -40,6 +45,15 @@ let pop = () => {
   }
 }
 
+let showguide = ref(false);
+let showguideA = (val) => {
+  showguide.value = val;
+}
+let toGuide = () => {
+  if (clickable.value == true) {
+    showguideA(true);
+  }  
+}
 
 // // 设置user的队伍等级
 // console.log("设置user.groupLevel", user.groupLevel.value);

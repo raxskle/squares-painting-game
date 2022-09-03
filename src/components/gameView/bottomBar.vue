@@ -17,13 +17,42 @@
 <!-- 任务弹窗 -->
 <div class="popupTask" @click="fadeTask">
   <div class="taskWindow">
-    <h2>规则</h2>
-    <div class="taskInfo" v-bind:innerHTML="taskText"></div>  
-    <div class="taskTitle">目标图案：</div>
-    <div class="taskImg" @click.stop="null">
-      <!-- <img  class="taskimage" src="http://192.168.80.149:8081/green_frame.png"/> -->
-      <img  class="taskimage" :src="taskImgurl"/>
-    </div>  
+    <div class="taskX"></div>
+    <h2>游戏规则</h2>
+    <div class="taskContainer" @click.stop="null">
+      <div class="taskTitle" @click="rulespread('.t1')">今日任务</div>
+      <div class="taskWarp t1">
+        <div class="taskInfo" v-bind:innerHTML="taskText"></div>  
+        <div class="tasksubTitle"  @click="rulespread()">目标图案:</div>
+        <div class="taskImg">
+          <!-- <img  class="taskimage" src="http://192.168.80.149:8081/green_frame.png"/> -->
+          <img  class="taskimage" :src="taskImgurl"/>
+        </div> 
+      </div>
+
+      <div class="taskTitle" @click="rulespread('.t2')">团队通行证升级</div>
+      <div class="taskWarp t2">
+        <div class="taskInfo">
+          &nbsp; &nbsp; 记得关注每日更新的任务哦，根据完成的任务个数可以获得相应积分，积1分解锁青铜通行证，积2分解锁白银通行证，积4分就可以拿到最高级的通行证啦！
+        </div>  
+      </div>      
+      
+      <div class="taskTitle" @click="rulespread('.t3')">个人填色升级</div>
+      <div class="taskWarp t3">
+        <div class="taskInfo">
+          &nbsp; &nbsp; 我们为你准备了六个不同的等级颜色，一天内连续涂色3次和一天内累计涂色6次，都可以获得颜色升级哦。
+        </div>  
+      </div>      
+
+      <div class="taskTitle" @click="rulespread('.t4')">总福利</div>
+      <div class="taskWarp t4">
+        <div class="taskInfo">
+          &nbsp; &nbsp; Huster，本游戏维持三天，你可以凭借最终的通行证等级，获取相应的水果捞满减福利哦，等级越高福利越好，快快开始游戏吧！
+        </div>  
+      </div>      
+
+
+    </div>
   </div>
 </div>
 
@@ -37,6 +66,8 @@
   <div class="tipsText">{{tipsText}}</div>
 </div>
 
+
+
 </template>
 
 <script setup>
@@ -46,6 +77,7 @@ import user from "../../modules/userState";
 import canvas from "../../modules/canvasState";
 import situation from "./situation.vue";
 import cdtime from "../../modules/cdtime";
+
 
 let props = defineProps({
   mode: {
@@ -250,9 +282,9 @@ watch(mode, (newval,oldval) => {
 // })
 
 // 任务
-const taskText1 = `&nbsp; &nbsp; Huster，本游戏维持三天，你可以凭借最终的游戏等级，获取相应的水果捞福利，游戏等级越高福利则越高哦。<br/>&nbsp; &nbsp; 今天，涂色块数量更多的队伍将升级。`;
-const taskText2 = `&nbsp; &nbsp; Huster，本游戏维持三天，你可以凭借最终的游戏等级，获取相应的水果捞福利，游戏等级越高福利则越高哦。<br/>&nbsp; &nbsp; 今天，不仅涂色块数量更多的队伍将升级，我们还为每个队伍设置了目标图案，在画布上完成目标图案的队伍也将升级哦`;
-const taskText3 = `&nbsp; &nbsp; Huster，本游戏维持三天，你可以凭借最终的游戏等级，获取相应的水果捞福利，游戏等级越高福利则越高哦。<br/>&nbsp; &nbsp; 今天，不仅涂色块数量更多的队伍将升级，我们还为每个队伍设置了目标图案，在画布上完成目标图案的队伍也将升级哦。<br/>&nbsp; &nbsp; 明天游戏就要结束啦，记得来看如何领取福利哦！`;
+const taskText1 = `&nbsp; &nbsp; 涂色数量更多的一队将积一分。`;
+const taskText2 = `&nbsp; &nbsp; 涂色数量更多的一队将积一分。<br/>&nbsp; &nbsp; 另外，下面是你队今日的目标图案，在画布上用自己队伍的颜色完成图案涂色也可以积一分，同时，对方队伍也有一个不同的目标图案，谨慎对方动态，注意及时破坏哦！`;
+const taskText3 = `&nbsp; &nbsp; 涂色数量更多的一队将积一分。<br/>&nbsp; &nbsp; 另外，下面是你队今日的目标图案，在画布上用自己队伍的颜色完成图案涂色也可以积一分，同时，对方队伍也有一个不同的目标图案，谨慎对方动态，注意及时破坏哦！`;
 let taskText = ref(`默认文字`);
 let sign;
 
@@ -271,6 +303,14 @@ let popTask = () => {
 let fadeTask = () => {
   let popup = document.querySelector(".popupTask");
   popup.style.display = "none";  
+  let t1 =  document.querySelector(".t1");
+  let t2 =  document.querySelector(".t2");
+  let t3 =  document.querySelector(".t3");
+  let t4 = document.querySelector(".t4");
+  t1.style.display = "none";
+  t2.style.display = "none";
+  t3.style.display = "none";
+  t4.style.display = "none";
 }
 
 
@@ -354,6 +394,32 @@ onMounted(() => {
       redPoint2.style.display = "none"; 
     }
 })
+
+
+let rulespread = (target) => {
+  let targetDom = document.querySelector(target);
+  console.log(targetDom.style.display);
+  // let taskWarpList = document.querySelectorAll(".taskWarp");
+  // for (let task of taskWarpList) {
+  //   task.style.display = "none";
+  // }
+  let t1 =  document.querySelector(".t1");
+  let t2 =  document.querySelector(".t2");
+  let t3 =  document.querySelector(".t3");
+  let t4 = document.querySelector(".t4");
+  t1.style.display = "none";
+  t2.style.display = "none";
+  t3.style.display = "none";
+  t4.style.display = "none";
+
+  if (targetDom.style.display != "none" ) {
+    targetDom.style.display = "none";  
+  } else if (targetDom.style.display == "none") {
+    targetDom.style.display = "flex";  
+  }
+
+}
+// taskTitle
 
 </script>
 
@@ -449,33 +515,89 @@ onMounted(() => {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  overflow: scroll;
-  width: 86vw;
+  overflow: hidden;
+  width: 88vw;
   height: 65vh;
   margin-top: 14vh;
   background-color: white;
   border: 4px solid black;
-  padding: 1vh;
   box-sizing: border-box;
   font-size: 4vmin;
   border-radius: 4px;
+  position: relative;
 }
 
+
+.taskX{
+  position: absolute;
+  width: 7vmin;
+  height: 7vmin;
+  top: 1vh;
+  right: 1vh;
+  background-image: url("@/assets/iamge/taskclose.png");
+  background-size: 100% 100%;
+}
+.taskContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;  
+  overflow: scroll;
+  width: 100%;
+  padding-bottom: 2vh;
+}
 .taskWindow h2 {
   margin: 0;
   margin-top: 1vh;
+  margin-bottom: 1vh;
   padding: 0;
 }
 
 .taskInfo{
   font-size: 4vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.taskWarp {
+  padding-top: 0.5vh;  
+  padding-bottom: 2vh;
+  padding-left: 4.4vh;  
+  padding-right: 4.4vh;  
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .taskTitle{
-  margin-top: 2vh;
-  font-size: 5vmin;  
+  margin-top: 3vh;
+  padding-top: 0.2vh;
+  padding-bottom: 0.2vh;
+  margin-bottom: 2vh;
+  font-size: 5.5vmin;  
+  font-weight: 560;
+  width: 82%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid rgb(174, 174, 174);
+  border-top: 1px solid rgb(174, 174, 174);
 }
 
+.title4 {
+  margin-bottom: 6vh;
+}
+.tasksubTitle {
+  margin-top: 2vh;
+  font-size: 4vmin;  
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+}
 .taskImg {
   width: 96%;
   margin-top: 0;
