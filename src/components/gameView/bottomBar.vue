@@ -149,7 +149,7 @@ let changeMode = () => {
       if (res.data.data.state == true && user.CDtime.value<=0) {
         emit("changeMode", 1);
       } else {
-        popTips("每位玩家每小时只能填色一次！");
+        popTips("每位玩家每半小时只能填色一次！");
       }
     }).catch((res) => {
       console.log(res);

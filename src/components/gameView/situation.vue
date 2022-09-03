@@ -33,8 +33,8 @@
   </div>
   <!-- wholeView 最大60vh -->
 
+  <div class="returnTips">点击任意地方返回</div>
   <div class="bottomBar">
-    <div class="returnTips">点击任意地方返回</div>
     <div class="gridBorder"></div>
     <div class="scrollBar">
       <p class="animate">{{scrollText}}</p>
@@ -127,6 +127,10 @@ let fade = () => {
 
 
 // 设置播报文字
+let day2 = 1662480000000;
+let daynow = Date.now();
+console.log("day2", day2);
+console.log("daynow", daynow);
 let scrollText = ref("");
 if (canvas.group1CompleteTarget.value == true && canvas.group2CompleteTarget.value == true) {
   scrollText.value = "偷瓜队已完成目标拼图！   射日队已完成目标拼图！";
@@ -135,7 +139,11 @@ if (canvas.group1CompleteTarget.value == true && canvas.group2CompleteTarget.val
 } else if (canvas.group2CompleteTarget.value == true) {
   scrollText.value = "射日队已完成目标拼图！";  
 } else {
-  scrollText.value = " ";    
+  if (daynow < day2) {
+    scrollText.value = "涂色更多的一队在明天可以获得特制头像框哦";       
+  } else {
+    scrollText.value = "";   
+  }
 }  
 
 watch(canvas.group1CompleteTarget, (newval) => {
@@ -143,7 +151,7 @@ watch(canvas.group1CompleteTarget, (newval) => {
     if (canvas.group2CompleteTarget.value == true) {
       scrollText.value = "偷瓜队已完成目标拼图！   射日队已完成目标拼图！";      
     } else {
-      scrollText.value = "偷瓜队已完成目标拼图！";      
+      scrollText.value = "偷瓜队已完成目标拼图！";
     }
   }
 })
@@ -293,7 +301,7 @@ watch(canvas.group2CompleteTarget, (newval) => {
 .returnTips {
   font-size: 4vmin;
   color: rgb(70, 70, 70);
-  margin-bottom: 0.6vmin;
+  /* margin-bottom: 0.6vmin; */
 }
 
 .gridBorder {

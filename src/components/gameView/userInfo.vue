@@ -13,7 +13,10 @@
     </div>
   </div>
 
-  <div class="groupLogo"  @click="toGuide"><img :src="logo" /></div>
+  <div class="groupLogo"  @click="toGuide">
+    <img :src="logo" />
+    <div class="guideAgain" v-if="clickable">新手教学</div>
+  </div>
 </div>
 <guideView v-if="showguide" @showguideA="showguideA" :notuserouter="true"></guideView>
 
@@ -191,10 +194,13 @@ watch(user.groupLevel, (newval) => {
 
 .groupLogo {
   height: 10vh;
+  width: 10vh;
+  position: relative;
 }
 
 .groupLogo img {
   height: 100%;
+  width: 100%;
 }
 
 
@@ -207,6 +213,19 @@ watch(user.groupLevel, (newval) => {
   position: absolute;
   top: 1vw;
   right: 1vw;
+}
+
+
+.guideAgain {
+  position: absolute;
+  font-size: 3.2vmin;
+  margin: 0;
+  padding: 0;
+  width: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top:10.1vh;
 }
 
 </style>

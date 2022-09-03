@@ -192,7 +192,7 @@ watch(guidePage, (newval) => {
     guideBox.style.flexDirection = "column-reverse";    
     guideBox.style.height = "40vh";
     guideBox.style.top = "58vh";
-    guidewords.value ="一小时后才可以再次涂色"    
+    guidewords.value ="半小时后才可以再次涂色"    
     // wait();
   } else if (newval == 7) {
     guideImg.value = require(`@/assets/iamge/guide01.png`);

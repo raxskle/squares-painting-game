@@ -17,7 +17,21 @@
 import homePage from '../components/homeView/homePage.vue'
 import footerAD from "../components/footerAD.vue"
 
-
+// 在使用图片页面的前一个页面预加载图片
+let guide01 = new Image();
+guide01.src = require(`@/assets/iamge/guide01.png`);
+let guide02 = new Image();
+guide02.src = require(`@/assets/iamge/guide02.png`);
+let guide03 = new Image();
+guide03.src = require(`@/assets/iamge/guide03.png`);
+let guide04 = new Image();
+guide04.src = require(`@/assets/iamge/guide04.png`);
+let guide05 = new Image();
+guide05.src = require(`@/assets/iamge/guide05.png`);
+let guide052 = new Image();
+guide052.src = require(`@/assets/iamge/guide052.png`);
+let canvasBorder = new Image();
+canvasBorder.src = require(`@/assets/iamge/canvas_border.png`);
 
 </script>
 
