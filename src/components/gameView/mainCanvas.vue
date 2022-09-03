@@ -532,6 +532,9 @@ if (lastPaintTime == 0) {
   }
   let nowTime = Math.floor(Date.now() / 1000);
   lastPaintMin = Math.floor((nowTime - lastPaintTime) / 60);
+  if (lastPaintMin < 0) {
+    lastPaintMin = 0;
+  }
   let lastPaintHour = 0;
   if (lastPaintMin >= 60) {
     lastPaintHour = Math.floor(lastPaintMin / 60);
@@ -585,6 +588,9 @@ watch(canvas.lastPaintTime, (newval) => {
     }
     let nowTime = Math.floor(Date.now() / 1000);
     lastPaintMin = Math.floor((nowTime - lastPaintTime) / 60);
+    if (lastPaintMin < 0) {
+      lastPaintMin = 0;
+    }
     
     // lastPaintRawText = ``;  
     // lastPaintText.value = lastPaintRawText;
