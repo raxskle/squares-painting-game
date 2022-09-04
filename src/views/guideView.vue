@@ -39,7 +39,8 @@
 </template>
   
 <script setup>
-import {  ref, watch,defineProps,defineEmits,toRefs } from "vue";
+import {  ref, watch } from "vue";
+// import {  defineProps,toRefs,defineEmits } from "vue";
 // import mainCanvas from '../components/gameView/mainCanvas.vue'
 // import bottomBar from '../components/gameView/bottomBar.vue'
 import userInfo from '../components/gameView/userInfo.vue'
@@ -47,16 +48,16 @@ import footerAD from "../components/footerAD.vue"
 import user from "@/modules/userState"
 import router from "@/router";
 
-let props = defineProps({
-  notuserouter: {
-    type: Boolean,
-    default: false,
-  },
+// let props = defineProps({
+//   notuserouter: {
+//     type: Boolean,
+//     default: false,
+//   },
 
-})
-let { notuserouter } = toRefs(props);
+// })
+// let { notuserouter } = toRefs(props);
 
-let emit = defineEmits(['showguideA',]);
+// let emit = defineEmits(['showguideA',]);
 
 let guidePage = ref(1);
 let userInfoH = "userInfoH";
@@ -116,12 +117,12 @@ let toguideforward = () => {
       document.querySelector(".gloaderwarp").style.display = "flex";      
     }, 300);
     setTimeout(() => {
-      console.log("notuserouter");
-      if (notuserouter.value == true) {
-        emit('showguideA', false);
-      } else {
+      // console.log("notuserouter");
+      // if (notuserouter.value == true) {
+        // emit('showguideA', false);
+      // } else {
         router.replace("/game");
-      }
+      // }
 
     }, 400);
     

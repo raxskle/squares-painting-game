@@ -4,23 +4,36 @@
     <div class="gridBorder"></div>
     <div class="scoreTitle">已涂色块数目</div>
     <div class="scoreBox">
+
+
+
+
       <div class="scoreGroup">
-        <div class="groupName">射日队</div>
-        <div class="groupImg"><img src="@/assets/iamge/yellowlogo.png"/></div>
-        <div class="groupNum">{{canvas.group2Num}}</div>
+        <div class="groupNameImg">
+          <div class="groupImg"><img src="@/assets/iamge/yellowlogo.png"/></div>
+          <div class="groupName"> &nbsp; 射日队</div>
+        </div>     
+        
+        <div class="groupNameImg">
+          <div class="groupName">偷瓜队 &nbsp;</div>
+          <div class="groupImg"><img src="@/assets/iamge/greenlogo.png"/></div>          
+        </div>        
       </div>
-      <div class="vs">VS</div>
-      <div class="scoreGroup">
-        <div class="groupName">偷瓜队</div>
-        <div class="groupImg"><img src="@/assets/iamge/greenlogo.png"/></div>
+
+      <div class="vsBox">
+        <div class="groupNum">{{canvas.group2Num}}</div>
+        <div class="vs">VS</div>  
         <div class="groupNum">{{canvas.group1Num}}</div>        
       </div>
+
+
+
     </div>
     <div class="gridBorder"></div>
   </div>
   <!-- scoreBar 24vh -->
   <div class="wholeView">
-    <div  id="canvasContainer">
+    <!-- <div  id="canvasContainer">
       <v-stage ref="stage" :config = "configKonva">
         <v-layer ref="layer" :config="configLayer">
           <v-group ref="Field" :config="configField">
@@ -29,11 +42,17 @@
         </v-layer>
       </v-stage>
     </div> 
-    <div class="clickToFade"  @click="fade"></div> 
+    <div class="clickToFade"  @click="fade"></div>  -->
+    <div class="rankingTitle">累计排行榜</div>
+    <div class="rangkingWarp">
+      <rankingList v-if="showRanking" ></rankingList>      
+    </div>
   </div>
+
+
   <!-- wholeView 最大60vh -->
 
-  <div class="returnTips">点击任意地方返回</div>
+
   <div class="bottomBar">
     <div class="gridBorder"></div>
     <div class="scrollBar">
@@ -42,15 +61,17 @@
     <div class="gridBorder"></div>
   
   </div>
-  <footerAD></footerAD>   
+  <div class="returnTips">点击任意地方返回</div>
 </div>
 
 </template>
 
 <script setup>
-import { reactive,ref,toRefs, defineProps, defineEmits,watch } from "vue";
+import { ref, toRefs, defineProps, defineEmits, watch } from "vue";
+// import { reactive} from "vue";
+import rankingList from "./rankingList.vue";
 import canvas from "../../modules/canvasState";
-import footerAD from "../footerAD.vue";
+// import footerAD from "../footerAD.vue";
 
 let props = defineProps({
   showSit: {
@@ -63,54 +84,58 @@ let { showSit } = toRefs(props);
 let emit = defineEmits(['changeShowSit']);
 
 
+let showRanking = ref(true);
 
-// 画布缩放
-let configLayer = reactive({
-  scaleX:1,
-  scaleY:1,
-})
-let SconfigSquares = [];
-// square原稿大小
-for (let i of canvas.configSquares) {
-  SconfigSquares.push(
-    reactive({
-    x: i.x,
-    y: i.y,
-    width: i.width,
-    height: i.height,
-    fill: i.fill,    
-  }))
-}
 
-let copyConfigSquares = () => {
-  // for (let i of canvas.configSquares) {
-  //   SconfigSquares.fill = i.fill;  
-  //   // console.log("战况页 每个格子",SconfigSquares.fill, i.fill); 
-  // } 
 
-  for (let i = 0; i < canvas.squareYnum; i++) {
-    for (let j = 0; j < canvas.squareXnum; j++) {
-      // 更新所有格子颜色
-      SconfigSquares[i * canvas.squareXnum + j].fill = canvas.configSquares[i * canvas.squareXnum + j].fill;
-    }
-  }
-}
 
-let configField = reactive({
-  x:0,
-  y:0,
-  scaleX:canvas.configField.scaleX,
-  scaleY: canvas.configField.scaleX,
-});
-let configKonva = reactive({
-  width: canvas.fieldWidth*canvas.fieldScale0,
-  height: canvas.fieldHeight*canvas.fieldScale0,
-});
+// // 画布缩放
+// let configLayer = reactive({
+//   scaleX:1,
+//   scaleY:1,
+// })
+// let SconfigSquares = [];
+// // square原稿大小
+// for (let i of canvas.configSquares) {
+//   SconfigSquares.push(
+//     reactive({
+//     x: i.x,
+//     y: i.y,
+//     width: i.width,
+//     height: i.height,
+//     fill: i.fill,    
+//   }))
+// }
+
+// let copyConfigSquares = () => {
+//   // for (let i of canvas.configSquares) {
+//   //   SconfigSquares.fill = i.fill;  
+//   //   // console.log("战况页 每个格子",SconfigSquares.fill, i.fill); 
+//   // } 
+
+//   for (let i = 0; i < canvas.squareYnum; i++) {
+//     for (let j = 0; j < canvas.squareXnum; j++) {
+//       // 更新所有格子颜色
+//       SconfigSquares[i * canvas.squareXnum + j].fill = canvas.configSquares[i * canvas.squareXnum + j].fill;
+//     }
+//   }
+// }
+
+// let configField = reactive({
+//   x:0,
+//   y:0,
+//   scaleX:canvas.configField.scaleX,
+//   scaleY: canvas.configField.scaleX,
+// });
+// let configKonva = reactive({
+//   width: canvas.fieldWidth*canvas.fieldScale0,
+//   height: canvas.fieldHeight*canvas.fieldScale0,
+// });
 
 watch(showSit, (newval) => {
   if (newval == true) {
     // 同步
-    copyConfigSquares();
+    // copyConfigSquares();
     // console.log("战况页面更新");
     let popup = document.querySelector(".popupSituation");
     popup.style.display = "flex";     
@@ -120,10 +145,10 @@ watch(showSit, (newval) => {
 
 
 
-let fade = () => {
-  let popup = document.querySelector(".popupSituation");
-  popup.style.display = "none";
-}
+// let fade = () => {
+//   let popup = document.querySelector(".popupSituation");
+//   popup.style.display = "none";
+// }
 
 
 // 设置播报文字
@@ -179,11 +204,13 @@ watch(canvas.group2CompleteTarget, (newval) => {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 
   /* position: absolute; */
   /* background-color: antiquewhite; */
 }
 .scoreBar {
+  margin-top: 1vh;
   width: 100vw;
   height: 24vh;
   background-color: #ffffff6b;
@@ -196,20 +223,19 @@ watch(canvas.group2CompleteTarget, (newval) => {
 }
 
 .scoreTitle {
-  width: 40%;
+  width: 60%;
   height: 4vh;
-  margin-top: 0.5vh;
-  border: 2px solid black;
-  font-size: 100%;
+  /* margin-top: 0.2vh; */
+  font-size: 3.5vh;
   display: flex;
   justify-content: center;
   align-items: center;  
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   border-radius: 2px;
 }
 .scoreBox {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-evenly;
   align-items: center; 
   /* flex-grow: 1;  */
@@ -219,7 +245,7 @@ watch(canvas.group2CompleteTarget, (newval) => {
 }
 
 .vs {
-  font-size: 10vmin;
+  font-size: 7vmin;
 }
 
 .groupName{
@@ -227,32 +253,44 @@ watch(canvas.group2CompleteTarget, (newval) => {
 }
 
 .groupNum {
-  font-size: 2.2vh;
+  font-size: 6vh;
 }
 
 .scoreGroup {
+  margin-top: 1vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-around;
   /* justify-content: flex-start; */
   align-items: center; 
-  height: 16vh;
-  width: 20vmin;
+  height: 6vh;
+  width: 100vmin;
 
 }
 
-/* .groupName {
+.vsBox{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: row;
+  width: 90%;
+}
 
-} */
+.groupNameImg{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
 
 .groupImg {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 8vh;
+  height: 6vh;
 }
 .groupImg img {
-  height: 8vh;
+  height: 6vh;
 }
 /* 
 .groupNum{
@@ -265,10 +303,29 @@ watch(canvas.group2CompleteTarget, (newval) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-height: 62vh;
+  flex-direction: column;
+  height: 62vh;
+  position: relative;
+  width: 95vw;
 }
 
+.rangkingWarp {
+  height: 47vh;
+  margin-bottom: 4vh;
+  width: 90vw;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.rankingTitle {
+  font-size: 3.5vh;
+  margin-bottom: 1vh;
+}
 
 #canvasContainer {
   display: flex;
@@ -301,6 +358,8 @@ watch(canvas.group2CompleteTarget, (newval) => {
 .returnTips {
   font-size: 4vmin;
   color: rgb(70, 70, 70);
+  margin-top: 1vh;
+  margin-bottom: 2vh;
   /* margin-bottom: 0.6vmin; */
 }
 
@@ -314,7 +373,7 @@ watch(canvas.group2CompleteTarget, (newval) => {
 
 .scrollBar {
   width: 100vw;
-  height: 7vmin;
+  height: 7.2vmin;
   margin: 0;
   /* border-top: 2px solid black; */
   /* border-bottom: 2px solid black; */

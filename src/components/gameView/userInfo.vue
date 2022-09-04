@@ -1,9 +1,9 @@
 <template>
 <div class="infoBox">
   <div class="userInfo">
-    <div class="infoImg" @click="pop">
+    <div class="infoImg" @click="showRank">
       <div ref="headFrame" class="headFrame">
-          <img class="userImg" :src="user.userImg" />  
+          <img class="userImg" :src="user.userImg" />
       </div>
     </div>
 
@@ -13,19 +13,20 @@
     </div>
   </div>
 
-  <div class="groupLogo"  @click="toGuide">
+  <div class="groupLogo">
     <img :src="logo" />
-    <div class="guideAgain" v-if="clickable">新手教学</div>
+    <div class="guideAgain" v-if="clickable"></div>
   </div>
 </div>
-<guideView v-if="showguide" @showguideA="showguideA" :notuserouter="true"></guideView>
 
+<rankingView v-if="showRanking"  @fadeRanking="fadeRanking"></rankingView>
 </template>
+
 <script setup>
 import { toRefs,defineProps, onMounted,watch, ref } from "vue";
 import user from "../../modules/userState";
+import rankingView from "./rankingView.vue";
 // import router from "@/router";
-import guideView from "../../views/guideView.vue"
 // import canvas from "../../modules/canvasState";
 const props = defineProps({
   logo: {},clickable:{}
@@ -33,6 +34,16 @@ const props = defineProps({
 
 const { logo, clickable } = toRefs(props);
 
+let showRanking = ref(false);
+let fadeRanking = () => {
+  showRanking.value = false;
+}
+
+let showRank = () => {
+  if (clickable.value == true) {
+    showRanking.value = true;  
+  }
+}
 
 
 let pop = () => {
@@ -48,15 +59,7 @@ let pop = () => {
   }
 }
 
-let showguide = ref(false);
-let showguideA = (val) => {
-  showguide.value = val;
-}
-let toGuide = () => {
-  if (clickable.value == true) {
-    showguideA(true);
-  }  
-}
+
 
 // // 设置user的队伍等级
 // console.log("设置user.groupLevel", user.groupLevel.value);
@@ -68,20 +71,20 @@ let toGuide = () => {
 
 
 // 根据队伍等级设置头像框
-console.log("初始化设置头像框")
+console.log("初始化设置头像框");
 let headFrame = ref(null);
 onMounted(() => {
-  if (user.groupLevel.value >= 2) {
+  if (user.groupLevel.value >= 3) {
     if (user.group.value == 1) {
       try {
-      headFrame.value.style.backgroundImage = "url(green_frame.png)";        
+      headFrame.value.style.backgroundImage = "url(green_frame.png)";
       } catch (err) {
         console.log(err);
       }
 
     } else if (user.group.value == 2) {
       try {
-      headFrame.value.style.backgroundImage = "url(yellow_frame.png)";        
+      headFrame.value.style.backgroundImage = "url(yellow_frame.png)";
       } catch (err) {
         console.log(err);
       }   
@@ -90,7 +93,7 @@ onMounted(() => {
 
 
 
-  // 名称小红点 等级==1，2，4
+  // 名称小红点 等级==1，2，4        new  2,3,5
   let oldCardSign = localStorage.getItem("groupLevelCard");
   if (oldCardSign == null) {
     oldCardSign = 0;
@@ -99,7 +102,7 @@ onMounted(() => {
   console.log("user.groupLevel.value", user.groupLevel.value);
   const redPoint3 = document.querySelector(".redPoint3");
   if (oldCardSign < user.groupLevel.value) {
-    if (user.groupLevel.value == 1 || user.groupLevel.value == 2 || user.groupLevel.value == 4) {
+    if (user.groupLevel.value == 2 || user.groupLevel.value == 3 || user.groupLevel.value == 5) {
       redPoint3.style.display = "flex";
     } else {
       redPoint3.style.display = "none";
@@ -113,7 +116,7 @@ onMounted(() => {
 
 // 监视队伍升级
 watch(user.groupLevel, (newval) => {
-  if (newval >= 2) {
+  if (newval >= 3) {
     if (user.group.value == 1) {
     document.querySelector(".headFrame").style.backgroundImage = "url(green_frame.png)";
     } else if (user.group.value == 2) {

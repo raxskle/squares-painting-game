@@ -8,7 +8,6 @@ export default {
     axios
       .get(`/user/state`)
       .then((res) => {
-        // console.log("get 能否draw", res);
         if (res.data.data.state == true) {
           console.log("能draw");
           user.CDtime.value = 0;

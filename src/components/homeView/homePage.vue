@@ -53,9 +53,9 @@ let toStart = function () {
   if (readytogame.value == true) {
     if (user.isNewUser == true) {
       // console.log("新用户");
-      router.replace("/newUser/intro");
+      router.replace("/newUser/select");
       // window.location.hash("#/newUser/intro")
-      console.log("into /newUser/intro")
+      console.log("into /newUser")
     } else if (user.isNewUser == false) {
       // console.log("旧用户");
       toGame();

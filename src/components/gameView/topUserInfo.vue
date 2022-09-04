@@ -11,7 +11,7 @@
 <script setup>
 import { toRefs,defineProps } from "vue";
 // import user from "../../modules/userState";
-// import canvas from "../../modules/canvasState";s
+// import canvas from "../../modules/canvasState";
 import userInfo from "./userInfo.vue"
 import winnerPage from "./winnerPage.vue"
 

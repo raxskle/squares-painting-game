@@ -1,10 +1,20 @@
 <template>
 
-  <div class="introBox introBox1" @click="postGroup(clickable)">
+  <div class="introBox introBox1" @click="popConfirm(clickable)">
     <div class="intrologo"><img :src="img"/></div>
     <div class="introText">{{text}}</div>
   </div>  
 
+  <div class="confirmWarp1">
+    <div class="confirm1">
+      <div class="confirmText">选择队伍不可更改，你将和太阳队一起征战3天！
+  你确定要选择太阳队吗？</div>
+      <div class="groupClick">
+        <div class="yesthisGroup"  @click="yesGroup">确认</div>
+        <div class="nothisGroup"  @click="noGroup">再想想</div>
+      </div>
+    </div>
+  </div>
 
 </template>
 
@@ -21,6 +31,20 @@ const props = defineProps({
 });
 const { img, text, group } = toRefs(props);
 
+
+let popConfirm = (clickable) => {
+  if (clickable == true) {
+    document.querySelector(".confirmWarp1").style.display = "flex";    
+  }
+}
+
+let yesGroup = () => {
+  postGroup(true);
+}
+
+let noGroup = () => {
+  document.querySelector(".confirmWarp1").style.display = "none";   
+}
 
 
 // 发送选择的阵营
@@ -55,6 +79,71 @@ let postGroup = function (clickable) {
 </script>
 
 <style scoped>
+.confirmWarp1 {
+  display:none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 4;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.311);  
+}
+  
+.confirm1 {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 80vmin;
+  height: 25vh;
+  background-color: white;
+  border: 3px solid black;
+  border-radius: 2px;
+  z-index: 4;
+  top: 34vh;
+
+}
+
+.confirmText {
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;  
+  padding: 5vmin;
+}
+
+.groupClick{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;  
+  width: 100%;
+  border-top: 3px solid black;
+  height: 40%;
+}
+
+.yesthisGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 50%;
+  border-right: 3px solid black;
+  height: 100%;
+}
+
+.nothisGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 50%;
+  height: 100%;
+}
 .introText {
   width: 50%;
   font-size: 5vmin;

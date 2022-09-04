@@ -509,7 +509,7 @@ let colorEvent = function (event) {
     }
   } else if (mode.value == 0 && event.evt.changedTouches.length <= 1  &&event.evt.targetTouches.length == 0) {
       if (user.CDtime.value == 0) {
-        emit("changeMode", 1);        
+        emit("changeMode", 1);
       } 
     }    
   
@@ -519,8 +519,8 @@ let colorEvent = function (event) {
 
 let lastPaintTime = canvas.lastPaintTime.value;
 let lastPaintName = canvas.lastPaintName.value;
-if (lastPaintName.length > 3) {
-  lastPaintName = lastPaintName.slice(0, 3)+"...";
+if (lastPaintName.length > 8) {
+  lastPaintName = lastPaintName.slice(0, 8)+"...";
 }
 let lastPaintMin;
 let lastPaintRawText;
@@ -541,7 +541,12 @@ if (lastPaintTime == 0) {
     lastPaintMin = lastPaintMin % 60;
     lastPaintRawText = `${lastPaintHour}小时${lastPaintMin}分钟前“${lastPaintName}”涂色`;  
   } else {
-    lastPaintRawText = `${lastPaintMin}分钟前“${lastPaintName}”涂色`;      
+    if (lastPaintMin == 0) {
+      lastPaintRawText = `刚刚“${lastPaintName}”涂色`;
+    } else {
+      lastPaintRawText = `${lastPaintMin}分钟前“${lastPaintName}”涂色`;     
+    }
+
   }
 
 }
@@ -559,14 +564,14 @@ onMounted(() => {
       .find(`.square${canvas.latestPosition.value[0] * canvas.squareXnum + canvas.latestPosition.value[1]}`)[0]
       .moveToTop();
     // 首次显示最新格子：进入主页面之前请求，fill时设置stroke，mounted时movetoTop
-    console.log(canvas.configSquares);    
+    console.log(canvas.configSquares);
   }
 
   let lastpaintBar = document.querySelector(".lastPaintBar");
   if (user.group.value == 1) {
     lastpaintBar.style.backgroundColor = "#00d599";
   } else if (user.group.value == 2) {
-    lastpaintBar.style.backgroundColor = "#ffc500";    
+    lastpaintBar.style.backgroundColor = "#ffc500";
   }
 
   if (lastPaintTime > 0) {
@@ -575,14 +580,14 @@ onMounted(() => {
 })
 
 
+
 watch(canvas.lastPaintTime, (newval) => {
   if (newval > 0) {
     lastPaintName = canvas.lastPaintName.value;
-    if (lastPaintName.length > 3) {
-      lastPaintName = lastPaintName.slice(0, 3)+"...";
+    if (lastPaintName.length > 8) {
+      lastPaintName = lastPaintName.slice(0, 8) + "...";
     }
-
-    lastPaintTime = canvas.lastPaintTime.value;    
+    lastPaintTime = canvas.lastPaintTime.value;
     if (lastPaintTime > 1600000000000) {
       lastPaintTime = Math.ceil(lastPaintTime / 1000);
     }
@@ -608,7 +613,11 @@ watch(canvas.lastPaintTime, (newval) => {
         }
         
       } else {
-        lastPaintRawText = `${lastPaintMin}分钟前“${lastPaintName}”涂色`;      
+        if (lastPaintMin == 0) {
+          lastPaintRawText = `刚刚“${lastPaintName}”涂色`;
+        } else {
+          lastPaintRawText = `${lastPaintMin}分钟前“${lastPaintName}”涂色`;     
+        }
       }
 
       lastPaintText.value = lastPaintRawText;
@@ -654,7 +663,10 @@ watch(canvas.lastPaintTime, (newval) => {
   z-index: 2;
   top: 8px;
   left: 8px;
-  width: 46vw;
+  /* width: 46vw; */
+  width: auto;
+  padding-left: 2vmin;
+  padding-right: 2vmin;
   height: 3vh;
   background-color: rgb(231, 231, 231);
   display: flex;

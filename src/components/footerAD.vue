@@ -1,5 +1,5 @@
 <template>
-<div class="ad"><a href="https://h5.hust.online/drill-battle//#/">冰岩作坊 -点击了解我们-</a></div>
+<div class="ad">👉<a href="https://h5.hust.online/drill-battle//#/">点击了解冰岩作坊</a> &nbsp;&nbsp;&nbsp;  &nbsp; &nbsp;&nbsp;&nbsp;  分享👈</div>
 </template>
 <!-- 高6.5vh -->
 <script setup>
@@ -16,12 +16,11 @@
   background-color: transparent;
   margin-top: 0.5vh;
   margin-bottom: 1vh;
-
 }
 
 .ad a {
   text-decoration: none;  
-  color: #ff890b;  
+  color: black;  
 }
 
 
