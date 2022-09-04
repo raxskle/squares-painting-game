@@ -1,6 +1,7 @@
 <template>
   <div ref="cc" id="canvasContainer">
     <div class="lastPaintBar">{{lastPaintText}}</div>
+    <div class="shareBtn"><img :src="'/shareIcon.png'" /></div>
     <v-stage ref="stage" :config = "configKonva" @touchmove="scaleMove" @touchstart="scaleStart" @touchend="scaleEnd">
       <v-layer ref="layer" :config="configLayer">
 
@@ -300,12 +301,12 @@ let drawCanvas=()=>{
     if (canvas.lastPosition.value[0] != -1 && canvas.lastPosition.value[1] != -1) {
       // console.log("canvas.lastPosition存在")
       canvas.configSquares[
-        canvas.lastPosition.value[0] * canvas.squareXnum +
+        canvas.lastPosition.value[0] * canvas.squareXnum + 
           canvas.lastPosition.value[1]
       ].stroke = "rgb(200, 200, 200)";
     }
     canvas.configSquares[
-      canvas.latestPosition.value[0] * canvas.squareXnum +
+      canvas.latestPosition.value[0] * canvas.squareXnum + 
         canvas.latestPosition.value[1]
     ].stroke = "black"; 
 
@@ -342,8 +343,15 @@ let updateCanvas=()=>{
 
       // 获取xx分钟前xx涂色
       if (res.data.data.last_paint != null) {
+        if (canvas.lastPaintTime.value == res.data.data.last_paint.time) {
+          if (canvas.lastPaintName.value == res.data.data.last_paint.nickname) {
+            canvas.lastPaintMin.value = Math.floor((Date.now() - res.data.data.last_paint.time)/60000);
+          }
+        }
+
         canvas.lastPaintTime.value = res.data.data.last_paint.time;
-        canvas.lastPaintName.value = res.data.data.last_paint.nickname;         
+        canvas.lastPaintName.value = res.data.data.last_paint.nickname;
+        canvas.lastPaintGroup.value = res.data.data.last_paint.group;
       } else {
         canvas.lastPaintTime.value = 0;
       }
@@ -429,7 +437,7 @@ watch(mode, (newval,oldval) => {
     // console.log("涂色失败时latest",target.attrs.stroke); 
     // 神奇的bug，注释掉if就能让latest变回黑色
     // if (target.attrs.stroke != "black") {
-      target.moveToBottom();      
+      target.moveToBottom();
     // }    
   }
 });
@@ -554,11 +562,11 @@ let lastPaintText = ref(lastPaintRawText);
 
 
 onMounted(() => {
-  // console.log("canvasContainer", cc.value);  
+  // console.log("canvasContainer", cc.value);
   // let FieldContext = Field.value.getNode().children[26];用children拿就会乱序
   // console.log(FieldContext);
   // 用name拿不会乱序
-  console.log("mainCanvas onMounted")
+  console.log("mainCanvas onMounted");
   if (canvas.latestPosition.value[0] != -1 && canvas.latestPosition.value[1] != -1) {
     stage.value.getStage()
       .find(`.square${canvas.latestPosition.value[0] * canvas.squareXnum + canvas.latestPosition.value[1]}`)[0]
@@ -568,11 +576,16 @@ onMounted(() => {
   }
 
   let lastpaintBar = document.querySelector(".lastPaintBar");
-  if (user.group.value == 1) {
+  if (canvas.lastPaintGroup.value == 1) {
     lastpaintBar.style.backgroundColor = "#00d599";
-  } else if (user.group.value == 2) {
+  } else if (canvas.lastPaintGroup.value == 2) {
     lastpaintBar.style.backgroundColor = "#ffc500";
-  }
+  }  
+  // if (user.group.value == 1) {
+  //   lastpaintBar.style.backgroundColor = "#00d599";
+  // } else if (user.group.value == 2) {
+  //   lastpaintBar.style.backgroundColor = "#ffc500";
+  // }
 
   if (lastPaintTime > 0) {
     document.querySelector(".lastPaintBar").className = "lastPaintBar fade-in";
@@ -601,6 +614,13 @@ watch(canvas.lastPaintTime, (newval) => {
     // lastPaintText.value = lastPaintRawText;
     document.querySelector(".lastPaintBar").className += " fade-out";
     setTimeout(() => {
+
+      let lastpaintBar = document.querySelector(".lastPaintBar");
+      if (canvas.lastPaintGroup.value == 1) {
+        lastpaintBar.style.backgroundColor = "#00d599";
+      } else if (canvas.lastPaintGroup.value == 2) {
+        lastpaintBar.style.backgroundColor = "#ffc500";
+      }  
 
       let lastPaintHour = 0;
       if (lastPaintMin >= 60) {
@@ -631,6 +651,26 @@ watch(canvas.lastPaintTime, (newval) => {
   }
 })
 
+watch(canvas.lastPaintMin, (newval) => {
+  let lastPaintHour = 0;
+  if (newval >= 60) {
+    lastPaintHour = Math.floor(newval / 60);
+    newval = newval % 60;
+    if (newval == 0) {
+      lastPaintRawText = `${lastPaintHour}小时前“${lastPaintName}”涂色`;  
+    } else {
+      lastPaintRawText = `${lastPaintHour}小时${newval}分钟前“${lastPaintName}”涂色`;  
+    }
+    
+  } else {
+    if (newval == 0) {
+      lastPaintRawText = `刚刚“${lastPaintName}”涂色`;
+    } else {
+      lastPaintRawText = `${newval}分钟前“${lastPaintName}”涂色`;     
+    }
+  }
+  lastPaintText.value = lastPaintRawText;
+})
 
 
 
@@ -723,4 +763,18 @@ watch(canvas.lastPaintTime, (newval) => {
   }
 }
 
+
+.shareBtn {
+  position: absolute;
+  width: 3vh;
+  height: 3vh;
+  right: 8px;
+  top: 8px;
+  z-index: 2;
+}
+
+.shareBtn img {
+  width: 100%;
+  height: 100%;
+}
 </style>

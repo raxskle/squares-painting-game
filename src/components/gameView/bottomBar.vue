@@ -168,8 +168,7 @@ let changeMode = () => {
       // 成功填色就  弹窗成功，回到mode0，请求画布并更新，请求冷却时间
       if (res.data.data.conflicting == false && res.data.data.cooling == false) {
         popTips("填色成功！");
-        // console.log("填色成功！");
-        emit("changeMode", 0); 
+        emit("changeMode", 0);
         emit("changeRefresh", true);
         cdtime.getCDtime();
         // 更新个人等级

@@ -138,7 +138,7 @@ watch(showSit, (newval) => {
     // copyConfigSquares();
     // console.log("战况页面更新");
     let popup = document.querySelector(".popupSituation");
-    popup.style.display = "flex";     
+    popup.style.display = "flex";
     emit("changeShowSit", false);
   }
 })

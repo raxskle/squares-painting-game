@@ -129,10 +129,12 @@ let toguideforward = () => {
   }
 }
 
+
+
 let toguide3 = (e) => {
   if (guidePage.value == 2 && e.changedTouches.length > 1) {
-    toguide3flag = false; 
-    guidePage.value = 3; 
+    toguide3flag = false;
+    guidePage.value = 3;
     setTimeout(() => {
       toguide3flag = true;
     }, 600);

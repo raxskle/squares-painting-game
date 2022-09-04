@@ -7,15 +7,20 @@
       </div>
     </div>
 
-    <div class="infoText" @click="pop">
-      <div class="redPoint3"></div>
-      {{user.userName.value}}
+    <div class="infoMsg">
+      <div class="infoText">
+        {{user.userName.value}}
+      </div>
+      <div class="infoLevel">
+        <img class="infogroupLevel" :src="userLevelImg" />
+        <img class="infomyLevel" :src="userProgressImg" />
+      </div>
     </div>
   </div>
 
-  <div class="groupLogo">
+  <div class="groupLogo" @click="pop">
     <img :src="logo" />
-    <div class="guideAgain" v-if="clickable"></div>
+    <div class="groupLevel">Group Lv.{{user.groupLevel}}</div>
   </div>
 </div>
 
@@ -41,25 +46,36 @@ let fadeRanking = () => {
 
 let showRank = () => {
   if (clickable.value == true) {
-    showRanking.value = true;  
+    showRanking.value = true;
   }
 }
 
+let userProgressImg = ref();
+if (user.group.value == 1) {
+  userProgressImg.value = "/bar1.png";
+} else {
+  userProgressImg.value = "/bar2.png";
+}
+
+let userLevelImg = ref("");
+userLevelImg.value = `/rankingLv${user.level.value}.png`;
+
+watch(user.level, (newval) => {
+  userLevelImg.value = `/rankingLv${newval}.png`;
+})
 
 let pop = () => {
   if (clickable.value == true) {
-    const redPoint3 = document.querySelectorAll(".redPoint3");  
-    if (redPoint3[0].style.display == "flex") {
-    redPoint3[0].style.display = "none";
-    redPoint3[1].style.display = "none";
-    console.log(user.groupLevel.value);
-    localStorage.setItem("groupLevelCard", user.groupLevel.value);    
-    }   
+    // const redPoint3 = document.querySelectorAll(".redPoint3");  
+    // if (redPoint3[0].style.display == "flex") {
+    // redPoint3[0].style.display = "none";
+    // redPoint3[1].style.display = "none";
+    // console.log(user.groupLevel.value);
+    // localStorage.setItem("groupLevelCard", user.groupLevel.value);    
+    // }   
     document.querySelector(".popupWinerPage").style.display = "flex";     
   }
 }
-
-
 
 // // 设置user的队伍等级
 // console.log("设置user.groupLevel", user.groupLevel.value);
@@ -68,7 +84,6 @@ let pop = () => {
 // }else if (user.group.value == 2) {
 //   user.groupLevel.value = canvas.group2Level.value;
 // }
-
 
 // 根据队伍等级设置头像框
 console.log("初始化设置头像框");
@@ -81,7 +96,6 @@ onMounted(() => {
       } catch (err) {
         console.log(err);
       }
-
     } else if (user.group.value == 2) {
       try {
       headFrame.value.style.backgroundImage = "url(yellow_frame.png)";
@@ -92,25 +106,23 @@ onMounted(() => {
   }  
 
 
-
-  // 名称小红点 等级==1，2，4        new  2,3,5
-  let oldCardSign = localStorage.getItem("groupLevelCard");
-  if (oldCardSign == null) {
-    oldCardSign = 0;
-  }
-  console.log("oldCardSign", oldCardSign);
-  console.log("user.groupLevel.value", user.groupLevel.value);
-  const redPoint3 = document.querySelector(".redPoint3");
-  if (oldCardSign < user.groupLevel.value) {
-    if (user.groupLevel.value == 2 || user.groupLevel.value == 3 || user.groupLevel.value == 5) {
-      redPoint3.style.display = "flex";
-    } else {
-      redPoint3.style.display = "none";
-    }
-  } else {
-    redPoint3.style.display = "none";      
-  }
-
+  // // 名称小红点 等级==1，2，4        new  2,3,5
+  // let oldCardSign = localStorage.getItem("groupLevelCard");
+  // if (oldCardSign == null) {
+  //   oldCardSign = 0;
+  // }
+  // console.log("oldCardSign", oldCardSign);
+  // console.log("user.groupLevel.value", user.groupLevel.value);
+  // const redPoint3 = document.querySelector(".redPoint3");
+  // if (oldCardSign < user.groupLevel.value) {
+  //   if (user.groupLevel.value == 2 || user.groupLevel.value == 3 || user.groupLevel.value == 5) {
+  //     redPoint3.style.display = "flex";
+  //   } else {
+  //     redPoint3.style.display = "none";
+  //   }
+  // } else {
+  //   redPoint3.style.display = "none";      
+  // }
 })
 
 
@@ -126,9 +138,8 @@ watch(user.groupLevel, (newval) => {
 })
 
 
-
-
 </script>
+
 
 
 <style scoped>
@@ -137,14 +148,15 @@ watch(user.groupLevel, (newval) => {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  height: 15vh; 
+  height: 13vh; 
   width: 95%;
+  margin-top: 1vh;
 }
 
 .userInfo {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 
 }
@@ -175,37 +187,72 @@ watch(user.groupLevel, (newval) => {
 
 }
 
+.infoMsg{
+  width:32vw;
+  height: 8vh;
+  /* background-color: antiquewhite; */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;  
+  flex-direction: column;
+}
 
 .infoText {
-  max-width: 35vw;
-  min-width: 16vw;
-  padding-top: 12px;
+  /* padding-top: 12px;
   padding-bottom: 12px;
   padding-left: 10px;
-  padding-right: 10px;
-  background-color: rgb(255, 255, 255);
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
+  padding-right: 10px; */
+  width: 100%;
+  /* background-color: rgb(255, 255, 255); */
+
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   position: relative;
+  height: 3vh;
+  line-height: 3vh;
+  font-size: 2.6vh;
+  /* font-weight: bolder; */
 }
 
+.infoLevel{
+  width: 100%;
+  height: 3vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+
+.infogroupLevel {
+  height: 80%;
+}
+
+.infomyLevel {
+  height: 80%;
+  margin-left: 1.5vmin;
+}
 
 .groupLogo {
-  height: 10vh;
-  width: 10vh;
+  /* height: 7vh; */
+  /* width: 7vh; */
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .groupLogo img {
-  height: 100%;
-  width: 100%;
+  height: 8vh;
+  width: 8vh;
 }
 
+.groupLevel {
+  font-size: 4vmin;
+  font-weight: 600;
+}
 
 .redPoint3 {
   width: 2vw;
@@ -219,7 +266,7 @@ watch(user.groupLevel, (newval) => {
 }
 
 
-.guideAgain {
+/* .guideAgain {
   position: absolute;
   font-size: 3.2vmin;
   margin: 0;
@@ -229,6 +276,6 @@ watch(user.groupLevel, (newval) => {
   justify-content: center;
   align-items: center;
   top:10.1vh;
-}
+} */
 
 </style>

@@ -204,6 +204,8 @@ let canvas = {
 
   lastPaintTime: ref(0),
   lastPaintName: ref("某用户"),
+  lastPaintGroup: ref(1),
+  lastPaintMin: ref(0),
 
   group1CompleteTarget: ref(false),
   group2CompleteTarget: ref(false),

@@ -28,31 +28,31 @@ export function toGame() {
           res.data.data.canvas_info.last_paint.pixel_position;
       }
 
-      canvas.group1Num.value = res.data.data.groups_info[1].total_pixels_num;
-      canvas.group2Num.value = res.data.data.groups_info[0].total_pixels_num;
+      canvas.group1Num.value = res.data.data.groups_info[0].total_pixels_num;
+      canvas.group2Num.value = res.data.data.groups_info[1].total_pixels_num;
       canvas.squareYnum = res.data.data.canvas_info.canvas.length;
       canvas.squareXnum = res.data.data.canvas_info.canvas[0].length;
       console.log("canvas.squareYnum:", canvas.squareYnum);
       console.log("canvas.squareXnum:", canvas.squareXnum);
 
       // console.log("toGame进行到获取队伍等级");
-      canvas.group1Level.value = res.data.data.groups_info[1].level;
-      canvas.group2Level.value = res.data.data.groups_info[0].level;
+      canvas.group1Level.value = res.data.data.groups_info[0].level;
+      canvas.group2Level.value = res.data.data.groups_info[1].level;
       console.log("group1Level:", canvas.group1Level.value);
       console.log("group2Level:", canvas.group2Level.value);
       // 设置user group level
       if (user.group.value == 1) {
-        user.groupLevel.value = res.data.data.groups_info[1].level;
-      } else if (user.group.value == 2) {
         user.groupLevel.value = res.data.data.groups_info[0].level;
+      } else if (user.group.value == 2) {
+        user.groupLevel.value = res.data.data.groups_info[1].level;
       }
       console.log("user.groupLevel", user.groupLevel);
 
       // 设置是否完成拼图
       canvas.group1CompleteTarget.value =
-        res.data.data.groups_info[1].complete_target;
-      canvas.group2CompleteTarget.value =
         res.data.data.groups_info[0].complete_target;
+      canvas.group2CompleteTarget.value =
+        res.data.data.groups_info[1].complete_target;
 
       // console.log("toGame进行到获取冷却时间");
       if (res.data.data.user_info.state == true) {
@@ -89,6 +89,8 @@ export function toGame() {
         canvas.lastPaintTime.value = res.data.data.canvas_info.last_paint.time;
         canvas.lastPaintName.value =
           res.data.data.canvas_info.last_paint.nickname;
+        canvas.lastPaintGroup.value =
+          res.data.data.canvas_info.last_paint.group;
       } else {
         canvas.lastPaintTime.value = 0;
       }

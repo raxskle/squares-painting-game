@@ -37,7 +37,6 @@ let rankLevelimg = ref("");
 
 rankNo.value = userNo.value + 1+ ".";
 
-
 rankImg.value = headimgurl.value;
 
 rankName.value = nickname.value;
@@ -46,13 +45,13 @@ if (rankName.value.length > 6) {
 }
 
 rankGroup.value = group.value;
-console.log(" group.value", group.value)
+console.log(" group.value", group.value);
 onMounted(() => {
   console.log("rankGroup.value", rankGroup.value);
   if (rankGroup.value == 1) {
     thisborder.value.style.border = "4px solid #00d599";
   } else if (rankGroup.value == 2){
-    thisborder.value.style.border = "4px solid #ffc500";    
+    thisborder.value.style.border = "4px solid #ffc500";
   }
   
 })

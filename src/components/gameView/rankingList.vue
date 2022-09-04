@@ -7,7 +7,6 @@
       :headimgurl="rankPerson.headimgurl"  :nickname="rankPerson.nickname"
       :group="rankPerson.group"  :user_level="rankPerson.user_level"
       :pixels_num="rankPerson.pixels_num"  
-
       ></rankingItem>
     </div>
   </div>
@@ -15,7 +14,7 @@
 
 <script setup>
 import { defineEmits, ref  } from "vue";
-import rankingItem from "./rankingItem.vue";  
+import rankingItem from "./rankingItem.vue";
 // import user from "../../modules/userState";
 import axios from "axios";
 let emit = defineEmits(['fadeRanking']);

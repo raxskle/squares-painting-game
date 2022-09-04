@@ -4,7 +4,7 @@
       累计排行榜
     </div>
     <div class="rankingListWarp">
-      <rankingList></rankingList>          
+      <rankingList></rankingList>
     </div>
 
   </div>

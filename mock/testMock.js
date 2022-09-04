@@ -2210,8 +2210,9 @@ let canvas = Mock.mock({
     // canvas: new Array(45).fill(new Array(45).fill("#")),
 
     last_paint: {
+      group: 1,
       pixel_position: [12, 9],
-      time: 1662215593228,
+      time: 1662303323776,
       nickname: "abcdeabcdeabcde",
       headimgurl:
         "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
@@ -2230,11 +2231,11 @@ let canvaspost = Mock.mock({
   data: {
     conflicting: false,
     cooling: false,
-    is_user_graded: false,
-    user_level: 0,
+    is_user_upgraded: true,
+    user_level: 4,
     user_pixels_num: 0,
     is_group_upgraded: true,
-    group_level: 2,
+    group_level: 4,
     group_pixels_num: 0,
   },
 });
@@ -2253,8 +2254,8 @@ let home_info = Mock.mock({
       nickname: "NAME1234abcd",
       headimgurl:
         "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
-      group: 1,
-      user_level: 1,
+      group: 2,
+      user_level: 3,
       user_pixels_num: 0,
 
       state: false,
@@ -3453,6 +3454,7 @@ let home_info = Mock.mock({
       // canvas: new Array(45).fill(new Array(45).fill("#")),
 
       last_paint: {
+        group: 2,
         pixel_position: [3, 8],
         time: 1662049292830,
         nickname: "某用户某用户某用户",
@@ -3463,17 +3465,17 @@ let home_info = Mock.mock({
     },
     groups_info: [
       {
-        id: 2,
-        name: "射日队",
-        level: 1,
+        id: 1,
+        name: "偷瓜队",
+        level: 3,
         total_members_num: 0,
         total_pixels_num: 12,
         complete_target: false,
       },
       {
-        id: 1,
-        name: "偷瓜队",
-        level: 1,
+        id: 2,
+        name: "射日队",
+        level: 3,
         total_members_num: 0,
         total_pixels_num: 13,
         complete_target: false,
