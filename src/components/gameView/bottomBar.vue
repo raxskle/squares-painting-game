@@ -202,12 +202,12 @@ let changeMode = () => {
             const redPoint2 = document.querySelector(".redPoint2");
             redPoint2.style.display = "flex";  
           }
-          if (oldCardSign < user.groupLevel.value) {
-            const redPoint3 = document.querySelector(".redPoint3");
-            if (user.groupLevel.value == 1 || user.groupLevel.value == 2 || user.groupLevel.value == 4) {
-              redPoint3.style.display = "flex";
-            }
-          }      
+          // if (oldCardSign < user.groupLevel.value) {
+            // const redPoint3 = document.querySelector(".redPoint3");
+            // if (user.groupLevel.value == 1 || user.groupLevel.value == 2 || user.groupLevel.value == 4) {
+            //   redPoint3.style.display = "flex";
+            // }
+          // }      
 
           //查看是否有完成了画布
           axios.get("/group/status").then((res) => {

@@ -91,6 +91,10 @@ export function toGame() {
           res.data.data.canvas_info.last_paint.nickname;
         canvas.lastPaintGroup.value =
           res.data.data.canvas_info.last_paint.group;
+        console.log(
+          "canvas.lastPaintGroup.value!!",
+          canvas.lastPaintGroup.value
+        );
       } else {
         canvas.lastPaintTime.value = 0;
       }

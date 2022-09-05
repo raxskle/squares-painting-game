@@ -39,6 +39,8 @@ const props = defineProps({
 
 const { logo, clickable } = toRefs(props);
 
+let urlprefix = process.env.VUE_APP_develope == "true"? "":"/drill-battle";
+
 let showRanking = ref(false);
 let fadeRanking = () => {
   showRanking.value = false;
@@ -52,16 +54,16 @@ let showRank = () => {
 
 let userProgressImg = ref();
 if (user.group.value == 1) {
-  userProgressImg.value = "/bar1.png";
+  userProgressImg.value = urlprefix+ "/bar1.png";
 } else {
-  userProgressImg.value = "/bar2.png";
+  userProgressImg.value = urlprefix+ "/bar2.png";
 }
 
 let userLevelImg = ref("");
-userLevelImg.value = `/rankingLv${user.level.value}.png`;
+userLevelImg.value = `${urlprefix}/rankingLv${user.level.value}.png`;
 
 watch(user.level, (newval) => {
-  userLevelImg.value = `/rankingLv${newval}.png`;
+  userLevelImg.value = `${urlprefix}/rankingLv${newval}.png`;
 })
 
 let pop = () => {

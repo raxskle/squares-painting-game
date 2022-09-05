@@ -1,7 +1,7 @@
 <template>
   <div ref="cc" id="canvasContainer">
     <div class="lastPaintBar">{{lastPaintText}}</div>
-    <div class="shareBtn"><img :src="'/shareIcon.png'" /></div>
+    <div class="shareBtn"><img :src="shareBtnIcon" /></div>
     <v-stage ref="stage" :config = "configKonva" @touchmove="scaleMove" @touchstart="scaleStart" @touchend="scaleEnd">
       <v-layer ref="layer" :config="configLayer">
 
@@ -47,6 +47,9 @@ let configLayer = reactive({
   scaleY: 1,
   // fill:"#f2f2f2",
 })
+
+
+let shareBtnIcon = ref('shareIcon.png');
 
 // 初始化数据
 console.log("进入主页面且开始初始化数据");
@@ -343,24 +346,37 @@ let updateCanvas=()=>{
 
       // 获取xx分钟前xx涂色
       if (res.data.data.last_paint != null) {
+        console.log("res.data.data.last_paint.time",res.data.data.last_paint.time);
+        console.log("res.data.data.last_paint.nickname",res.data.data.last_paint.nickname)
         if (canvas.lastPaintTime.value == res.data.data.last_paint.time) {
           if (canvas.lastPaintName.value == res.data.data.last_paint.nickname) {
-            canvas.lastPaintMin.value = Math.floor((Date.now() - res.data.data.last_paint.time)/60000);
+            let nowTime = Math.floor( Date.now()/1000);
+            let lastTime;
+            console.log("跑时间，nowTime",nowTime);
+            if (res.data.data.last_paint.time > 1600000000000) {
+              lastTime = Math.ceil(res.data.data.last_paint.time / 1000);
+            }else {
+              lastTime = res.data.data.last_paint.time;
+            }
+            console.log("跑时间，lastTime",lastTime);            
+            canvas.lastPaintMin.value = Math.floor((nowTime - lastTime)/60);
+            console.log("canvas.lastPaintMin.value",canvas.lastPaintMin.value);
           }
         }
 
         canvas.lastPaintTime.value = res.data.data.last_paint.time;
         canvas.lastPaintName.value = res.data.data.last_paint.nickname;
         canvas.lastPaintGroup.value = res.data.data.last_paint.group;
+        console.log("canvas.lastPaintGroup.value!!",canvas.lastPaintGroup.value);
       } else {
         canvas.lastPaintTime.value = 0;
       }
     
 
-      console.log("canvas.canvasState.value:",canvas.canvasState.value); 
+      // console.log("canvas.canvasState.value:",canvas.canvasState.value); 
 
       drawCanvas();
-      console.log("成功刷新画布");
+      // console.log("成功刷新画布");
     })
     .catch((res) => {
       console.log("请求canvas发生错误：",res);
@@ -566,16 +582,17 @@ onMounted(() => {
   // let FieldContext = Field.value.getNode().children[26];用children拿就会乱序
   // console.log(FieldContext);
   // 用name拿不会乱序
-  console.log("mainCanvas onMounted");
+  // console.log("mainCanvas onMounted");
   if (canvas.latestPosition.value[0] != -1 && canvas.latestPosition.value[1] != -1) {
     stage.value.getStage()
       .find(`.square${canvas.latestPosition.value[0] * canvas.squareXnum + canvas.latestPosition.value[1]}`)[0]
       .moveToTop();
     // 首次显示最新格子：进入主页面之前请求，fill时设置stroke，mounted时movetoTop
-    console.log(canvas.configSquares);
+    // console.log(canvas.configSquares);
   }
 
   let lastpaintBar = document.querySelector(".lastPaintBar");
+  console.log("set color :canvas.lastPaintGroup.value",canvas.lastPaintGroup.value);
   if (canvas.lastPaintGroup.value == 1) {
     lastpaintBar.style.backgroundColor = "#00d599";
   } else if (canvas.lastPaintGroup.value == 2) {
@@ -616,6 +633,7 @@ watch(canvas.lastPaintTime, (newval) => {
     setTimeout(() => {
 
       let lastpaintBar = document.querySelector(".lastPaintBar");
+      console.log("set color :canvas.lastPaintGroup.value",canvas.lastPaintGroup.value);
       if (canvas.lastPaintGroup.value == 1) {
         lastpaintBar.style.backgroundColor = "#00d599";
       } else if (canvas.lastPaintGroup.value == 2) {
@@ -652,6 +670,7 @@ watch(canvas.lastPaintTime, (newval) => {
 })
 
 watch(canvas.lastPaintMin, (newval) => {
+  console.log("canvas.lastPaintMin  newaval",newval)
   let lastPaintHour = 0;
   if (newval >= 60) {
     lastPaintHour = Math.floor(newval / 60);
@@ -670,6 +689,14 @@ watch(canvas.lastPaintMin, (newval) => {
     }
   }
   lastPaintText.value = lastPaintRawText;
+
+  let lastpaintBar = document.querySelector(".lastPaintBar");
+  console.log("set color :canvas.lastPaintGroup.value",canvas.lastPaintGroup.value);
+  if (canvas.lastPaintGroup.value == 1) {
+    lastpaintBar.style.backgroundColor = "#00d599";
+  } else if (canvas.lastPaintGroup.value == 2) {
+    lastpaintBar.style.backgroundColor = "#ffc500";
+  }  
 })
 
 

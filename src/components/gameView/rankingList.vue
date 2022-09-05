@@ -32,7 +32,7 @@ axios.get("/user/ranking").then((res) => {
 
 
 
-console.log("rankPeople", rankPeople);
+
 
 
 

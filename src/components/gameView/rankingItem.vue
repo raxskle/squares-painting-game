@@ -23,7 +23,7 @@ let props = defineProps({
   pixels_num: {},
 })
 let { userNo, headimgurl, nickname,group,user_level ,pixels_num } =toRefs( props);
-console.log("props",props.userNo);
+// console.log("props",props.userNo);
 
 let thisborder = ref(null);
 let rankNo = ref("1.");
@@ -45,9 +45,9 @@ if (rankName.value.length > 6) {
 }
 
 rankGroup.value = group.value;
-console.log(" group.value", group.value);
+// console.log(" group.value", group.value);
 onMounted(() => {
-  console.log("rankGroup.value", rankGroup.value);
+  // console.log("rankGroup.value", rankGroup.value);
   if (rankGroup.value == 1) {
     thisborder.value.style.border = "4px solid #00d599";
   } else if (rankGroup.value == 2){
@@ -74,7 +74,7 @@ if (rankLevel.value == 1) {
   rankLevelimg.value = "rankingLvnull.png";  
 }
 
-console.log("pixels_num.value",pixels_num.value)
+// console.log("pixels_num.value",pixels_num.value)
 rankDrawNum.value = "已涂：" + pixels_num.value;
 
 

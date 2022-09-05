@@ -75,7 +75,7 @@ let cd2 = ref(null);
 let cd3 = ref(null);
 // 初始化设置卡片
 onMounted(() => {
-  console.log("winner page mounted");
+  // console.log("winner page mounted");
   // 即使display==none的组件也会执行代码
   if (user.groupLevel.value >= 2) {
     cd1.value.style.display = "none";
