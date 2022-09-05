@@ -20,9 +20,13 @@
     <div class="taskX"></div>
     <h2>游戏规则</h2>
     <div class="taskContainer" @click.stop="null">
-      <div class="taskTitle" @click="rulespread('.t1')">今日任务</div>
+      <div class="taskTitle" @click="rulespread('.t1')">团队任务</div>
       <div class="taskWarp t1">
-        <div class="taskInfo" v-bind:innerHTML="taskText"></div>  
+        <div class="taskInfo" >
+        <div v-if="taskshow1" class="task11"><span>当天<span class="highLight">涂色数量</span>更多的一队将升一级。</span></div>
+        <div v-if="taskshow2" class="task12"><span>当天<span class="highLight">涂色数量</span>更多的队伍将升一级。<br/><br/>当天完成过一次<span class="highLight">目标图案</span>涂色的队伍将升一级。</span></div>
+        <div v-if="taskshow3" class="task13"><span>当天<span class="highLight">涂色数量</span>更多的队伍将升一级。<br/><br/>当天完成过一次<span class="highLight">目标图案</span>涂色的队伍将升一级。</span></div>
+        </div>  
         <div class="tasksubTitle"  @click="rulespread()">目标图案:</div>
         <div class="taskImg">
           <!-- <img  class="taskimage" src="http://192.168.80.149:8081/green_frame.png"/> -->
@@ -30,17 +34,29 @@
         </div> 
       </div>
 
-      <div class="taskTitle" @click="rulespread('.t2')">团队通行证升级</div>
+      <div class="taskTitle" @click="rulespread('.t2')">团队通行证/头像框</div>
       <div class="taskWarp t2">
         <div class="taskInfo">
-          &nbsp; &nbsp; 记得关注每日更新的任务哦，根据完成的任务个数可以获得相应积分，积1分解锁青铜通行证，积2分解锁白银通行证，积4分就可以拿到最高级的通行证啦！
+          <span>
+            队伍升级解锁相应<span class="highLight">通行证</span>，点击涂色页面右上方图标可查看。
+            <br/>
+            <br/>
+            团队升至Lv.3时可以解锁特制头像框。            
+          </span>
+
         </div>  
       </div>      
       
-      <div class="taskTitle" @click="rulespread('.t3')">个人填色升级</div>
+      <div class="taskTitle" @click="rulespread('.t3')">个人升级机制</div>
       <div class="taskWarp t3">
         <div class="taskInfo">
-          &nbsp; &nbsp; 我们为你准备了六个不同的等级颜色，一天内连续涂色3次和一天内累计涂色6次，都可以获得颜色升级哦。
+          <span>
+            当日<span class="highLight">涂色6块</span>升一级，当日<span class="highLight">涂色15块</span>可再升一级。
+            <br/>
+            <br/>
+            升级后<span class="highLight">填色颜料</span>会相应升级，点击头像可查看<span class="highLight">排行榜</span>。            
+          </span>
+
         </div>  
       </div>      
 
@@ -294,10 +310,10 @@ watch(mode, (newval,oldval) => {
 // })
 
 // 任务
-const taskText1 = `&nbsp; &nbsp; 涂色数量更多的一队将积一分。`;
-const taskText2 = `&nbsp; &nbsp; 涂色数量更多的一队将积一分。<br/>&nbsp; &nbsp; 另外，下面是你队今日的目标图案，在画布上用自己队伍的颜色完成图案涂色也可以积一分，同时，对方队伍也有一个不同的目标图案，谨慎对方动态，注意及时破坏哦！`;
-const taskText3 = `&nbsp; &nbsp; 涂色数量更多的一队将积一分。<br/>&nbsp; &nbsp; 另外，下面是你队今日的目标图案，在画布上用自己队伍的颜色完成图案涂色也可以积一分，同时，对方队伍也有一个不同的目标图案，谨慎对方动态，注意及时破坏哦！`;
-let taskText = ref(`默认文字`);
+// const taskText1 = `<span>当天<span class="highLight">涂色数量</span>更多的一队将升一级。</span>`;
+// const taskText2 = `<span>当天<span class="highLight">涂色数量</span>更多的队伍将升一级。<br/><br/>当天完成过一次<span class="highLight">目标图案</span>涂色的队伍将升一级。</span>`;
+// const taskText3 = `<span>当天<span class="highLight">涂色数量</span>更多的队伍将升一级。<br/><br/>当天完成过一次<span class="highLight">目标图案</span>涂色的队伍将升一级。</span>`;
+// let taskText = ref(`默认文字`);
 let sign;
 
 
@@ -352,6 +368,11 @@ let fadeSituation = () => {
 }
 
 let taskImgurl=ref("");
+
+let taskshow1 = ref(false);
+let taskshow2 = ref(false);
+let taskshow3 = ref(false);
+
 //小红点
 onMounted(() => {
   // 打开主页面时获取任务
@@ -360,11 +381,14 @@ onMounted(() => {
     sign = res.data.data.task;
     console.log("sign",sign);
     if (sign == 1) {
-      taskText.value = taskText1;
+      // taskText.value = taskText1;
+      taskshow1.value = true;
     } else if (sign == 2) {
-      taskText.value = taskText2;      
+      // taskText.value = taskText2;  
+      taskshow2.value = true;    
     } else if (sign == 3) {
-      taskText.value = taskText3;            
+      // taskText.value = taskText3;  
+      taskshow3.value = true;          
     }
 
     
@@ -573,8 +597,8 @@ let rulespread = (target) => {
 .taskWarp {
   padding-top: 0.5vh;  
   padding-bottom: 2vh;
-  padding-left: 4.4vh;  
-  padding-right: 4.4vh;  
+  padding-left: 4.8vh;  
+  padding-right: 4.8vh;  
   display: none;
   flex-direction: column;
   justify-content: center;
@@ -639,7 +663,6 @@ let rulespread = (target) => {
   background-size: 100vw;
   background-repeat: repeat-y;
 }
-
 
 
 .popupTips{

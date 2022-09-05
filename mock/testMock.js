@@ -49,8 +49,8 @@ let groupStatus = Mock.mock({
 let task = Mock.mock({
   data: {
     task: 1,
-    img: "http://192.168.80.149:8081/tasktest.png",
-    // img: null,
+    // img: "http://192.168.80.149:8081/tasktest.png",
+    img: null,
   },
 });
 
