@@ -1,11 +1,9 @@
 <template>
-<div class="situation">
+<div class="situation" @click="fadeRanking">
   <div class="scoreBar">
     <div class="gridBorder"></div>
     <div class="scoreTitle">已涂色块数目</div>
     <div class="scoreBox">
-
-
 
 
       <div class="scoreGroup">
@@ -80,13 +78,19 @@ let props = defineProps({
 })
 let { showSit } = toRefs(props);
 
+// console.log(showSit);
 
 let emit = defineEmits(['changeShowSit']);
 
 
 let showRanking = ref(true);
 
-
+let fadeRanking = ()=>{
+  showRanking.value = false;
+  setTimeout(() => {
+    showRanking.value = true;
+  }, 10);
+}
 
 
 // // 画布缩放
@@ -137,12 +141,17 @@ watch(showSit, (newval) => {
     // 同步
     // copyConfigSquares();
     // console.log("战况页面更新");
+    // 
     let popup = document.querySelector(".popupSituation");
     popup.style.display = "flex";
+
     emit("changeShowSit", false);
   }
 })
 
+// let fadeSit = ()=>{
+//   emit("changeShowSit", false);  
+// }
 
 
 // let fade = () => {

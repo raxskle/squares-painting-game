@@ -24,8 +24,8 @@ let router = useRouter();
 let toSelect = () => {
   router.replace("/newUser/select");
 }
-let intromsg = ["他们誓当21世纪后羿，为武汉带来三分凉意。",
-  "他们是夏日西瓜爱好者，偷走夏日一抹甜凉是他们一生的追求。"];
+let intromsg = ["他们忙碌在校园每个角落，只为了让新生获得更好的军训体验。",
+  "他们是夏日西瓜爱好者，喜欢吃瓤，也喜欢头顶瓜皮来遮阳。"];
 
 </script>
 

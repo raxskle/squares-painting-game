@@ -2,10 +2,10 @@
 <div class="homePage"   @click="toStart" >
   <div class="title">军训大对抗</div>
   <div class="discribe">
-    <p>一年一度的军训又到了。</p>
-    <p>激动人心的种太阳时间又到了！</p>
-    <p>还在幻想着军训的时候有学姐学长送西瓜？</p>
-    <p>这里，只有邪恶的偷瓜队和射日队。</p>
+    <span>一年一度的军训又到了。</span>
+    <span>这里，有邪恶的<span class="highLight">种太阳队</span>，想让小绿人的<span class="highLight">太阳超级加倍</span>。</span>
+    <span>这里，也有嗷嗷待哺的<span class="highLight">吃西瓜队</span>，想用冰西瓜<span class="highLight">抵挡烈日</span>。</span>
+    <span>军训场上，硝烟已经开始弥漫……</span>
   </div>
 <!-- title 25vh
     discribe  50vh
@@ -83,6 +83,14 @@ canvasBorder.src = require(`@/assets/iamge/canvas_border.png`);
 </script>
 
 <style scoped>
+
+.yellow {
+  color: #ffc500;
+}
+
+.green {
+  color: #00d599;
+}
 .homePage {
   display: flex;
   flex-direction: column;
@@ -101,7 +109,9 @@ canvasBorder.src = require(`@/assets/iamge/canvas_border.png`);
 
 .discribe {
   box-sizing: border-box;
-  padding: 5vmin;
+  padding: 4vmin;
+  padding-top: 7vmin;
+  padding-bottom: 7vmin;
   width: 75vw;
   height: 50vh;
   border-radius: 2px;
@@ -109,16 +119,22 @@ canvasBorder.src = require(`@/assets/iamge/canvas_border.png`);
   background-size: 100% 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: flex-start;
 }
 
-.discribe p {
+.discribe span {
   font-size: 5vmin;
+  line-height: 160%;
   padding: 0;
   margin-top: 0px;
   margin-bottom: 4vmin;
 
+}
+
+.highLight {
+  color: rgb(241, 137, 109);
+  font-weight: 600;
 }
 
 </style>

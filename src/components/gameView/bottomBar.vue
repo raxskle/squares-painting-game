@@ -44,11 +44,15 @@
         </div>  
       </div>      
 
-      <div class="taskTitle" @click="rulespread('.t4')">总福利</div>
+      <div class="taskTitle" @click="rulespread('.t4')">游戏线下福利</div>
       <div class="taskWarp t4">
         <div class="taskInfo">
-          &nbsp; &nbsp; Huster，本游戏维持三天，你可以凭借最终的通行证等级，获取相应的水果捞满减福利哦，等级越高福利越好，快快开始游戏吧！
-        </div>  
+          <span>
+            游戏维持<span class="highLight">3天</span>，凭借最终通行证等级可以兑换相应<span class="highLight">水果捞满减</span>券。
+            <br/><br/>排行榜<span class="highLight">前十位</span>可以抽取<span class="highLight">实物周边惊喜盲盒</span>。
+            <br/><br/>具体兑换方式将在<span class="highLight">最后一天</span>公布。
+          </span>
+          </div>  
       </div>      
 
 
@@ -57,7 +61,7 @@
 </div>
 
 <!-- 战况弹窗 -->
-<div class="popupSituation"  @click="fadeSituation">
+<div  class="popupSituation"  @click="fadeSituation">
   <situation :showSit="showSit" @changeShowSit="changeShowSit"></situation>
 </div>
 
@@ -96,6 +100,11 @@ if (user.group.value == 1) {
   drawColor = "#ffc500";  
 } 
 
+
+
+let showList = ref(false);
+
+
 // 设置cdtime
 let drawBtnText = ref("");
 if (user.CDtime.value <= 0) {
@@ -127,13 +136,17 @@ watch(user.CDtime, (newval) => {
 
 // 填色成功、失败、冷却提示
 let tipsText = ref("");
-let popTips = function (text) {
+let popTips = function (text, cd) {
+  let time = 2000;
+  if(cd == 1){
+    time = 5000;
+  }
   tipsText.value = text;
   let tips = document.querySelector(".popupTips");
   tips.className="popupTips scale-in-center"
   setTimeout(() => {
     tips.className = "popupTips scale-out-center";
-  }, 2000);
+  }, time);
 }
 
 
@@ -141,7 +154,7 @@ let emit = defineEmits(['changeMode', "changeRefresh"]);
 let changeMode = () => {
   if (mode.value == 1) {
     
-    emit("changeMode", 0);  
+    emit("changeMode", 0);
   } else if (mode.value == 0) {
     // 请求是否能填色
     axios.get(`/user/state`).then((res) => {
@@ -149,7 +162,7 @@ let changeMode = () => {
       if (res.data.data.state == true && user.CDtime.value<=0) {
         emit("changeMode", 1);
       } else {
-        popTips("每位玩家每半小时只能填色一次！");
+        popTips("点击画布右上角的转发按钮，分享游戏即可获得一次冷却时间清零。",1);
       }
     }).catch((res) => {
       console.log(res);
@@ -228,7 +241,7 @@ let changeMode = () => {
           // console.log("填色失败，你选择的方格已被你的阵营填色");
         } else if (res.data.data.cooling == true) {
           popTips("填色失败，请重试！")
-          console.log("填色失败，同用户一小时内只能填色一次");
+          // console.log("填色失败，同用户一小时内只能填色一次");
         }
         emit("changeMode", 1);       
         emit("changeRefresh",true);          
@@ -331,6 +344,7 @@ let popSituation = () => {
     console.log(user.groupLevel.value);
     localStorage.setItem("groupLevelSit", user.groupLevel.value);
   }
+  showList.value = true;
 }
 let fadeSituation = () => {
   let popup = document.querySelector(".popupSituation");
@@ -355,14 +369,11 @@ onMounted(() => {
 
     
     if (res.data.data.img == null) {
-      document.querySelector(".taskimage").style.display = "none";
-      document.querySelector(".taskTitle").style.display = "none";
+      document.querySelector(".taskImg").style.display = "none";
+      document.querySelector(".tasksubTitle").style.display = "none";
     } else {
       taskImgurl.value = res.data.data.img;
     }
-
-
-
 
     let oldMission = localStorage.getItem("task");
     if (oldMission == null) {
@@ -591,14 +602,15 @@ let rulespread = (target) => {
 }
 .tasksubTitle {
   margin-top: 2vh;
-  font-size: 4vmin;  
+  margin-bottom: 1vh;
+  font-size: 5vmin;  
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;  
 }
 .taskImg {
-  width: 96%;
+  width: 104%;
   margin-top: 0;
   margin-bottom: 2vh;
   display: flex;
@@ -628,21 +640,30 @@ let rulespread = (target) => {
   background-repeat: repeat-y;
 }
 
+
+
 .popupTips{
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   visibility: hidden;
-  width: 55vw;
-  height: 14vw;
+  /* width: 58vw; */
+  width: auto;
+  min-width: 40vw;
+  max-width: 58vw;
+  height: auto;
+  min-height: 5vh;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  padding-left: 5vmin;
+  padding-right: 5vmin;
   border: 3px solid black;
-  /* border-radius: 2px; */
+  border-radius: 3px;
   background-color: rgb(255, 255, 255);
   top: 60vh;
   transition: all .5s;
   opacity: 0;
-  padding: 5px;
   z-index: -1;
 }
 
@@ -752,4 +773,9 @@ let rulespread = (target) => {
   right: 6vw;
 }
 
+
+.highLight {
+  color: rgb(241, 137, 109);
+  font-weight: 600;
+}
 </style>

@@ -48,7 +48,7 @@ let groupStatus = Mock.mock({
 });
 let task = Mock.mock({
   data: {
-    task: 2,
+    task: 1,
     img: "http://192.168.80.149:8081/tasktest.png",
     // img: null,
   },
@@ -2232,7 +2232,7 @@ let canvaspost = Mock.mock({
     conflicting: false,
     cooling: false,
     is_user_upgraded: true,
-    user_level: 4,
+    user_level: 7,
     user_pixels_num: 0,
     is_group_upgraded: true,
     group_level: 4,
@@ -2243,7 +2243,7 @@ let canvaspost = Mock.mock({
 let canDrawState = Mock.mock({
   data: {
     state: true,
-    last_paint_time: 1661157243075,
+    last_paint_time: 1661684621000,
   },
 });
 
@@ -2254,12 +2254,12 @@ let home_info = Mock.mock({
       nickname: "NAME1234abcd",
       headimgurl:
         "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
-      group: 2,
+      group: 1,
       user_level: 3,
       user_pixels_num: 0,
 
       state: false,
-      last_paint_time: 1661684621,
+      last_paint_time: Date.now(),
     },
     canvas_info: {
       canvas: [
@@ -3484,6 +3484,10 @@ let home_info = Mock.mock({
   },
 });
 
+let usercooling = Mock.mock({
+  data: {},
+});
+
 let userranking = Mock.mock({
   data: {
     ranking: [
@@ -3766,6 +3770,12 @@ module.exports = (middlewares, devServer) => {
       path: `/api/user/ranking`,
       middleware: (req, res) => {
         res.json(userranking);
+      },
+    });
+    middlewares.unshift({
+      path: `/api/user/cooling`,
+      middleware: (req, res) => {
+        res.json(usercooling);
       },
     });
     return middlewares;

@@ -1,7 +1,9 @@
 <template>
   <div ref="cc" id="canvasContainer">
     <div class="lastPaintBar">{{lastPaintText}}</div>
-    <div class="shareBtn"><img :src="shareBtnIcon" /></div>
+    <div class="shareBtn" @click="popSharePage">
+      <img :src="shareBtnIcon"/>
+    </div>
     <v-stage ref="stage" :config = "configKonva" @touchmove="scaleMove" @touchstart="scaleStart" @touchend="scaleEnd">
       <v-layer ref="layer" :config="configLayer">
 
@@ -17,6 +19,14 @@
     </v-stage>
   </div>
 
+  <div v-if="showSharePage" class="sharePage" @click="fadeSharePage">
+    <div class="shareBox"   @click.stop="null">
+      <img :src="shareCardImg"  @touchstart="startTimer" @touchend="endTimer"  />
+      <div class="shareSaveTips">长按图片保存</div>
+    </div>
+  </div>
+
+
 </template>
 
 
@@ -26,6 +36,7 @@ import router from "@/router";
 import { toRefs, ref, reactive, defineProps, defineEmits,onMounted,watch  } from "vue";
 import canvas from "../../modules/canvasState";
 import axios from "../../request/axios";
+import cdtime from "../../modules/cdtime";
 // import 直接执行
 
 const props = defineProps({
@@ -47,9 +58,12 @@ let configLayer = reactive({
   scaleY: 1,
   // fill:"#f2f2f2",
 })
-
+let urlprefix = process.env.VUE_APP_develope == "true"? "":"/drill-battle";
 
 let shareBtnIcon = ref('shareIcon.png');
+
+let shareCardImg = ref("");
+shareCardImg.value = `${urlprefix}/shareImg${user.group.value}.jpg`;
 
 // 初始化数据
 console.log("进入主页面且开始初始化数据");
@@ -699,6 +713,53 @@ watch(canvas.lastPaintMin, (newval) => {
   }  
 })
 
+let showSharePage = ref(false);
+
+let popSharePage = ()=>{
+  showSharePage.value = true;
+}
+
+
+
+let fadeSharePage =()=>{
+  showSharePage.value = false;
+}
+
+let shareTimer;
+
+let reCDflag = ref(false);
+
+let startTimer=()=>{
+  shareTimer = setTimeout(() => {
+    // showSharePage.value = false;
+    axios.put(`/user/cooling`).then(()=>{
+      console.log("send put request");
+      reCDflag.value = true;
+    }).catch((res)=>{
+      console.log(res);
+    })
+  }, 200);
+}
+
+watch(reCDflag,(newval)=>{
+  if(newval == true){
+    // 请求cd时间
+    axios.get(`/user/state`).then((res)=>{
+      console.log(res);
+      // 刷新时间
+      cdtime.getCDtime();
+
+    }).catch((res)=>{
+      console.log(res);
+    })
+    reCDflag = false;
+  }
+})
+
+let endTimer = ()=>{
+  clearTimeout(shareTimer);
+}
+
 
 
 // !!!!!!如果config对象某个属性的值没变，那么这个值相关就不会重新渲染
@@ -714,6 +775,7 @@ watch(canvas.lastPaintMin, (newval) => {
   background-size: 100% 100%;
   padding: 8px;
   position: relative;
+  z-index: 2;
   /* background-color: #979797;
   background-color: #c8c8c8;
   background-color: #f2f2f2; */
@@ -804,4 +866,49 @@ watch(canvas.lastPaintMin, (newval) => {
   width: 100%;
   height: 100%;
 }
+
+.sharePage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(33, 33, 33, 0.419);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.shareBox {
+  width: 76vw;
+  /* height: 70vh; */
+  background-color: white;
+  border-radius: 4px;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;  
+  z-index: 10;
+  position: relative;
+}
+
+.shareBox img {
+  margin-top: 1vh;
+  width: 70vw;
+  z-index: 10;
+}
+
+.shareSaveTips {
+  /* position: absolute; */
+  /* color: white; */
+  /* bottom: -15%; */
+  margin-top: 2vmin;
+  margin-bottom: 2vmin;
+  font-size: 3.3vmin;
+  z-index: 11;
+}
+
 </style>

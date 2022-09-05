@@ -2,7 +2,11 @@
 
   <div class="introBox introBox2" @click="popConfirm(clickable)">
     <div class="intrologo"><img :src="img"/></div>
-    <div class="introText">{{text}}</div>
+    <div class="introRight">
+      <div class="groupName">吃西瓜队</div>
+      <div class="introText">{{text}}</div>    
+    </div>
+
   </div>
 
   <div class="confirmWarp2">
@@ -146,9 +150,24 @@ let postGroup = function (clickable) {
 .introBoxWarp {
   position: relative;
 }
-.introText {
-  width: 50%;
+
+
+
+.introRight {
+  width: 54%;
+  height: 70%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.groupName {
   font-size: 5vmin;
+}
+
+.introText {
+  width: 100%;
+  font-size: 4vmin;
 }
 .introBox {
   position: relative;

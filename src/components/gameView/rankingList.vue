@@ -26,6 +26,7 @@ let rankPeople = ref(null);
 
 axios.get("/user/ranking").then((res) => {
   rankPeople.value = res.data.data.ranking;
+  console.log("get list data");
 }).catch((res) => {
   console.log(res);
 })

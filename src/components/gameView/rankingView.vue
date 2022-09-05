@@ -7,6 +7,8 @@
       <rankingList></rankingList>
     </div>
 
+    <div class="returnTips">点击任意地方返回</div>
+
   </div>
 
 </template>
@@ -50,6 +52,13 @@ let fadeRank = () => {
 }
 
 
+.returnTips {
+  font-size: 4vmin;
+  color: rgb(70, 70, 70);
+  margin-top: 4vh;
+  margin-bottom: 2vh;
+  /* margin-bottom: 0.6vmin; */
+}
 
 
 </style>

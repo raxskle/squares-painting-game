@@ -4,7 +4,7 @@
     <topUserInfo :logo="topLogoImg" ></topUserInfo>
     <mainCanvas :mode="mode" :refresh="refresh" @changeMode="changeMode" @changeRefresh="changeRefresh" ></mainCanvas>    
     <bottomBar :mode="mode" :refresh="refresh" @changeMode="changeMode" @changeRefresh="changeRefresh" ></bottomBar>    
-    <footerAD></footerAD>   
+    <footerAD></footerAD>
     <!--
       -top  15vh
       -maincanvas 62vh
@@ -43,7 +43,6 @@ let changeRefresh = (val) => {
 
 // top的logo根据阵营显示
 let topLogoImg = ref(null);
-// console.log("在gameView时的group", user.group.value);
 
 // 没有group就跳回loading
 if (user.group.value == 0) {
@@ -68,6 +67,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
+
 .gameView {
   display: flex;
   flex-direction: column;

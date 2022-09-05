@@ -53,17 +53,19 @@ let showRank = () => {
 }
 
 let userProgressImg = ref();
-if (user.group.value == 1) {
-  userProgressImg.value = urlprefix+ "/bar1.png";
-} else {
-  userProgressImg.value = urlprefix+ "/bar2.png";
-}
+userProgressImg.value = `${urlprefix}/bar${user.group.value}${user.level.value}.png`;
+// if (user.group.value == 1) {
+//   userProgressImg.value = urlprefix+ "/bar1.png";
+// } else {
+//   userProgressImg.value = urlprefix+ "/bar2.png";
+// }
 
 let userLevelImg = ref("");
 userLevelImg.value = `${urlprefix}/rankingLv${user.level.value}.png`;
 
 watch(user.level, (newval) => {
   userLevelImg.value = `${urlprefix}/rankingLv${newval}.png`;
+  userProgressImg.value = `${urlprefix}/bar${user.group.value}${newval}.png`;
 })
 
 let pop = () => {

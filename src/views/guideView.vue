@@ -7,7 +7,7 @@
 
       <div class="canvasContainer" >
         <div class="canvas">
-          <img :src="guideImg"/>
+          <img class="guideImg" :src="guideImg"/>
         </div>
       </div>
 
@@ -132,7 +132,7 @@ let toguideforward = () => {
 
 
 let toguide3 = (e) => {
-  if (guidePage.value == 2 && e.changedTouches.length > 1) {
+  if (guidePage.value == 2 && e.changedTouches.length > 0) {
     toguide3flag = false;
     guidePage.value = 3;
     setTimeout(() => {
@@ -155,11 +155,17 @@ watch(guidePage, (newval) => {
     window.style.height = "50vh";
     guidewords.value ="试试双指缩放画布吧！"
   } else if (newval == 3) {
-    guideImg.value = require(`@/assets/iamge/guide03.png`);
-    window.style.width = "25vmin";
-    window.style.height = "25vmin";
-    guideBox.style.top = "40vh";
-    guidewords.value ="选择要涂色的格子"
+    document.querySelector(".guideImg").style.transform= "scale(4) translate(16.8%, 5.7%)";
+    setTimeout(() => {
+      document.querySelector(".guideImg").style.transition= "0s all";   
+      document.querySelector(".guideImg").style.transform= "scale(1)";
+      guideImg.value = require(`@/assets/iamge/guide03.png`);
+      window.style.width = "25vmin";
+      window.style.height = "25vmin";
+      guideBox.style.top = "40vh";
+      guidewords.value ="选择要涂色的格子"      
+    }, 500);
+
     wait();
   } else if (newval == 4) {
     guideImg.value = require(`@/assets/iamge/guide04.png`);
@@ -195,7 +201,7 @@ watch(guidePage, (newval) => {
     guideBox.style.flexDirection = "column-reverse";    
     guideBox.style.height = "40vh";
     guideBox.style.top = "58vh";
-    guidewords.value ="半小时后才可以再次涂色"    
+    guidewords.value ="五分钟后才可以再次涂色"    
     // wait();
   } else if (newval == 7) {
     guideImg.value = require(`@/assets/iamge/guide01.png`);
@@ -221,15 +227,15 @@ watch(guidePage, (newval) => {
     guideImg.value = require(`@/assets/iamge/guide01.png`);
     wait();
   } else if (newval == 9) {
-    window.style.width = "72vw";
+    window.style.width = "65vw";
     window.style.height = "14vh";
     guideBox.style.flexDirection = "column";    
     guideBox.style.alignItems = "flex-start";    
     guideBox.style.height = "30vh";
     guideBox.style.top = "0.5vh";
-    guideBox.style.left = "4vmin";
+    guideBox.style.left = "2vmin";
     guideBox.style.right = "";
-    guidewords.value ="点击名字看看自己的等级吧！"  
+    guidewords.value ="点击头像看看自己的等级吧！"  
     guideImg.value = require(`@/assets/iamge/guide01.png`);
     wait();
   }
@@ -288,6 +294,7 @@ watch(guidePage, (newval) => {
 
 .canvas img {
   width: 100%;
+  transition: .5s;
 }
 
 .bar {
