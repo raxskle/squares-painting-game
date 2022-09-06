@@ -20,7 +20,15 @@
     <div class="taskX"></div>
     <h2>游戏规则</h2>
     <div class="taskContainer" @click.stop="null">
-      <div class="taskTitle" @click="rulespread('.t1')">团队任务</div>
+      <div class="taskWarptop">
+        <span>
+          欢迎来到军训大对抗！作为军训期间限定小游戏，本游戏将持续3天(9.7-9.9)。
+          <br/>
+          <br/>
+          种太阳队vs吃西瓜队，队伍每日有至多两次的升级机会。级数更高的一队将取得游戏的最终胜利！
+        </span>
+      </div>
+      <div class="taskTitle" @click="rulespread('.t1')">团队今日任务</div>
       <div class="taskWarp t1">
         <div class="taskInfo" >
         <div v-if="taskshow1" class="task11"><span>当天<span class="highLight">涂色数量</span>更多的一队将升一级。</span></div>
@@ -38,6 +46,9 @@
       <div class="taskWarp t2">
         <div class="taskInfo">
           <span>
+            本游戏将持续三天，每天队伍有至多两次升级机会，级数高的队伍将赢得游戏最终胜利。
+            <br/>
+            <br/>
             队伍升级解锁相应<span class="highLight">通行证</span>，点击涂色页面右上方图标可查看。
             <br/>
             <br/>
@@ -600,6 +611,17 @@ let rulespread = (target) => {
   padding-left: 4.8vh;  
   padding-right: 4.8vh;  
   display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.taskWarptop {
+  padding-top: 0.5vh;  
+  padding-bottom: 2vh;
+  padding-left: 4.6vh;  
+  padding-right: 4.6vh;  
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;

@@ -17,7 +17,7 @@
           <div class="btncenter">
           <div id="drawBtn" class="btncenterChange" >{{drawBtnText}}</div>
           </div>
-          <div class="btn btnright"  >任务</div>        
+          <div class="btn btnright"  >规则</div>        
         </div>
       </div>
 
@@ -212,7 +212,7 @@ watch(guidePage, (newval) => {
     guideBox.style.height = "40vh";
     guideBox.style.top = "58vh";
     guideBox.style.right = "5vw";
-    guidewords.value ="查看当日任务（每日更新）"  
+    guidewords.value ="查看当日任务（每日更新）";  
     wait();
   } else if (newval == 8) {
     window.style.width = "20vh";
@@ -235,7 +235,7 @@ watch(guidePage, (newval) => {
     guideBox.style.top = "0.5vh";
     guideBox.style.left = "2vmin";
     guideBox.style.right = "";
-    guidewords.value ="点击头像看看自己的等级吧！"  
+    guidewords.value ="点击头像看看累计排行榜吧！"  
     guideImg.value = require(`@/assets/iamge/guide01.png`);
     wait();
   }

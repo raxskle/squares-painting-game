@@ -160,8 +160,8 @@ watch(showSit, (newval) => {
 // }
 
 
-// 设置播报文字
-let day2 = 1662480000000;
+// 设置播报文字  day2  ：9.8
+let day2 = 1662566400000;
 let daynow = Date.now();
 console.log("day2", day2);
 console.log("daynow", daynow);

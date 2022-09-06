@@ -48,9 +48,9 @@ let groupStatus = Mock.mock({
 });
 let task = Mock.mock({
   data: {
-    task: 1,
-    // img: "http://192.168.80.149:8081/tasktest.png",
-    img: null,
+    task: 2,
+    img: "http://192.168.80.149:8081/tasktest.png",
+    // img: null,
   },
 });
 
@@ -3491,6 +3491,54 @@ let usercooling = Mock.mock({
 let userranking = Mock.mock({
   data: {
     ranking: [
+      {
+        headimgurl:
+          "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
+        nickname: "名字名字名字",
+        group: 1,
+        user_level: 1,
+        pixels_num: 999,
+      },
+      {
+        headimgurl:
+          "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
+        nickname: "名字名字名字",
+        group: 1,
+        user_level: 1,
+        pixels_num: 11,
+      },
+      {
+        headimgurl:
+          "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
+        nickname: "名字名字名字",
+        group: 2,
+        user_level: 2,
+        pixels_num: 12,
+      },
+      {
+        headimgurl:
+          "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
+        nickname: "名字名字名字",
+        group: 1,
+        user_level: 1,
+        pixels_num: 10,
+      },
+      {
+        headimgurl:
+          "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
+        nickname: "名字名字名字",
+        group: 1,
+        user_level: 1,
+        pixels_num: 11,
+      },
+      {
+        headimgurl:
+          "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
+        nickname: "名字名字名字",
+        group: 2,
+        user_level: 2,
+        pixels_num: 12,
+      },
       {
         headimgurl:
           "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",

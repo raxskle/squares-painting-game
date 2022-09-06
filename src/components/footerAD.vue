@@ -1,5 +1,5 @@
 <template>
-<div class="ad">👉<a href="https://h5.hust.online/drill-battle//#/">点击了解冰岩作坊</a>👈</div>
+<div class="ad">👉<a href="https://mp.weixin.qq.com/s/8gd4jEPklJM0Ki2S3-FmdQ">点击了解冰岩作坊</a>👈</div>
 </template>
 <!-- 高6.5vh -->
 <script setup>
