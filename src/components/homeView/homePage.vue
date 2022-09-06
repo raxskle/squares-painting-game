@@ -110,8 +110,8 @@ canvasBorder.src = require(`@/assets/iamge/canvas_border.png`);
 .discribe {
   box-sizing: border-box;
   padding: 4vmin;
-  padding-top: 7vmin;
-  padding-bottom: 7vmin;
+  padding-top: 9vmin;
+  padding-bottom: 9vmin;
   width: 75vw;
   height: 50vh;
   border-radius: 2px;
