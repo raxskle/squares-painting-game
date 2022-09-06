@@ -20,7 +20,7 @@
     <div class="taskX"></div>
     <h2>游戏规则</h2>
     <div class="taskContainer" @click.stop="null">
-      <div class="taskTitle" @click="rulespread('.t1')">团队任务</div>
+      <div class="taskTitle" @click="rulespread('.t1')">今日任务</div>
       <div class="taskWarp t1">
         <div class="taskInfo" v-bind:innerHTML="taskText"></div>  
         <div class="tasksubTitle"  @click="rulespread()">目标图案:</div>
@@ -30,29 +30,17 @@
         </div> 
       </div>
 
-      <div class="taskTitle" @click="rulespread('.t2')">团队通行证/头像框</div>
+      <div class="taskTitle" @click="rulespread('.t2')">团队通行证升级</div>
       <div class="taskWarp t2">
         <div class="taskInfo">
-          <span>
-            队伍升级解锁相应<span class="highLight">通行证</span>，点击涂色页面右上方图标可查看。
-            <br/>
-            <br/>
-            团队升至Lv.3时可以解锁特制头像框。            
-          </span>
-
+          &nbsp; &nbsp; 记得关注每日更新的任务哦，根据完成的任务个数可以获得相应积分，积1分解锁青铜通行证，积2分解锁白银通行证，积4分就可以拿到最高级的通行证啦！
         </div>  
       </div>      
       
-      <div class="taskTitle" @click="rulespread('.t3')">个人升级机制</div>
+      <div class="taskTitle" @click="rulespread('.t3')">个人填色升级</div>
       <div class="taskWarp t3">
         <div class="taskInfo">
-          <span>
-            当日<span class="highLight">涂色6块</span>升一级，当日<span class="highLight">涂色15块</span>可再升一级。
-            <br/>
-            <br/>
-            升级后<span class="highLight">填色颜料</span>会相应升级，点击头像可查看<span class="highLight">排行榜</span>。            
-          </span>
-
+          &nbsp; &nbsp; 我们为你准备了六个不同的等级颜色，一天内连续涂色3次和一天内累计涂色6次，都可以获得颜色升级哦。
         </div>  
       </div>      
 
@@ -148,17 +136,13 @@ watch(user.CDtime, (newval) => {
 
 // 填色成功、失败、冷却提示
 let tipsText = ref("");
-let popTips = function (text, cd) {
-  let time = 2000;
-  if(cd == 1){
-    time = 5000;
-  }
+let popTips = function (text) {
   tipsText.value = text;
   let tips = document.querySelector(".popupTips");
   tips.className="popupTips scale-in-center"
   setTimeout(() => {
     tips.className = "popupTips scale-out-center";
-  }, time);
+  }, 2000);
 }
 
 
@@ -174,7 +158,7 @@ let changeMode = () => {
       if (res.data.data.state == true && user.CDtime.value<=0) {
         emit("changeMode", 1);
       } else {
-        popTips("点击画布右上角的转发按钮，分享游戏即可获得一次冷却时间清零。",1);
+        popTips("每位玩家五分钟内只能填色一次！点击右上方分享按钮，保存二维码并分享可重置冷却时间");
       }
     }).catch((res) => {
       console.log(res);
@@ -306,9 +290,9 @@ watch(mode, (newval,oldval) => {
 // })
 
 // 任务
-const taskText1 = `<span>当天<span class="highLight">涂色数量</span>更多的一队将升一级。</span>`;
-const taskText2 = `<span>当天<span class="highLight">涂色数量</span>更多的队伍将升一级。<br/><br/>当天完成过一次<span class="highLight">目标图案</span>涂色的队伍将升一级。</span>`;
-const taskText3 = `<span>当天<span class="highLight">涂色数量</span>更多的队伍将升一级。<br/><br/>当天完成过一次<span class="highLight">目标图案</span>涂色的队伍将升一级。</span>`;
+const taskText1 = `&nbsp; &nbsp; 涂色数量更多的一队将积一分。`;
+const taskText2 = `&nbsp; &nbsp; 涂色数量更多的一队将积一分。<br/>&nbsp; &nbsp; 另外，下面是你队今日的目标图案，在画布上用自己队伍的颜色完成图案涂色也可以积一分，同时，对方队伍也有一个不同的目标图案，谨慎对方动态，注意及时破坏哦！`;
+const taskText3 = `&nbsp; &nbsp; 涂色数量更多的一队将积一分。<br/>&nbsp; &nbsp; 另外，下面是你队今日的目标图案，在画布上用自己队伍的颜色完成图案涂色也可以积一分，同时，对方队伍也有一个不同的目标图案，谨慎对方动态，注意及时破坏哦！`;
 let taskText = ref(`默认文字`);
 let sign;
 
@@ -346,7 +330,6 @@ let changeShowSit = (val) => {
   showSit.value = val;
 }
 let popSituation = () => {
-  // 战况页面与主页面同步一下
   changeShowSit(true);
   // situation里控制显示
   const redPoint2 = document.querySelector(".redPoint2");  
@@ -585,8 +568,8 @@ let rulespread = (target) => {
 .taskWarp {
   padding-top: 0.5vh;  
   padding-bottom: 2vh;
-  padding-left: 4.8vh;  
-  padding-right: 4.8vh;  
+  padding-left: 4.4vh;  
+  padding-right: 4.4vh;  
   display: none;
   flex-direction: column;
   justify-content: center;
@@ -653,28 +636,27 @@ let rulespread = (target) => {
 }
 
 
+
 .popupTips{
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   visibility: hidden;
-  /* width: 58vw; */
-  width: auto;
-  min-width: 40vw;
-  max-width: 58vw;
+  width: 55vw;
   height: auto;
-  min-height: 5vh;
-  padding-top: 2vh;
-  padding-bottom: 2vh;
-  padding-left: 5vmin;
-  padding-right: 5vmin;
+  min-height: 8vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 2vmin;
+  padding-right: 2vmin;
   border: 3px solid black;
-  border-radius: 3px;
+  /* border-radius: 2px; */
   background-color: rgb(255, 255, 255);
   top: 60vh;
   transition: all .5s;
   opacity: 0;
+  padding: 5px;
   z-index: -1;
 }
 

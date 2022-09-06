@@ -90,7 +90,7 @@ let pop = () => {
 // }
 
 // 根据队伍等级设置头像框
-console.log("初始化设置头像框");
+// console.log("初始化设置头像框");
 let headFrame = ref(null);
 onMounted(() => {
   if (user.groupLevel.value >= 3) {

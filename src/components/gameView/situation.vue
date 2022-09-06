@@ -9,11 +9,11 @@
       <div class="scoreGroup">
         <div class="groupNameImg">
           <div class="groupImg"><img src="@/assets/iamge/yellowlogo.png"/></div>
-          <div class="groupName"> &nbsp; 射日队</div>
+          <div class="groupName"> &nbsp; 种太阳队</div>
         </div>     
         
         <div class="groupNameImg">
-          <div class="groupName">偷瓜队 &nbsp;</div>
+          <div class="groupName">吃西瓜队 &nbsp;</div>
           <div class="groupImg"><img src="@/assets/iamge/greenlogo.png"/></div>          
         </div>        
       </div>
@@ -167,7 +167,7 @@ console.log("day2", day2);
 console.log("daynow", daynow);
 let scrollText = ref("");
 if (canvas.group1CompleteTarget.value == true && canvas.group2CompleteTarget.value == true) {
-  scrollText.value = "偷瓜队已完成目标拼图！   射日队已完成目标拼图！";
+  scrollText.value = "偷瓜队已完成目标拼图！     射日队已完成目标拼图！";
 } else if (canvas.group1CompleteTarget.value == true) {
   scrollText.value = "偷瓜队已完成目标拼图！";
 } else if (canvas.group2CompleteTarget.value == true) {
@@ -183,7 +183,7 @@ if (canvas.group1CompleteTarget.value == true && canvas.group2CompleteTarget.val
 watch(canvas.group1CompleteTarget, (newval) => {
   if (newval == true) {
     if (canvas.group2CompleteTarget.value == true) {
-      scrollText.value = "偷瓜队已完成目标拼图！   射日队已完成目标拼图！";      
+      scrollText.value = "偷瓜队已完成目标拼图！     射日队已完成目标拼图！";      
     } else {
       scrollText.value = "偷瓜队已完成目标拼图！";
     }
@@ -193,7 +193,7 @@ watch(canvas.group1CompleteTarget, (newval) => {
 watch(canvas.group2CompleteTarget, (newval) => {
   if (newval == true) {
     if (canvas.group1CompleteTarget.value == true) {
-      scrollText.value = "偷瓜队已完成目标拼图！  射日队已完成目标拼图！";      
+      scrollText.value = "偷瓜队已完成目标拼图！     射日队已完成目标拼图！";      
     } else {
       scrollText.value = "射日队已完成目标拼图！";      
     }

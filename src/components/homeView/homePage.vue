@@ -33,7 +33,7 @@ let config = {};
 axios
   .get(url, config)
   .then((res) => {
-    console.log(res.data.data);
+    // console.log(res.data.data);
     user.setWeixinOpenid(res.data.data.weixin_openid);
     user.setToken(res.data.data.jwtoken);
     axios.defaults.headers.common[
@@ -55,7 +55,7 @@ let toStart = function () {
       // console.log("新用户");
       router.replace("/newUser/select");
       // window.location.hash("#/newUser/intro")
-      console.log("into /newUser")
+      // console.log("into /newUser")
     } else if (user.isNewUser == false) {
       // console.log("旧用户");
       toGame();
@@ -125,7 +125,7 @@ canvasBorder.src = require(`@/assets/iamge/canvas_border.png`);
 
 .discribe span {
   font-size: 5vmin;
-  line-height: 160%;
+  /* line-height: 160%; */
   padding: 0;
   margin-top: 0px;
   margin-bottom: 4vmin;

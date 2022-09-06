@@ -6,12 +6,12 @@ import canvas from "./canvasState";
 // import cdtime from "./cdtime";
 
 export function toGame() {
-  console.log("into toGame");
+  // console.log("into toGame");
   // 获取用户数据
   axios
     .get(`/home_info`)
     .then((res) => {
-      console.log(res);
+      // console.log(res);
       user.userName.value = res.data.data.user_info.nickname;
       user.userImg = res.data.data.user_info.headimgurl;
       user.group.value = res.data.data.user_info.group;
@@ -46,7 +46,7 @@ export function toGame() {
       } else if (user.group.value == 2) {
         user.groupLevel.value = res.data.data.groups_info[1].level;
       }
-      console.log("user.groupLevel", user.groupLevel);
+      // console.log("user.groupLevel", user.groupLevel);
 
       // 设置是否完成拼图
       canvas.group1CompleteTarget.value =
@@ -73,7 +73,7 @@ export function toGame() {
           let duration = 300;
           let nextTime = lastTime + duration;
           let nowTime = Math.floor(Date.now() / 1000);
-          console.log("下一次", nextTime);
+          // console.log("下一次", nextTime);
           // console.log("现在", nowTime);
           // cdt会偏大一丢丢
           let cdt = nextTime - nowTime < 0 ? 0 : nextTime - nowTime;
@@ -99,7 +99,7 @@ export function toGame() {
         canvas.lastPaintTime.value = 0;
       }
 
-      console.log("进入主页面之前获取数据完成");
+      // console.log("进入主页面之前获取数据完成");
     })
     .then(() => {
       // 进入主页面

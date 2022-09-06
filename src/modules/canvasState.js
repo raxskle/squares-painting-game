@@ -388,7 +388,7 @@ let canvas = {
   },
   fillConfigSquares() {
     // 初始化config对象
-    console.log("初始化config对象");
+    // console.log("初始化config对象");
     for (let i = 0; i < this.squareYnum; i++) {
       for (let j = 0; j < this.squareXnum; j++) {
         this.configSquares.push(

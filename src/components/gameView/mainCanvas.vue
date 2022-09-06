@@ -66,7 +66,7 @@ let shareCardImg = ref("");
 shareCardImg.value = `${urlprefix}/shareImg${user.group.value}.jpg`;
 
 // 初始化数据
-console.log("进入主页面且开始初始化数据");
+// console.log("进入主页面且开始初始化数据");
 canvas.initCanvasData();
 
 let configKonva = canvas.configKonva;
@@ -360,19 +360,19 @@ let updateCanvas=()=>{
 
       // 获取xx分钟前xx涂色
       if (res.data.data.last_paint != null) {
-        console.log("res.data.data.last_paint.time",res.data.data.last_paint.time);
-        console.log("res.data.data.last_paint.nickname",res.data.data.last_paint.nickname)
+        // console.log("res.data.data.last_paint.time",res.data.data.last_paint.time);
+        // console.log("res.data.data.last_paint.nickname",res.data.data.last_paint.nickname)
         if (canvas.lastPaintTime.value == res.data.data.last_paint.time) {
           if (canvas.lastPaintName.value == res.data.data.last_paint.nickname) {
             let nowTime = Math.floor( Date.now()/1000);
             let lastTime;
-            console.log("跑时间，nowTime",nowTime);
+            // console.log("跑时间，nowTime",nowTime);
             if (res.data.data.last_paint.time > 1600000000000) {
               lastTime = Math.ceil(res.data.data.last_paint.time / 1000);
             }else {
               lastTime = res.data.data.last_paint.time;
             }
-            console.log("跑时间，lastTime",lastTime);            
+            // console.log("跑时间，lastTime",lastTime);            
             canvas.lastPaintMin.value = Math.floor((nowTime - lastTime)/60);
             console.log("canvas.lastPaintMin.value",canvas.lastPaintMin.value);
           }
@@ -381,7 +381,7 @@ let updateCanvas=()=>{
         canvas.lastPaintTime.value = res.data.data.last_paint.time;
         canvas.lastPaintName.value = res.data.data.last_paint.nickname;
         canvas.lastPaintGroup.value = res.data.data.last_paint.group;
-        console.log("canvas.lastPaintGroup.value!!",canvas.lastPaintGroup.value);
+        // console.log("canvas.lastPaintGroup.value!!",canvas.lastPaintGroup.value);
       } else {
         canvas.lastPaintTime.value = 0;
       }
@@ -684,7 +684,7 @@ watch(canvas.lastPaintTime, (newval) => {
 })
 
 watch(canvas.lastPaintMin, (newval) => {
-  console.log("canvas.lastPaintMin  newaval",newval)
+  // console.log("canvas.lastPaintMin  newaval",newval)
   let lastPaintHour = 0;
   if (newval >= 60) {
     lastPaintHour = Math.floor(newval / 60);

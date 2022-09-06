@@ -34,14 +34,14 @@
         </div> 
       </div>
 
-      <div class="taskTitle" @click="rulespread('.t2')">团队通行证/头像框</div>
+      <div class="taskTitle" @click="rulespread('.t2')">队伍升级机制</div>
       <div class="taskWarp t2">
         <div class="taskInfo">
           <span>
             队伍升级解锁相应<span class="highLight">通行证</span>，点击涂色页面右上方图标可查看。
             <br/>
             <br/>
-            团队升至Lv.3时可以解锁特制头像框。            
+            团队升至Lv.3时可以解锁<span class="highLight">特制头像框</span>。            
           </span>
 
         </div>  
@@ -60,13 +60,13 @@
         </div>  
       </div>      
 
-      <div class="taskTitle" @click="rulespread('.t4')">游戏线下福利</div>
+      <div class="taskTitle" @click="rulespread('.t4')">游戏线下奖励</div>
       <div class="taskWarp t4">
         <div class="taskInfo">
           <span>
             游戏维持<span class="highLight">3天</span>，凭借最终通行证等级可以兑换相应<span class="highLight">水果捞满减</span>券。
             <br/><br/>排行榜<span class="highLight">前十位</span>可以抽取<span class="highLight">实物周边惊喜盲盒</span>。
-            <br/><br/>具体兑换方式将在<span class="highLight">最后一天</span>公布。
+            <br/><br/>具体兑换方式将在<span class="highLight">最后一天（9月8日）</span>公布。
           </span>
           </div>  
       </div>      
@@ -217,12 +217,12 @@ let changeMode = () => {
           user.groupLevel.value = res.data.data.group_level;
 
           // 显示小红点
-          let oldSitSign = localStorage.getItem("groupLevelSit");
+          let oldSitSign = localStorage.getItem("groupLevelSit1");
           if (oldSitSign == null) {
             oldSitSign = 0;
           }
 
-          let oldCardSign = localStorage.getItem("groupLevelCard");
+          let oldCardSign = localStorage.getItem("groupLevelCard1");
           if (oldCardSign == null) {
             oldCardSign = 0;
           }
@@ -325,7 +325,7 @@ let popTask = () => {
   if (redPoint1.style.display == "flex") {
     redPoint1.style.display = "none";
     console.log(sign);
-    localStorage.setItem("task", sign);
+    localStorage.setItem("task1", sign);
   }
 }
 let fadeTask = () => {
@@ -358,7 +358,7 @@ let popSituation = () => {
   if (redPoint2.style.display == "flex") {
     redPoint2.style.display = "none";
     console.log(user.groupLevel.value);
-    localStorage.setItem("groupLevelSit", user.groupLevel.value);
+    localStorage.setItem("groupLevelSit1", user.groupLevel.value);
   }
   showList.value = true;
 }
@@ -399,7 +399,7 @@ onMounted(() => {
       taskImgurl.value = res.data.data.img;
     }
 
-    let oldMission = localStorage.getItem("task");
+    let oldMission = localStorage.getItem("task1");
     if (oldMission == null) {
       oldMission = 0;
     }  
@@ -415,7 +415,7 @@ onMounted(() => {
   })
 
   // 战况小红点
-  let oldSitSign = localStorage.getItem("groupLevelSit");
+  let oldSitSign = localStorage.getItem("groupLevelSit1");
   if (oldSitSign == null) {
     oldSitSign = 0;
   }
