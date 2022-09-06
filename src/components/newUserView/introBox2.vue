@@ -11,8 +11,8 @@
 
   <div class="confirmWarp2">
     <div class="confirm2">
-      <div class="confirmText">选择队伍不可更改，你将和西瓜队一起征战3天！
-  你确定要选择西瓜队吗？</div>
+      <div class="confirmText">选择队伍不可更改，你将和吃西瓜队一起征战3天！
+  你确定要选择吃西瓜队吗？</div>
       <div class="groupClick">
         <div class="yesthisGroup"  @click="yesGroup">确认</div>
         <div class="nothisGroup"  @click="noGroup">再想想</div>

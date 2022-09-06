@@ -10,8 +10,8 @@
 
   <div class="confirmWarp1">
     <div class="confirm1">
-      <div class="confirmText">选择队伍不可更改，你将和太阳队一起征战3天！
-  你确定要选择太阳队吗？</div>
+      <div class="confirmText">选择队伍不可更改，你将和种太阳队一起征战3天！
+  你确定要选择种太阳队吗？</div>
       <div class="groupClick">
         <div class="yesthisGroup"  @click="yesGroup">确认</div>
         <div class="nothisGroup"  @click="noGroup">再想想</div>
