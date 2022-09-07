@@ -22,7 +22,10 @@
     <div class="taskContainer" @click.stop="null">
       <div class="taskWarptop">
         <span>
-          欢迎来到军训大对抗！作为军训期间限定小游戏，本游戏将持续3天(9.7-9.9)。
+          欢迎来到军训大对抗！
+          <br/>
+          <br/>
+          作为军训期间限定小游戏，本游戏将持续3天(9.7-9.9)。
           <br/>
           <br/>
           种太阳队vs吃西瓜队，队伍每日有至多两次的升级机会。级数更高的一队将取得游戏的最终胜利！
@@ -619,8 +622,8 @@ let rulespread = (target) => {
 .taskWarptop {
   padding-top: 0.5vh;  
   padding-bottom: 2vh;
-  padding-left: 4.6vh;  
-  padding-right: 4.6vh;  
+  padding-left: 4.7vh;  
+  padding-right: 4.7vh;  
   display: flex;
   flex-direction: column;
   justify-content: center;
