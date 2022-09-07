@@ -1,7 +1,7 @@
 const Mock = require("mockjs");
 let userToken = Mock.mock({
   data: {
-    first_login: true,
+    first_login: false,
     weixin_openid: "OPENID123",
     jwtoken: "TOKEN123",
   },

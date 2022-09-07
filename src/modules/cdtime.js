@@ -20,6 +20,14 @@ export default {
             lastTime = Math.ceil(lastTime / 1000);
           }
           let duration = 300;
+          if (user.group.value == 1) {
+            // 绿队
+            let daytime = Date.now();
+            // 7号九点到8号0点
+            if (daytime > 1662555600000 && daytime < 1662566400000) {
+              duration = 180;
+            }
+          }
           let nextTime = lastTime + duration;
           let nowTime = Math.floor(Date.now() / 1000);
           console.log("下一次", nextTime);

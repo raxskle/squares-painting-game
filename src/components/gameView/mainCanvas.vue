@@ -26,6 +26,23 @@
     </div>
   </div>
 
+  <div v-if="showTT" class="abcWarp"  @click="abcfade">
+    <div  class="popUpabc">
+      <span>
+        游戏升级，已解锁画布隐藏区域。
+        <br/>
+        <br/>
+        <span class="highLight">
+          为呵护“小绿人”，将在今晚21：00后，为其提供冷却时间缩短至3分钟的翻盘buff。
+        </span>
+        <br/>
+        <br/>
+        请各位huster注意21：00后的黄金对抗时间！”
+      </span>
+    </div>
+  </div>
+
+
 
 </template>
 
@@ -761,6 +778,25 @@ let endTimer = ()=>{
 }
 
 
+let showTT = ref(false);
+if (Date.now() < 1662566400000) {
+  if (localStorage.getItem("abc") == null) {
+    showTT.value = true;
+    localStorage.setItem("abc", true);
+    console.log("未弹");
+  } else {
+    showTT.value = false;
+    console.log("已弹");
+  }  
+
+  
+}
+
+
+let abcfade = () => {
+  showTT.value = false;
+}
+
 
 // !!!!!!如果config对象某个属性的值没变，那么这个值相关就不会重新渲染
 // 就是缩放前后设置的x和y没变的话，即使实际拖拽x和y改变了，也不会重新渲染x和y
@@ -911,4 +947,40 @@ let endTimer = ()=>{
   z-index: 11;
 }
 
+
+.abcWarp {
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+}
+.popUpabc {
+  width: 70vw;
+  /* height: 30vh; */
+  position: relative;
+  /* top: 30vh; */
+  background-color: white;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  padding: 4vmin;
+}
+
+
+.popUpabc::after {
+  content: "✖ ";
+  position: absolute;
+  top: 0;
+  right: 2vmin;
+}
+
+.highLight {
+  color: rgb(241, 137, 109);
+  font-weight: 600;
+}
 </style>

@@ -76,7 +76,7 @@
         <div class="taskInfo">
           <span>
             游戏维持<span class="highLight">3天</span>，凭借最终通行证等级可以兑换相应<span class="highLight">水果捞满减</span>券。
-            <br/><br/>排行榜<span class="highLight">前十位</span>可以抽取<span class="highLight">实物周边惊喜盲盒</span>。
+            <br/><br/>排行榜<span class="highLight">前30位</span>可以抽取<span class="highLight">实物周边惊喜盲盒</span>。
             <br/><br/>具体兑换方式将在<span class="highLight">最后一天（9月9日）</span>公布。
           </span>
           </div>  
