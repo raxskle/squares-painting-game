@@ -49,9 +49,6 @@
       <div class="taskWarp t2">
         <div class="taskInfo">
           <span>
-            本游戏将持续三天，每天队伍有至多两次升级机会，级数高的队伍将赢得游戏最终胜利。
-            <br/>
-            <br/>
             队伍升级解锁相应<span class="highLight">通行证</span>，点击涂色页面右上方图标可查看。
             <br/>
             <br/>
@@ -80,7 +77,7 @@
           <span>
             游戏维持<span class="highLight">3天</span>，凭借最终通行证等级可以兑换相应<span class="highLight">水果捞满减</span>券。
             <br/><br/>排行榜<span class="highLight">前十位</span>可以抽取<span class="highLight">实物周边惊喜盲盒</span>。
-            <br/><br/>具体兑换方式将在<span class="highLight">最后一天（9月8日）</span>公布。
+            <br/><br/>具体兑换方式将在<span class="highLight">最后一天（9月9日）</span>公布。
           </span>
           </div>  
       </div>      
