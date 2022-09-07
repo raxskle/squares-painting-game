@@ -2244,6 +2244,7 @@ let canDrawState = Mock.mock({
   data: {
     state: true,
     last_paint_time: 1661684621000,
+    // last_paint_time: Date.now(),
   },
 });
 
@@ -2258,8 +2259,9 @@ let home_info = Mock.mock({
       user_level: 3,
       user_pixels_num: 0,
 
-      state: false,
+      state: true,
       last_paint_time: Date.now(),
+      // last_paint_time: 1661684621000,
     },
     canvas_info: {
       canvas: [
