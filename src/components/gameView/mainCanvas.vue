@@ -29,9 +29,6 @@
   <div v-if="showTT" class="abcWarp"  @click="abcfade">
     <div  class="popUpabc">
       <span>
-        游戏升级，已解锁画布隐藏区域。
-        <br/>
-        <br/>
         <span class="highLight">
           为呵护“小绿人”，将在今晚21：00后，为其提供冷却时间缩短至3分钟的翻盘buff。
         </span>
@@ -779,16 +776,15 @@ let endTimer = ()=>{
 
 
 let showTT = ref(false);
-if (Date.now() < 1662566400000) {
-  if (localStorage.getItem("abc") == null) {
+if (Date.now() < 1662652800000) {
+  if (localStorage.getItem("abcd") == null) {
     showTT.value = true;
-    localStorage.setItem("abc", true);
+    localStorage.setItem("abcd", true);
     console.log("未弹");
   } else {
     showTT.value = false;
     console.log("已弹");
   }  
-
 
 }
 

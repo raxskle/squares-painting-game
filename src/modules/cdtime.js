@@ -22,11 +22,11 @@ export default {
           let duration = 300;
           if (user.group.value == 1) {
             // 绿队
-            // let daytime = Date.now();
-            // 7号九点到8号0点
-            // if (daytime > 1662555600000 && daytime < 1662566400000) {
-            duration = 180;
-            // }
+            let daytime = Date.now();
+            // 8号九点到9号0点
+            if (daytime > 1662642000000 && daytime < 1662652800000) {
+              duration = 180;
+            }
           }
           let nextTime = lastTime + duration;
           let nowTime = Math.floor(Date.now() / 1000);
