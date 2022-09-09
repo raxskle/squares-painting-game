@@ -70,7 +70,9 @@ if (rankLevel.value == 1) {
   rankLevelimg.value = "rankingLv5.png";  
 } else if (rankLevel.value == 6) {
   rankLevelimg.value = "rankingLv6.png";  
-} else {
+} else if (rankLevel.value == 7) {
+  rankLevelimg.value = "rankingLv7.png";  
+}else {
   rankLevelimg.value = "rankingLvnull.png";  
 }
 
