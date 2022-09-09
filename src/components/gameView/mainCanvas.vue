@@ -603,7 +603,12 @@ if (lastPaintTime == 0) {
   if (lastPaintMin >= 60) {
     lastPaintHour = Math.floor(lastPaintMin / 60);
     lastPaintMin = lastPaintMin % 60;
-    lastPaintRawText = `${lastPaintHour}小时${lastPaintMin}分钟前“${lastPaintName}”涂色`;  
+    if (lastPaintHour > 100) {
+          lastPaintRawText = `很久以前“${lastPaintName}”涂色`; 
+    } else {
+      lastPaintRawText = `${lastPaintHour}小时${lastPaintMin}分钟前“${lastPaintName}”涂色`;      
+    }
+  
   } else {
     if (lastPaintMin == 0) {
       lastPaintRawText = `刚刚“${lastPaintName}”涂色`;
@@ -647,6 +652,9 @@ onMounted(() => {
   if (lastPaintTime > 0) {
     document.querySelector(".lastPaintBar").className = "lastPaintBar fade-in";
   }
+
+
+
 })
 
 
@@ -684,11 +692,17 @@ watch(canvas.lastPaintTime, (newval) => {
       if (lastPaintMin >= 60) {
         lastPaintHour = Math.floor(lastPaintMin / 60);
         lastPaintMin = lastPaintMin % 60;
-        if (lastPaintMin == 0) {
-          lastPaintRawText = `${lastPaintHour}小时前“${lastPaintName}”涂色`;  
+        if (lastPaintHour > 100) {
+          lastPaintRawText = `很久以前“${lastPaintName}”涂色`; 
         } else {
-          lastPaintRawText = `${lastPaintHour}小时${lastPaintMin}分钟前“${lastPaintName}”涂色`;  
+          if (lastPaintMin == 0) {
+            lastPaintRawText = `${lastPaintHour}小时前“${lastPaintName}”涂色`;  
+          } else {
+            lastPaintRawText = `${lastPaintHour}小时${lastPaintMin}分钟前“${lastPaintName}”涂色`;  
+          }
         }
+
+
         
       } else {
         if (lastPaintMin == 0) {
@@ -715,10 +729,14 @@ watch(canvas.lastPaintMin, (newval) => {
   if (newval >= 60) {
     lastPaintHour = Math.floor(newval / 60);
     newval = newval % 60;
-    if (newval == 0) {
-      lastPaintRawText = `${lastPaintHour}小时前“${lastPaintName}”涂色`;  
+    if (lastPaintHour > 100) {
+      lastPaintRawText = `很久以前“${lastPaintName}”涂色`; 
     } else {
-      lastPaintRawText = `${lastPaintHour}小时${newval}分钟前“${lastPaintName}”涂色`;  
+      if (newval == 0) {
+        lastPaintRawText = `${lastPaintHour}小时前“${lastPaintName}”涂色`;  
+      } else {
+        lastPaintRawText = `${lastPaintHour}小时${newval}分钟前“${lastPaintName}”涂色`;  
+      }      
     }
     
   } else {
@@ -804,6 +822,7 @@ let showTT = ref(false);
 let abcfade = () => {
   showTT.value = false;
 }
+
 
 
 // !!!!!!如果config对象某个属性的值没变，那么这个值相关就不会重新渲染

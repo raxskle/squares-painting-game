@@ -169,7 +169,7 @@
           <div class="laoimg"><img class="lao" src="@/assets/iamge/lao3.jpg"/></div> -->
           
           <br/>
-          付款前请主动将此券出示给营业员。
+          <span class="rewardColor">付款前请主动将此券出示给营业员。</span>
           <br/>
           <div class="rewardCard"><img class="rewardCardimg" :src="rewardCardurl" /></div>
         </span>
@@ -534,7 +534,8 @@ onMounted(() => {
     redPoint2.style.display = "flex";  
   } else {
       redPoint2.style.display = "none"; 
-    }
+  }
+
 })
 
 
@@ -584,6 +585,7 @@ let fadeAbout = () => {
 
 let popReward = () => {
   showReward.value = true;
+
 }
 
 let fadeReward = () => {
@@ -598,7 +600,19 @@ if (user.group.value == 1) {
   rewardCardurl.value = "reward2.png";  
 }
 
+watch(showReward, (newval) => {
+  if (newval == true) {
+    setTimeout(() => {
+      if (user.group.value == 1) {
+        document.querySelector(".rewardColor").style.color = "#00d599";
+      } else if (user.group.value == 2) {
+        document.querySelector(".rewardColor").style.color = "#ffc500";
+      }    
+    }, 10);    
+  }
 
+
+})
 
 
 </script>
@@ -1062,5 +1076,10 @@ if (user.group.value == 1) {
 
 .jiacu {
   font-weight: 600;
+}
+
+
+.rewardColor {
+  color: #ffc500;
 }
 </style>
