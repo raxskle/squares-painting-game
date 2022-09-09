@@ -1,15 +1,15 @@
 <template>
 <div class="bar" >
   <div class="btnBox">
-    <div class="btn btnleft"  @click="popSituation">
+    <div class="btn btnleft"  @click="popAbout">
       <div class="redPoint2"></div>
-      战况</div>
+      {{controllLeftText}}</div>
     <div class="btncenter" @click="changeMode">
     <div id="drawBtn" class="btncenterChange" >{{drawBtnText}}</div>
     </div>
-    <div class="btn btnright"  @click="popTask">
+    <div class="btn btnright"  @click="popReward">
       <div class="redPoint1"></div>
-      规则</div>        
+      {{controllRightText}}</div>
   </div>
 
 </div>
@@ -97,7 +97,96 @@
   <div class="tipsText">{{tipsText}}</div>
 </div>
 
+<div v-if="showAbout" class="abcWarp"  @click="fadeAbout">
+  <div  class="popUpabc" >
+    <div class="popUpabcIn" @click.stop="null">
+      <h2 class="highLight">团队及成员</h2>
+      <span>
+        <span>团队：</span>
+        <br/>
+        本游戏由<a href="https://mp.weixin.qq.com/s/8gd4jEPklJM0Ki2S3-FmdQ">冰岩作坊</a>团队制作
+        <br/>
+      </span>
+      
 
+      <span>
+        <br/>   
+        <span>项目组成员：</span>
+        <br/>
+        项目总负责：TuTu      <br/>
+        游戏策划：TuTu/Devotion/小西霉      <br/>
+        前端：可乐      <br/>
+        后端：小尹      <br/>
+        设计：玛卡煋      <br/>
+      </span>
+
+      <h2 class="highLight">我们想说：</h2>
+      <span>
+        首先，感谢你参加我们的小游戏。
+        <br/>
+        <br/>
+        其次，我们想说声抱歉。因为我们的考虑不周，游戏有许多不足之处，比如两队人数差距悬殊。
+        <br/>
+        <br/>
+        从创意产生，到开发、运营，项目组每一个人都在尽力改进。若有不足，还望包涵。
+        <br/>
+        <br/>
+        欢迎加入我们！期待和你再次相见！
+        <br/> 
+        <br/> 
+      </span>
+
+    </div>
+
+
+
+  </div>
+</div>
+
+
+<div v-if="showReward" class="abcWarp"  @click="fadeReward">
+  <div  class="popUpabc">
+    <div  class="popUpabcIn">
+      <div @click.stop="null">
+        <h2 class="highLight">水果捞满减</h2>
+        <span>
+          种太阳队Group lv.4，获满<span class="jiacu">20元-6元</span>福利。
+          <br/>
+          吃西瓜队Group lv.2，获满<span class="jiacu">20元-4元</span>福利。
+          <br/>
+          <br/>
+          <span class="jiacu">可用时间：</span>
+          <br/>
+          2022年9月10日——2022年9月17日。
+          <br/>
+          <br/>
+          <span class="jiacu">可用门店：</span>
+          <br/>
+          夏记水果捞（绝望坡必胜客对面），蜜果C水果捞（生活区门附近）。<span  class="jiacu">（可通过导航查询）</span>
+          <br/>
+          <!-- <div class="laoimg"><img class="lao" src="@/assets/iamge/lao1.jpg"/></div>
+          <div class="laoimg"><img class="lao" src="@/assets/iamge/lao2.jpg"/></div>
+          <div class="laoimg"><img class="lao" src="@/assets/iamge/lao3.jpg"/></div> -->
+          
+          <br/>
+          付款前请主动将此券出示给营业员。
+          <br/>
+          <div class="rewardCard"><img class="rewardCardimg" :src="rewardCardurl" /></div>
+        </span>
+        <br/>
+        <h2 class="highLight">神秘华科周边</h2>
+        <span>
+          请上榜的30名同学扫码加负责人微信，进行领奖。（截至2022/9/11）
+        </span>
+        <div class="jiavx">
+          <img class="jiavximg" src="@/assets/iamge/jiavx.jpg"/>          
+        </div>
+
+      </div>      
+    </div>
+
+  </div>
+</div>
 
 </template>
 
@@ -127,13 +216,14 @@ if (user.group.value == 1) {
   drawColor = "#ffc500";  
 } 
 
+let controllLeftText = ref("战况");
+let controllRightText = ref("规则");
 
-
-let showList = ref(false);
+// let showList = ref(false);
 
 
 // 设置cdtime
-let drawBtnText = ref("");
+let drawBtnText = ref("填色");
 if (user.CDtime.value <= 0) {
   drawBtnText.value = "填色";
 } else if (user.CDtime.value > 0) {
@@ -144,6 +234,8 @@ if (user.CDtime.value <= 0) {
     }
     drawBtnText.value = `${CDTimeM.value}:${CDTimeS.value}`;  
 }
+
+
 
 // cdtime实时更新显示
 watch(user.CDtime, (newval) => {
@@ -157,6 +249,9 @@ watch(user.CDtime, (newval) => {
       CDTimeS.value = `0${CDTimeS.value}`;
     }
     drawBtnText.value = `${CDTimeM.value}:${CDTimeS.value}`;
+  }
+  if (mode.value == 3) {
+    drawBtnText.value = "填色";
   }
   
 })
@@ -277,6 +372,8 @@ let changeMode = () => {
     }).catch((res) => {
       console.log(res);
     });
+  } else if (mode.value == 3) {
+    console.log("游戏已结束");
   }
 
 }
@@ -329,16 +426,16 @@ let sign;
 
 
 
-let popTask = () => {
-  let popup = document.querySelector(".popupTask");
-  popup.style.display = "flex";
-  const redPoint1 = document.querySelector(".redPoint1");  
-  if (redPoint1.style.display == "flex") {
-    redPoint1.style.display = "none";
-    console.log(sign);
-    localStorage.setItem("task1", sign);
-  }
-}
+// let popTask = () => {
+//   let popup = document.querySelector(".popupTask");
+//   popup.style.display = "flex";
+//   const redPoint1 = document.querySelector(".redPoint1");  
+//   if (redPoint1.style.display == "flex") {
+//     redPoint1.style.display = "none";
+//     console.log(sign);
+//     localStorage.setItem("task1", sign);
+//   }
+// }
 let fadeTask = () => {
   let popup = document.querySelector(".popupTask");
   popup.style.display = "none";  
@@ -360,19 +457,19 @@ let showSit = ref(false);
 let changeShowSit = (val) => {
   showSit.value = val;
 }
-let popSituation = () => {
-  // 战况页面与主页面同步一下
-  changeShowSit(true);
-  // situation里控制显示
-  const redPoint2 = document.querySelector(".redPoint2");  
-  // 设置当前的等级
-  if (redPoint2.style.display == "flex") {
-    redPoint2.style.display = "none";
-    console.log(user.groupLevel.value);
-    localStorage.setItem("groupLevelSit1", user.groupLevel.value);
-  }
-  showList.value = true;
-}
+// let popSituation = () => {
+//   // 战况页面与主页面同步一下
+//   changeShowSit(true);
+//   // situation里控制显示
+//   const redPoint2 = document.querySelector(".redPoint2");  
+//   // 设置当前的等级
+//   if (redPoint2.style.display == "flex") {
+//     redPoint2.style.display = "none";
+//     console.log(user.groupLevel.value);
+//     localStorage.setItem("groupLevelSit1", user.groupLevel.value);
+//   }
+//   showList.value = true;
+// }
 let fadeSituation = () => {
   let popup = document.querySelector(".popupSituation");
   popup.style.display = "none";  
@@ -465,6 +562,44 @@ let rulespread = (target) => {
 
 }
 // taskTitle
+
+
+// 游戏结束显示为涂色冻结
+if (mode.value == 3) {
+  drawBtnText.value = "填色";
+  controllLeftText.value = "关于我们";
+  controllRightText.value = "领奖方式";
+}
+
+let showAbout = ref(false);
+let showReward = ref(false);
+
+let popAbout = () => {
+  showAbout.value = true;
+}
+
+let fadeAbout = () => {
+  showAbout.value = false;
+}
+
+let popReward = () => {
+  showReward.value = true;
+}
+
+let fadeReward = () => {
+  showReward.value = false;  
+}
+
+
+let rewardCardurl = ref("");
+if (user.group.value == 1) {
+  rewardCardurl.value = "reward1.png";
+} else if (user.group.value == 2) {
+  rewardCardurl.value = "reward2.png";  
+}
+
+
+
 
 </script>
 
@@ -821,6 +956,111 @@ let rulespread = (target) => {
 
 .highLight {
   color: rgb(241, 137, 109);
+  font-weight: 600;
+}
+
+
+.abcWarp {
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+}
+.popUpabc {
+  width: 90vw;
+  height: 78vh;
+  position: relative;
+  /* top: 30vh; */
+  background-color: white;
+  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  padding-top: 2vh;
+
+}
+
+.popUpabc h2 {
+  margin: 0;
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+  padding: 0;
+  font-size: 5.5vmin;
+}
+
+
+
+/* .popUpabc span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 4vmin;
+}
+ */
+.popUpabc a {
+  text-decoration: none;
+}
+
+
+.popUpabc::after {
+  content: "✖ ";
+  position: absolute;
+  top: 0;
+  right: 2vmin;
+}
+
+.popUpabcIn {
+  width: 90%;
+  padding: 5%;
+  height: 90%;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.laoimg {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+.lao {
+  width:55%;
+}
+
+.rewardCard {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rewardCardimg {
+  width: 85%;
+}
+
+.jiavx {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.jiavximg {
+  width: 70%;
+}
+
+.jiacu {
   font-weight: 600;
 }
 </style>

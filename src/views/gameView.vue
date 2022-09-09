@@ -29,7 +29,7 @@ import user from "@/modules/userState"
 import router from "@/router";
 // import "../request/axios"
 
-let mode = ref(0);
+let mode = ref(3);
 let refresh = ref(false);
 // mode控制涂色，mode1能涂色，mode0不能
 // refresh == true 时刷新画布

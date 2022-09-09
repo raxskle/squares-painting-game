@@ -28,14 +28,24 @@
 
   <div v-if="showTT" class="abcWarp"  @click="abcfade">
     <div  class="popUpabc">
-      <span>
+      <!-- <span>
         <span class="highLight">
           为呵护“小绿人”，将在今晚21：00后，为其提供冷却时间缩短至3分钟的翻盘buff。
         </span>
         <br/>
         <br/>
         请各位huster注意21：00后的黄金对抗时间！
+      </span> -->
+      <span>
+        <br/>
+        欢迎参加！游戏已结束
+        <br/>
+        <br/>
+        
+        
       </span>
+
+
     </div>
   </div>
 
@@ -563,6 +573,8 @@ let colorEvent = function (event) {
       if (user.CDtime.value == 0) {
         emit("changeMode", 1);
       } 
+  } else if (mode.value == 3) {
+    console.log("游戏已结束，不可点击");
     }    
   
 }
@@ -776,17 +788,17 @@ let endTimer = ()=>{
 
 
 let showTT = ref(false);
-if (Date.now() < 1662652800000) {
-  if (localStorage.getItem("abcd") == null) {
+// if (Date.now() < 1662652800000) {
+  // if (localStorage.getItem("abcd") == null) {
     showTT.value = true;
-    localStorage.setItem("abcd", true);
-    console.log("未弹");
-  } else {
-    showTT.value = false;
-    console.log("已弹");
-  }  
+    // localStorage.setItem("abcd", true);
+    // console.log("未弹");
+  // } else {
+  //   showTT.value = false;
+  //   console.log("已弹");
+  // }  
 
-}
+// }
 
 
 let abcfade = () => {

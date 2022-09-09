@@ -2256,10 +2256,10 @@ let home_info = Mock.mock({
       headimgurl:
         "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F7Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F8cb1cb134954092382ad62ad9c58d109b2de4918.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662645701&t=7b27a3273a4ad6bc0e47da1ad3686a14",
       group: 1,
-      user_level: 3,
+      user_level: 7,
       user_pixels_num: 0,
 
-      state: true,
+      state: false,
       last_paint_time: Date.now(),
       // last_paint_time: 1661684621000,
     },
