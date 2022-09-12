@@ -114,6 +114,7 @@
         <span>项目组成员：</span>
         <br/>
         项目总负责：TuTu      <br/>
+        创意：鸬鹚      <br/>
         游戏策划：TuTu/Devotion/小西霉      <br/>
         前端：可乐      <br/>
         后端：小尹      <br/>
@@ -532,6 +533,7 @@ onMounted(() => {
   const redPoint2 = document.querySelector(".redPoint2");
   if (oldSitSign < user.groupLevel.value) {
     redPoint2.style.display = "flex";  
+    redPoint2.style.display = "none";  
   } else {
       redPoint2.style.display = "none"; 
   }
